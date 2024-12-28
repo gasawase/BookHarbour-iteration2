@@ -9,74 +9,133 @@ This document outlines the development phases and key milestones for **BookHarbo
 **Tasks:**  
 - Refactor code structure.  
 - Document key components and workflows.  
-- Ensure the current bookshelf and metadata display are functional.  
+- Ensure the current bookshelf and metadata display are functional.
+    
 **Deliverable:** A clean, well-documented codebase ready for feature implementation.  
 
 ---
 
 ## 📖 Phase 2: EPUB Reading Implementation *(Weeks 3-5)*
 **Goal:** Implement the EPUB reading functionality.  
+
 **Tasks:**  
 - Integrate EPUB reading capabilities using Readium.  
 - Develop a reader UI (font size, themes, scrolling/pagination).  
-- Test EPUB reading across various files.  
+- Test EPUB reading across various files.
+    
 **Deliverable:** A fully functional EPUB reading interface.  
 
 ---
 
 ## 📝 Phase 3: Metadata Enhancement *(Weeks 6-7)*
 **Goal:** Expand metadata display to include reading-specific details.  
+
 **Tasks:**  
 - Add metadata fields (date started, reading time, completion status).  
-- Ensure metadata updates dynamically as the user interacts with books.  
+- Ensure metadata updates dynamically as the user interacts with books.
+    
 **Deliverable:** Metadata displayed seamlessly in the app.  
 
 ---
 
 ## 🏷️ Phase 4: Tagging & Reviews *(Weeks 8-9)*
 **Goal:** Allow users to add custom tags and personal reviews to books.  
+
 **Tasks:**  
 - Create tagging and review input UI.  
 - Link tags and reviews to specific books.  
-- Test saving and displaying these entries correctly.  
+- Test saving and displaying these entries correctly.
+  
 **Deliverable:** Functional tagging and review system.  
 
 ---
 
 ## 🎨 Phase 5: UI Finalization & Polish *(Weeks 10-11)*
 **Goal:** Finalize the app's UI/UX for a polished look and feel.  
+
 **Tasks:**  
 - Refine bookshelf UI design.  
 - Adjust typography, spacing, and layouts.  
-- Ensure responsiveness across different devices.  
+- Ensure responsiveness across different devices.
+  
 **Deliverable:** A clean, intuitive user interface.  
 
 ---
 
 ## 🧪 Phase 6: Testing & Bug Fixing *(Weeks 12-13)*
 **Goal:** Ensure the app is stable and free of major bugs.  
+
 **Tasks:**  
 - Conduct functionality tests.  
 - Identify and fix bugs.  
-- Optimize app performance.  
+- Optimize app performance.
+  
 **Deliverable:** A stable and performant app ready for iteration.  
 
 ---
 
 ## 📦 Phase 7: Documentation & MVP Wrap-Up *(Week 14)*
 **Goal:** Complete documentation and prepare for the next phase.  
+
 **Tasks:**  
 - Write clear documentation for future updates.  
-- Finalize README.md and user guides.  
+- Finalize README.md and user guides.
+  
 **Deliverable:** A well-documented MVP version of **BookHarbour**.  
 
 ---
 
 ## 🛤️ Looking Ahead: Phase 2 Iteration
-After MVP completion, focus will shift to **Phase 2**, which will introduce:  
-- Advanced library organization features.  
-- Bookshelf decorating tools.  
-- Additional user customization options.  
+
+Once the MVP is complete and stable, **Phase 2** will focus on enhancing the app’s functionality, customization, and visual appeal. The goal is to transform **BookHarbour** from a simple EPUB reader into a **highly customizable digital library experience**.
+
+### 📚 **Key Goals for Phase 2:**
+- **Advanced Library Organization:** Enable users to group books into customizable collections, genres, or shelves.
+- **Bookshelf Decoration:** Allow users to visually customize their digital bookshelves with themes, colors, and layouts.
+- **Enhanced Metadata Management:** Expand metadata options, including user-defined fields and bulk editing capabilities.
+
+---
+
+### 🛠️ **Planned Features:**
+
+1. **Custom Shelves & Collections**  
+   - Create multiple shelves or collections (e.g., "Fantasy", "To-Read", "Favorites").  
+   - Drag-and-drop functionality for organizing books.  
+   - Filter and sort shelves by tags, authors, or reading status.  
+
+2. **Bookshelf Design & Decoration**  
+   - Choose from pre-made bookshelf themes or create custom ones.  
+   - Adjust shelf layouts, grid spacing, and cover sizes.  
+   - Add decorative elements like virtual bookmarks or shelf labels.  
+
+3. **Enhanced Tagging System**  
+   - Support hierarchical tags (e.g., "Fantasy > Epic Fantasy").  
+   - Add quick tag templates for faster organization.  
+   - Improved tag search and filtering options.  
+
+4. **Reading Insights & Analytics**  
+   - Track detailed reading analytics (e.g., average reading session length, total time spent).  
+   - Provide visual progress graphs and summaries.  
+   - Compare reading habits across different time periods.  
+
+5. **Export & Backup Options**  
+   - Export library metadata and tag configurations.  
+   - Enable backup and restore functionality for bookshelves and custom settings.  
+
+---
+
+### 🎯 **Stretch Goals for Phase 2:**
+- **More Customization:** More decoration for shelves, customize lighting, room decoration.
+- **More Bookshelves:** Allow multiple different bookshelves and save those bookshelves.  
+- **Audiobook Support:** Expand app capabilities to support audiobook metadata and playback.  
+
+---
+
+### ⏳ **Estimated Timeline for Phase 2:**
+- Phase 2 planning will begin **after MVP completion and testing.**  
+- Features will be implemented incrementally based on priority and user feedback.  
+
+**The focus of Phase 2 is to make BookHarbour not just functional, but truly personal and delightful for every reader.** 🚀📚
 
 ---
 
