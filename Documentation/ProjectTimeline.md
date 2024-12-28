@@ -90,9 +90,10 @@ This document outlines the development phases and key milestones for **BookHarbo
 Once the MVP is complete and stable, **Phase 2** will focus on enhancing the app’s functionality, customization, and visual appeal. The goal is to transform **BookHarbour** from a simple EPUB reader into a **highly customizable digital library experience**.
 
 ### 📚 **Key Goals for Phase 2:**
-- **Advanced Library Organization:** Enable users to group books into customizable collections, genres, or shelves.
-- **Bookshelf Decoration:** Allow users to visually customize their digital bookshelves with themes, colors, and layouts.
-- **Enhanced Metadata Management:** Expand metadata options, including user-defined fields and bulk editing capabilities.
+- **Advanced Library Organization:** Enable users to group books into customizable collections, genres, or shelves.  
+- **Bookshelf Decoration:** Allow users to visually customize their digital bookshelves with themes, colors, and layouts.  
+- **Room Decoration:** Introduce immersive customization options for a cozy digital reading space.  
+- **Enhanced Navigation:** Provide an intuitive system for cycling between multiple uniquely designed bookshelves.  
 
 ---
 
@@ -106,36 +107,45 @@ Once the MVP is complete and stable, **Phase 2** will focus on enhancing the app
 2. **Bookshelf Design & Decoration**  
    - Choose from pre-made bookshelf themes or create custom ones.  
    - Adjust shelf layouts, grid spacing, and cover sizes.  
-   - Add decorative elements like virtual bookmarks or shelf labels.  
+   - Add decorative elements like virtual bookmarks, shelf labels, and ornaments.  
 
-3. **Enhanced Tagging System**  
+3. **Room Decoration Features**  
+   - Customize the digital reading space with decor items like **rugs, reading chairs, and ambient lighting.**  
+   - Create unique vibes with **customizable lighting options** (e.g., warm, cool, dim, bright).  
+   - Arrange decor elements interactively within the digital room.  
+
+4. **Multiple Bookshelves with Swipe Navigation**  
+   - Create and manage multiple bookshelves, each with its **own design and organizational style.**  
+   - Easily **swipe between bookshelves** for a seamless browsing experience.  
+   - Save and switch between bookshelf layouts effortlessly.  
+
+5. **Enhanced Tagging System**  
    - Support hierarchical tags (e.g., "Fantasy > Epic Fantasy").  
    - Add quick tag templates for faster organization.  
    - Improved tag search and filtering options.  
 
-4. **Reading Insights & Analytics**  
+6. **Reading Insights & Analytics**  
    - Track detailed reading analytics (e.g., average reading session length, total time spent).  
    - Provide visual progress graphs and summaries.  
    - Compare reading habits across different time periods.  
 
-5. **Export & Backup Options**  
+7. **Export & Backup Options**  
    - Export library metadata and tag configurations.  
    - Enable backup and restore functionality for bookshelves and custom settings.  
 
 ---
 
-### 🎯 **Stretch Goals for Phase 2:**
-- **More Customization:** More decoration for shelves, customize lighting, room decoration.
-- **More Bookshelves:** Allow multiple different bookshelves and save those bookshelves.  
-- **Audiobook Support:** Expand app capabilities to support audiobook metadata and playback.  
+### 🎯 **Stretch Goals for Phase 2:**  
+- **Advanced Decoration Presets:** Ready-to-use room and shelf design templates.  
+- **Interactive Environment:** Ambient sounds, dynamic lighting changes based on time of day, etc.  
 
 ---
 
-### ⏳ **Estimated Timeline for Phase 2:**
+### ⏳ **Estimated Timeline for Phase 2:**  
 - Phase 2 planning will begin **after MVP completion and testing.**  
 - Features will be implemented incrementally based on priority and user feedback.  
 
-**The focus of Phase 2 is to make BookHarbour not just functional, but truly personal and delightful for every reader.** 🚀📚
+**The focus of Phase 2 is to make BookHarbour a cozy, highly customizable, and deeply personal space for every reader.** 🚀📚
 
 ---
 
