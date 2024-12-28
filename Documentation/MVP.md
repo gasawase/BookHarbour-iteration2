@@ -17,6 +17,6 @@ Deliver a functional app that allows users to access, organize, and read EPUB fi
 
 
 ## 🎯 Next Steps After MVP:
-    - Implement custom tagging and user reviews.
-    - Display additional metadata (e.g., reading progress, date started, total time spent reading, completion status).
-    - Allow users to organize books into custom categories or collections.
+  - Implement custom tagging and user reviews.
+  - Display additional metadata (e.g., reading progress, date started, total time spent reading, completion status).
+  - Allow users to organize books into custom categories or collections.
