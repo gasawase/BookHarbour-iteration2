@@ -4,16 +4,21 @@ Deliver a functional app that allows users to access, organize, and read EPUB fi
 
 
 ## 🛠️ Core Features for MVP:
+
   1. EPUB Access:
-    - Allow users to select individual EPUB files or a folder containing EPUBs.
+      - Allow users to select individual EPUB files or a folder containing EPUBs.
+        
   2. Metadata Extraction:
-    - Extract and display key metadata (e.g., title, author, description, cover image).
+      - Extract and display key metadata (e.g., title, author, description, cover image).
+        
   3. Book Display:
-    - Display selected books on a main screen by cover image for easy browsing.
+      - Display selected books on a main screen by cover image for easy browsing.
+        
   4. Reading Experience:
-    - Open selected EPUBs and provide a functional reading interface.
+      - Open selected EPUBs and provide a functional reading interface.
+        
   5. User Flow:
-    - Open app → Select individual EPUB or folder → Display books by cover → Select a book → Open and read the book.
+      - Open app → Select individual EPUB or folder → Display books by cover → Select a book → Open and read the book.
 
 
 ## 🎯 Next Steps After MVP:
