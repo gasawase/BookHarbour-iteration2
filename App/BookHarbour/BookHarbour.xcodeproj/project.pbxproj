@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */; };
+		8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC452D20CD5E00EFC670 /* MainView.swift */; };
+		8EADAC482D20CD6100EFC670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EADAC472D20CD6100EFC670 /* Assets.xcassets */; };
+		8EADAC4B2D20CD6100EFC670 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EADAC4A2D20CD6100EFC670 /* Preview Assets.xcassets */; };
+		8EADAC582D20CFF600EFC670 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC572D20CFF600EFC670 /* R2Navigator */; };
+		8EADAC5A2D20CFF600EFC670 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC592D20CFF600EFC670 /* R2Shared */; };
+		8EADAC5C2D20CFF600EFC670 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC5B2D20CFF600EFC670 /* R2Streamer */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8EADAC402D20CD5E00EFC670 /* BookHarbour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookHarbour.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHarbourApp.swift; sourceTree = "<group>"; };
+		8EADAC452D20CD5E00EFC670 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		8EADAC472D20CD6100EFC670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8EADAC4A2D20CD6100EFC670 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8EADAC3D2D20CD5E00EFC670 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EADAC5C2D20CFF600EFC670 /* R2Streamer in Frameworks */,
+				8EADAC582D20CFF600EFC670 /* R2Navigator in Frameworks */,
+				8EADAC5A2D20CFF600EFC670 /* R2Shared in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8EADAC372D20CD5E00EFC670 = {
+			isa = PBXGroup;
+			children = (
+				8EADAC422D20CD5E00EFC670 /* BookHarbour */,
+				8EADAC412D20CD5E00EFC670 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8EADAC412D20CD5E00EFC670 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8EADAC402D20CD5E00EFC670 /* BookHarbour.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8EADAC422D20CD5E00EFC670 /* BookHarbour */ = {
+			isa = PBXGroup;
+			children = (
+				8EADAC552D20CF4B00EFC670 /* Resources */,
+				8EADAC542D20CF3F00EFC670 /* Assets */,
+				8EADAC532D20CDFC00EFC670 /* ViewModels */,
+				8EADAC522D20CDF100EFC670 /* Views */,
+				8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */,
+				8EADAC512D20CDD700EFC670 /* Models */,
+				8EADAC472D20CD6100EFC670 /* Assets.xcassets */,
+				8EADAC452D20CD5E00EFC670 /* MainView.swift */,
+				8EADAC492D20CD6100EFC670 /* Preview Content */,
+			);
+			path = BookHarbour;
+			sourceTree = "<group>";
+		};
+		8EADAC492D20CD6100EFC670 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				8EADAC4A2D20CD6100EFC670 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		8EADAC512D20CDD700EFC670 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8EADAC522D20CDF100EFC670 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8EADAC532D20CDFC00EFC670 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		8EADAC542D20CF3F00EFC670 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		8EADAC552D20CF4B00EFC670 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8EADAC3F2D20CD5E00EFC670 /* BookHarbour */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8EADAC4E2D20CD6100EFC670 /* Build configuration list for PBXNativeTarget "BookHarbour" */;
+			buildPhases = (
+				8EADAC3C2D20CD5E00EFC670 /* Sources */,
+				8EADAC3D2D20CD5E00EFC670 /* Frameworks */,
+				8EADAC3E2D20CD5E00EFC670 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BookHarbour;
+			packageProductDependencies = (
+				8EADAC572D20CFF600EFC670 /* R2Navigator */,
+				8EADAC592D20CFF600EFC670 /* R2Shared */,
+				8EADAC5B2D20CFF600EFC670 /* R2Streamer */,
+			);
+			productName = BookHarbour;
+			productReference = 8EADAC402D20CD5E00EFC670 /* BookHarbour.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8EADAC382D20CD5E00EFC670 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1530;
+				LastUpgradeCheck = 1530;
+				TargetAttributes = {
+					8EADAC3F2D20CD5E00EFC670 = {
+						CreatedOnToolsVersion = 15.3;
+					};
+				};
+			};
+			buildConfigurationList = 8EADAC3B2D20CD5E00EFC670 /* Build configuration list for PBXProject "BookHarbour" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8EADAC372D20CD5E00EFC670;
+			packageReferences = (
+				8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */,
+			);
+			productRefGroup = 8EADAC412D20CD5E00EFC670 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8EADAC3F2D20CD5E00EFC670 /* BookHarbour */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8EADAC3E2D20CD5E00EFC670 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EADAC4B2D20CD6100EFC670 /* Preview Assets.xcassets in Resources */,
+				8EADAC482D20CD6100EFC670 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8EADAC3C2D20CD5E00EFC670 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */,
+				8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8EADAC4C2D20CD6100EFC670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8EADAC4D2D20CD6100EFC670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8EADAC4F2D20CD6100EFC670 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BookHarbour/Preview Content\"";
+				DEVELOPMENT_TEAM = ZP8NKVKQDN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = summer.BookHarbour;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8EADAC502D20CD6100EFC670 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BookHarbour/Preview Content\"";
+				DEVELOPMENT_TEAM = ZP8NKVKQDN;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = summer.BookHarbour;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8EADAC3B2D20CD5E00EFC670 /* Build configuration list for PBXProject "BookHarbour" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EADAC4C2D20CD6100EFC670 /* Debug */,
+				8EADAC4D2D20CD6100EFC670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8EADAC4E2D20CD6100EFC670 /* Build configuration list for PBXNativeTarget "BookHarbour" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8EADAC4F2D20CD6100EFC670 /* Debug */,
+				8EADAC502D20CD6100EFC670 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/readium/swift-toolkit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8EADAC572D20CFF600EFC670 /* R2Navigator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = R2Navigator;
+		};
+		8EADAC592D20CFF600EFC670 /* R2Shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = R2Shared;
+		};
+		8EADAC5B2D20CFF600EFC670 /* R2Streamer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
+			productName = R2Streamer;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 8EADAC382D20CD5E00EFC670 /* Project object */;
+}
