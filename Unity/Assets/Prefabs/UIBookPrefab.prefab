@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 734858463229295990}
   - component: {fileID: 876808797491586213}
-  - component: {fileID: 428778995920997467}
   m_Layer: 5
   m_Name: UIBookPrefab
   m_TagString: Untagged
@@ -52,18 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookTitleLoc: {fileID: 5508375483568664462}
   bookCoverLoc: {fileID: 4863707911513391115}
---- !u!114 &428778995920997467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3227828658748218568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd730d53a3400a34fb4fa87e8537ca9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3543788876252580203
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +65,7 @@ GameObject:
   - component: {fileID: 3606575811262787315}
   m_Layer: 5
   m_Name: Button
-  m_TagString: Untagged
+  m_TagString: Draggable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

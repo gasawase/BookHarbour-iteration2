@@ -17,7 +17,6 @@ namespace BookHarbour
 
         public void SetBookTitle(string title)
         {
-            Debug.Log($"From UIBookScript: {title}");
             bookTitleLoc.SetText(title);
         }
 
