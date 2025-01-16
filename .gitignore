@@ -65,8 +65,8 @@ fastlane/test_output
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
+/Unity/[Ll]ibrary/
+/Unity/[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
