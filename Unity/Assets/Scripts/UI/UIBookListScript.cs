@@ -32,11 +32,7 @@ public class UIBookListScript : MonoBehaviour
         foreach (Book book in books)
         {
             Instantiate(UIBookPrefab, UIBooksParent);
-            UIBookPrefab.GetComponent<UIBookScript>().SetBookTitle(book.bookTitle);
-            if (book.bookCover != null)
-            {
-                UIBookPrefab.GetComponent<UIBookScript>().SetBookCover(book.bookCover);
-            }
+            UIBookPrefab.GetComponent<UIBookScript>().SetBook(book);
         }
     }
 

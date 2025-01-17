@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,19 @@ namespace BookHarbour
         {
             bookCoverLoc.sprite = cover;
         }
-        
+
+        public void SetBook(Book settingBook)
+        {
+            this.book = settingBook;
+            SetBookTitle(book.bookTitle);
+            if (book.bookCover != null)
+            {
+                SetBookCover(book.bookCover);
+
+            }
+            Debug.Log($"{book.bookTitle} was spawned");
+
+        }
     }
 }
 
