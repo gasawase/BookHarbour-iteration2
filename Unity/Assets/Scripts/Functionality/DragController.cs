@@ -12,6 +12,7 @@ namespace BookHarbour
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
         private GameObject selectedObject; // currently dragged object; TODO: needs to be the emptyobject above it but it is detecting only the button part so tagging is weird
+        private GameObject selectedObjectOriginalParent;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
 
@@ -90,11 +91,25 @@ namespace BookHarbour
             {
                 
                 GameObject draggedObject = raycastResults[0].gameObject;
+                
+                // Traverse up the hierarchy to find the root prefab
+                GameObject rootTransform = draggedObject.gameObject;
+                while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
+                {
+                    rootTransform = rootTransform.transform.parent.gameObject;
+                    Debug.Log("Parent: " + rootTransform.name);
+                }
+                // if the root has the Draggable tag, it is the correct prefab parent and thus is set as the correct object
+                draggedObject = rootTransform;
                 if (draggedObject.CompareTag("Draggable"))
                 {
                     //Debug.Log($"Dragging: {draggedObject.name}");
                     selectedObject = draggedObject;
                     originalPosition = selectedObject.transform.localPosition;
+                    selectedObjectOriginalParent = selectedObject.transform.parent.gameObject;
+                    
+                    // Re-parent to the root canvas for unrestricted movement
+                    draggedObject.transform.SetParent(canvas.transform, true);
                     
                     // Calculate the offset
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -122,10 +137,14 @@ namespace BookHarbour
                 isDragging = false; // flip the boolean
                 
                 // Optional: Reset position if dropped outside valid area
-                if (!IsValidDropArea(selectedObject.transform.position))
-                {
-                    selectedObject.transform.localPosition = originalPosition;
-                }
+                // if (!IsValidDropArea(selectedObject.transform.position))
+                // {
+                //     selectedObject.transform.localPosition = originalPosition;
+                // }
+                // Re-parent to the original parent
+                selectedObject.transform.SetParent(selectedObjectOriginalParent.transform, true);
+                selectedObject.transform.localPosition = originalPosition;
+
                 selectedObject = null; // remove the object from underneath the mouse
             }
         }
