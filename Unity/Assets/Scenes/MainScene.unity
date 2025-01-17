@@ -1051,6 +1051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 229417763}
+  sidePanel: {fileID: 1013848962}
 --- !u!1 &976128069
 GameObject:
   m_ObjectHideFlags: 0

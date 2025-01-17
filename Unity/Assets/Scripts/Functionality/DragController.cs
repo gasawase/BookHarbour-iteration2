@@ -11,11 +11,14 @@ namespace BookHarbour
     public class DragController : MonoBehaviour
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
+        [SerializeField] private GameObject sidePanel;
         private GameObject selectedObject; // currently dragged object; TODO: needs to be the emptyobject above it but it is detecting only the button part so tagging is weird
         private GameObject selectedObjectOriginalParent;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
-
+        private Camera mainCamera;
+        private RectTransform canvasRect;
+        private RectTransform panelRect;
 
         private bool isDragging;
 
@@ -23,6 +26,20 @@ namespace BookHarbour
         public UserInputActions userInputActions;
         private InputAction dragAction;
         private InputAction pointerLocationAction;
+        
+        private bool IsPointerWithinCanvas(Vector2 localPoint)
+        {
+            // Get the Canvas's local rect
+            Rect panelBounds = panelRect.rect;
+
+            // Check if the pointer is within the rect bounds
+            return panelBounds.Contains(localPoint);
+        }
+
+        private void Start()
+        {
+            mainCamera = Camera.main;
+        }
 
         private void Awake()
         {
@@ -40,24 +57,38 @@ namespace BookHarbour
 
             dragAction = userInputActions.User.ClickPress;
             pointerLocationAction = userInputActions.User.PointerPosition;
+            canvasRect = canvas.transform as RectTransform;
+            panelRect = sidePanel.transform as RectTransform;
+
         }
 
         private void Update()
         {
             if (isDragging && selectedObject != null)
             {
-                Debug.Log($"Currently dragging: {selectedObject.name}");
-                // Update the dragged object position based on pointer location
+                // Update the dragged object position
                 Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                    canvas.transform as RectTransform,
+                    canvasRect,
                     pointerPosition,
                     canvas.worldCamera,
                     out Vector2 localPoint
                 );
-                // Convert the 2D localPoint and offset to a Vector3 for localPosition
+
+                // Update object position with drag offset
                 Vector3 newPosition = new Vector3(localPoint.x - dragOffset.x, localPoint.y - dragOffset.y, selectedObject.transform.localPosition.z);
-                selectedObject.transform.localPosition = newPosition;            
+                selectedObject.transform.localPosition = newPosition;
+
+                // Check if pointer is outside the Canvas bounds
+                if (!IsPointerWithinCanvas(localPoint))
+                {
+                    Debug.Log("Pointer is outside the Canvas!");
+                    // Handle logic for crossing the canvas edge
+                }
+                else
+                {
+                    Debug.Log("Pointer is inside the Canvas!");
+                }
             }
         }
 
@@ -118,11 +149,11 @@ namespace BookHarbour
                         canvas.worldCamera,
                         out Vector2 localPoint
                     );
+                    Debug.Log($"Local Point: {localPoint.x}, {localPoint.y}");
+
                     dragOffset = new Vector2 ((localPoint.x - draggedObject.transform.localPosition.x),(localPoint.y - draggedObject.transform.localPosition.y));
                     
                     isDragging = true;
-                    
-                    
                 }
             }
         }
