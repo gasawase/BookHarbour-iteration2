@@ -12,11 +12,11 @@ namespace BookHarbour
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
         [SerializeField] private GameObject sidePanel;
-        [SerializeField] private GameObject book3DPrefab;
         [SerializeField] private GameObject pointer;
-        private GameObject selectedObject; // currently dragged object; TODO: needs to be the emptyobject above it but it is detecting only the button part so tagging is weird
+        private GameObject selectedObject; // currently dragged object; 
         private GameObject selectedObjectOriginalParent;
-        private GameObject localBook;
+        private GameObject spawned3DObject;
+        private GameObject object3DPrefab;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
         private Camera mainCamera;
@@ -70,7 +70,7 @@ namespace BookHarbour
         {
             if (isDragging && selectedObject != null)
             {
-                MoveUIBook();
+                MoveUIObj();
             }
         }
 
@@ -88,12 +88,9 @@ namespace BookHarbour
                 topRight.x - bottomLeft.x,
                 topRight.y - bottomLeft.y
             );
-
-            Debug.Log("World Rect: " + worldRect);
-
             return worldRect;
         }
-        private void MoveUIBook()
+        private void MoveUIObj()
         {
             // Update the dragged object position
             Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
@@ -107,10 +104,10 @@ namespace BookHarbour
             // Update object position with drag offset
             Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, selectedObject.transform.position.z);
             selectedObject.transform.position = newPosition;
-            if (localBook != null)
+            if (spawned3DObject != null)
             {
-                Vector3 bookTransf = new Vector3(newPosition.x, (newPosition.y - 0.5f), -0.6f);
-                localBook.transform.position = bookTransf;
+                Vector3 objTransform = new Vector3(newPosition.x, (newPosition.y - 0.5f), -0.6f);
+                spawned3DObject.transform.position = objTransform;
 
             }
             pointer.transform.position = worldPoint;
@@ -120,14 +117,10 @@ namespace BookHarbour
             {
                 // Handle logic for crossing the panel edge
                 selectedObject.SetActive(false);
-                Debug.Log("inside the panel");
-                    
             }
             else
             {
                 selectedObject.SetActive(true);
-                Debug.Log("outside the panel");
-
                 // do something when inside the panel
             }
         }
@@ -169,13 +162,11 @@ namespace BookHarbour
                 while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
                 {
                     rootTransform = rootTransform.transform.parent.gameObject;
-                    Debug.Log("Parent: " + rootTransform.name);
                 }
                 // if the root has the Draggable tag, it is the correct prefab parent and thus is set as the correct object
                 draggedObject = rootTransform;
                 if (draggedObject.CompareTag("Draggable"))
                 {
-                    //Debug.Log($"Dragging: {draggedObject.name}");
                     selectedObject = draggedObject;
                     originalPosition = selectedObject.transform.position;
                     selectedObjectOriginalParent = selectedObject.transform.parent.gameObject;
@@ -195,12 +186,9 @@ namespace BookHarbour
                     dragOffset = new Vector2 ((worldPoint.x - draggedObject.transform.position.x),(worldPoint.y - draggedObject.transform.position.y));
                     
                     isDragging = true;
-                    
-                    
-                    
-
                 }
-                localBook = Instantiate(book3DPrefab);
+                object3DPrefab = draggedObject.GetComponent<UIBookScript>().modelPrefab;
+                spawned3DObject = Instantiate(object3DPrefab);
                 pointer.SetActive(true);
             }
         }
@@ -208,7 +196,7 @@ namespace BookHarbour
         private void DragCancelled(InputAction.CallbackContext context)
         {
             //Debug.Log("drag cancelled");
-            //Destroy(book3DPrefab);
+            // if it is not in a valid location, destroy it
             if (isDragging)
             {
                 // perform snapping logic here if needed

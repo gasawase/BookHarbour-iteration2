@@ -1,0 +1,11 @@
+TODO:
+- detection of location on bookshelf
+- calculate location on shelf
+- change size of book based on page number
+- remove book from list when placed on shelf
+- register book on a specific location on bookshelf
+- create data structure for locations on bookshelf
+- make 3dbook draggable as well
+
+Do later
+- variable heights of books

@@ -15,6 +15,7 @@ namespace BookHarbour
         public TMP_Text bookTitleLoc;
 
         public Image bookCoverLoc;
+        [SerializeField] public GameObject modelPrefab;
 
         public void SetBookTitle(string title)
         {
