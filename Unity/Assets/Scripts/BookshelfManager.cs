@@ -18,18 +18,19 @@ public class BookshelfManager : MonoBehaviour
 
     private void Start()
     {
-        if (bookshelfMapping == null || bookshelfMapping.TryGetBookshelf(bookshelfIndex, out individualShelfMapping))
-        {
-            bookshelf.bookshelfIdx = bookshelfIndex;
-            if (bookshelfMapping.ShelfMappings[bookshelf.bookshelfIdx] != null)
-            {
-                Debug.Log($"This bookshelf has no shelves");
-            }
-        }
-        else
-        {
+        // if (bookshelfMapping == null)
+        // {
+        //     bookshelf.bookshelfIdx = bookshelfIndex;
+        //     if (bookshelfMapping.ShelfMappings[bookshelf.bookshelfIdx] != null)
+        //     {
+        //         Debug.Log($"This bookshelf has no shelves");
+        //     }
+        // }
+        // else
+        // {
             Debug.Log($"There is no bookshelf with id {bookshelfIndex}");
-        }
+            CreateBookshelf(bookshelf);
+        // }
     }
 
     private void CreateBookshelf(Bookshelf bookshelf)
@@ -37,52 +38,68 @@ public class BookshelfManager : MonoBehaviour
         bookshelf.bookshelfIdx = bookshelfIndex;
         bookshelfMapping = new BookshelfMapping();
         bookshelf.bookshelfMapping = bookshelfMapping;
-        individualShelfMapping = new IndividualShelfMapping();
+        foreach (BoxCollider shelf in bookshelf.arrayOfShelves)
+        {
+            
+        }
+
+        for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
+        {
+            BoxCollider shelf = bookshelf.arrayOfShelves[i];
+            int shelfIndex = i;
+            IndividualShelfMapping individualShelfMapping = new IndividualShelfMapping(shelf.bounds.size.x, shelf.bounds.size.y);
+            individualShelfMapping.shelfIndex = shelfIndex;
+            Debug.Log($"This individual shelf has the size of x: {shelf.bounds.size.x}, y: {shelf.bounds.size.y}");
+            int slotsHolder = CalculateSlots(shelf.bounds.size.x, defaultBook.bookSize.x, 0.05f);
+            Debug.Log($"This shelf has {slotsHolder} slots");
+            float remainingSpace = individualShelfMapping.GetRemainingSpace(i);
+            Debug.Log($"This shelf has {remainingSpace} remaining space");
+        }
         
     }
-    private bool CanFit(BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public bool CanFit(BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         
         return false;
     }
 
-    private void PlaceObj(Vector2 position, BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public void PlaceObj(Vector2 position, BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         throw new NotImplementedException();
     }
 
-    private Vector3 GetObjPosition(BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public Vector3 GetObjPosition(BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         return obj.objTransform.position;
     }
 
-    private int GetObjIdx(BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public int GetObjIdx(BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         return 0;
     }
 
-    private bool IsSpaceOccupied(Vector2 objLocationOnBookshelf)
+    public bool IsSpaceOccupied(Vector2 objLocationOnBookshelf)
     {
         return false;
     }
 
-    private void StackObject(BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public void StackObject(BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         throw new NotImplementedException();
     }
 
-    private void SaveObjectToShelf(BookshelfObject obj, IndividualShelfMapping individualShelf)
+    public void SaveObjectToShelf(BookshelfObject obj, IndividualShelfMapping individualShelf)
     {
         throw new NotImplementedException();
     }
 
-    private void Calculations()
+    public void Calculations()
     {
         
     }
     
     // Calculate the number of slots a shelf can hold
-    private int CalculateSlots(float shelfWidth, float bookWidth, float bookPadding)
+    public int CalculateSlots(float shelfWidth, float bookWidth, float bookPadding)
     {
         if (bookWidth + bookPadding <= 0)
         {
