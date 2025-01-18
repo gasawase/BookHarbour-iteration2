@@ -38,6 +38,7 @@ Variables:
 - IndividualShelfMapping individualShelfMapping: dictionary that defines the actual mapping of each shelf is (key: index(so which shelf is being referenced), value: PerShelfObjectMapping, the dictionary that references the actual objects themselves (which dictionary is associated with which shelf))
 - PerShelfObjectMapping perShelfObjectMapping: the dictionary that actually references the items on each shelf (key: index of the specific location of each item, value: the object that is in the specific location)
 - BookshelfMapping bookshelfMapping: the mapping of the actual bookshelf and all of the shelves that it holds (key: index of the bookshelf itself, value: IndividualShelfMapping the Dictionary with all of the shelves of the bookshelf)
+- float bookPadding: the padding in between each of the books
 
 -- IndividualShelfMapping --
 Definitions:
@@ -55,11 +56,11 @@ Functions:
 Definitions:
 - constructor
 Variables:
-- Dictionary<int, GameObject> IndividualObjectMapping
+- Dictionary<Vector2, GameObject> IndividualObjectMapping
 Functions:
-- void TryAddObject(int locationIdx, GameObject shelfObject): try to add an object to a given location //TODO: handle when stacking objects
-- bool TryGetObject(int locationIdx, out GameObject shelfObject): try to get the GameObject at a specific location index
-- void RemoveObject(int locationIdx): try to remove the object at a specific location index
+- void TryAddObject(Vector2 location, GameObject shelfObject): try to add an object to a given location //TODO: handle when stacking objects
+- bool TryGetObject(Vector2 location, out GameObject shelfObject): try to get the GameObject at a specific location index
+- void RemoveObject(Vector2 location): try to remove the object at a specific location index
 
 -- BookshelfMapping --
 Definitions:

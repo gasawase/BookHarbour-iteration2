@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BookHarbour
@@ -8,56 +9,80 @@ namespace BookHarbour
     [Serializable]
     public class Bookshelf
     {
-        public Bookshelf(int shelfCount, int bookshelfIdx, IndividualShelfMapping individualShelfMapping, PerShelfObjectMapping perShelfObjectMapping, BookshelfMapping bookshelfMapping)
+        public Bookshelf(int shelfCount, int bookshelfIdx, BookshelfMapping bookshelfMapping, float bookPadding)
         {
             this.shelfCount = shelfCount;
-            //this.intShelfHeight = intShelfHeight;
-            //this.intShelfWidth = intShelfWidth;
             this.bookshelfIdx = bookshelfIdx;
-            this.individualShelfMapping = individualShelfMapping;
-            this.perShelfObjectMapping = perShelfObjectMapping;
             this.bookshelfMapping = bookshelfMapping;
+            this.bookPadding = bookPadding;
         }
 
         public int shelfCount { get; set; }
-        //public int intShelfHeight { get; set; }
-        //public int intShelfWidth { get; set; }
         public int bookshelfIdx { get; set; }
-        public IndividualShelfMapping individualShelfMapping { get; set; }
-        public PerShelfObjectMapping perShelfObjectMapping { get; set; }
         public BookshelfMapping bookshelfMapping { get; set; }
-        
-         // key: shelfIndex (the shelf that this happens on), value: the dictionary for the locations (internal Dictionary that holds the Vector3 and the object value)
-        
+        public float bookPadding { get; set; }
+        [SerializeField] private float[] eachShelfHeight;
+
+        // key: shelfIndex (the shelf that this happens on), value: the dictionary for the locations (internal Dictionary that holds the Vector3 and the object value)
+
     }
     
     /// <summary>
     /// Represents the mapping of each shelf, sorted by index; contains the list of the actual objects
     /// </summary>
-    public class IndividualShelfMapping
+    public class IndividualShelfMapping 
     {
-        public int intShelfHeight { get; set; }
-        public int intShelfWidth { get; set; }
-        public Dictionary<int, PerShelfObjectMapping> SingleShelfMapping { get; set; }
+        public float floatShelfWidth { get; set; }
+        public float floatShelfHeight { get; set; } // also shelfIndex
+        public Dictionary<float, PerShelfObjectMapping> SingleShelfMapping { get; set; } // location of the shelf
 
+        public IndividualShelfMapping(float floatShelfWidth, float floatShelfHeight) // initializes the custom IndividualShelfMapping dictionary
+        {
+            SingleShelfMapping = new Dictionary<float, PerShelfObjectMapping>();
+        }
         public IndividualShelfMapping() // initializes the custom IndividualShelfMapping dictionary
         {
-            SingleShelfMapping = new Dictionary<int, PerShelfObjectMapping>();
+            this.floatShelfHeight = 1.198154f; // default height
+            this.floatShelfWidth = 2.825437f; // default width
+            SingleShelfMapping = new Dictionary<float, PerShelfObjectMapping>();
+            
         }
 
-        public void TryAddNewShelf(int shelfIdx, PerShelfObjectMapping singleShelfMapping)
+        public void TryAddNewShelf(float shelfIdx, PerShelfObjectMapping singleShelfMapping)
         {
             SingleShelfMapping.TryAdd(shelfIdx, singleShelfMapping);
         }
 
-        public bool TryGetShelf(int shelfIdx, out PerShelfObjectMapping singleShelfMapping)
+        public bool TryGetShelfMappingByIndex(float shelfIdx, out PerShelfObjectMapping singleShelfMapping)
         {
             return SingleShelfMapping.TryGetValue(shelfIdx, out singleShelfMapping);
         }
 
-        public void RemoveShelf(int shelfIdx)
+        public void RemoveShelf(float shelfIdx)
         {
             SingleShelfMapping.Remove(shelfIdx);
+        }
+        
+        // based on the specific shelf,
+        // get the dimensions of the shelf,
+        // and then if there are objects on the shelves
+        public float GetRemainingSpace(float shelfHeight)
+        {
+            float remainingSpace = floatShelfWidth;
+            if (SingleShelfMapping[shelfHeight] == null)
+            {
+                Debug.Log("No individual shelf present");
+            }
+            else
+            {
+                foreach (var item in SingleShelfMapping[shelfHeight].IndividualObjectMapping)
+                {
+                    float objectWidth = item.Value.GetComponent<Renderer>().bounds.size.x;
+                    remainingSpace -= objectWidth;
+                }
+                Debug.Log($"Remaining space: {remainingSpace}");
+            }
+            return remainingSpace;
         }
         
     }
@@ -67,26 +92,27 @@ namespace BookHarbour
 
     public class PerShelfObjectMapping
     {
-        public Dictionary<int, GameObject> IndividualObjectMapping { get; set; }
+        public Dictionary<float, GameObject> IndividualObjectMapping { get; set; }
 
         public PerShelfObjectMapping() // initializes the custom dictionary
         {
-            IndividualObjectMapping = new Dictionary<int, GameObject>();
+            IndividualObjectMapping = new Dictionary<float, GameObject>();
         }
 
-        public void TryAddObject(int locationIdx, GameObject shelfObject)
+        public void TryAddObject(float location, GameObject shelfObject)
         {
-            IndividualObjectMapping.TryAdd(locationIdx, shelfObject);
+            
+            IndividualObjectMapping.TryAdd(location, shelfObject);
         }
 
-        public bool TryGetObject(int locationIdx, out GameObject shelfObject)
+        public bool TryGetObject(float location, out GameObject shelfObject)
         {
-            return IndividualObjectMapping.TryGetValue(locationIdx, out shelfObject);
+            return IndividualObjectMapping.TryGetValue(location, out shelfObject);
         }
 
-        public void RemoveObject(int locationIdx)
+        public void RemoveObject(float location)
         {
-            IndividualObjectMapping.Remove(locationIdx);
+            IndividualObjectMapping.Remove(location);
         }
     }
     /// <summary>
@@ -111,7 +137,7 @@ namespace BookHarbour
             return shelfMapping;
         }
 
-        public bool TryGetShelf(int shelfId, out IndividualShelfMapping shelfMapping)
+        public bool TryGetBookshelf(int shelfId, out IndividualShelfMapping shelfMapping)
         {
             return ShelfMappings.TryGetValue(shelfId, out shelfMapping);
         }
@@ -120,5 +146,7 @@ namespace BookHarbour
         {
             ShelfMappings.Remove(shelfId);
         }
+        
+
     }
 }

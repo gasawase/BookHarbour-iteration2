@@ -42,7 +42,7 @@ namespace BookHarbour
                     defaultCover,
                     defaultSpine,
                     180,
-                    defaultBookSize,
+                    //defaultBookSize,
                     defaultTransform,
                     false,
                     Book.BookshelfState.Spines
@@ -52,7 +52,7 @@ namespace BookHarbour
                     defaultCover,
                     defaultSpine,
                     328,
-                    defaultBookSize,
+                    //defaultBookSize,
                     defaultTransform,
                     false,
                     Book.BookshelfState.Spines
@@ -62,7 +62,7 @@ namespace BookHarbour
                     defaultCover,
                     defaultSpine,
                     281,
-                    defaultBookSize,
+                    //defaultBookSize,
                     defaultTransform,
                     false,
                     Book.BookshelfState.Spines
@@ -72,7 +72,7 @@ namespace BookHarbour
                     defaultCover,
                     defaultSpine,
                     279,
-                    defaultBookSize,
+                    //defaultBookSize,
                     defaultTransform,
                     false,
                     Book.BookshelfState.Spines
@@ -82,7 +82,7 @@ namespace BookHarbour
                     defaultCover,
                     defaultSpine,
                     635,
-                    defaultBookSize,
+                    //defaultBookSize,
                     defaultTransform,
                     false,
                     Book.BookshelfState.Spines

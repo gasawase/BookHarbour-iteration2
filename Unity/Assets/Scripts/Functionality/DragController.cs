@@ -202,7 +202,6 @@ namespace BookHarbour
         private GameObject GetParentDraggable(GameObject rootTransform)
         {
             // Traverse up the hierarchy to find the root prefab
-
             while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
             {
                 rootTransform = rootTransform.transform.parent.gameObject;
@@ -242,7 +241,6 @@ namespace BookHarbour
         }
         private void DragCancelled(InputAction.CallbackContext context)
         {
-            //Debug.Log("drag cancelled");
             // if it is not in a valid location, destroy it
             if (isDragging)
             {
