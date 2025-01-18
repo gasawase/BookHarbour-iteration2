@@ -15,7 +15,7 @@ namespace BookHarbour
         [SerializeField] private GameObject pointer;
         private GameObject selectedObject; // currently dragged object; 
         private GameObject selectedObjectOriginalParent;
-        private GameObject spawned3DObject;
+        private GameObject spawned3DObject = null;
         private GameObject object3DPrefab;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
@@ -23,7 +23,8 @@ namespace BookHarbour
         private RectTransform canvasRect;
         private Rect panelRect;
 
-        private bool isDragging;
+        private bool isDragging = false;
+        private bool isUIObject;
 
         // Input Actions
         public UserInputActions userInputActions;
@@ -68,9 +69,11 @@ namespace BookHarbour
 
         private void Update()
         {
+            //Debug.Log($"SelectedObject: {selectedObject.name} and isDragging: {isDragging}");
+
             if (isDragging && selectedObject != null)
             {
-                MoveUIObj();
+                MoveObj();
             }
         }
 
@@ -90,7 +93,7 @@ namespace BookHarbour
             );
             return worldRect;
         }
-        private void MoveUIObj()
+        private void MoveObj()
         {
             // Update the dragged object position
             Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
@@ -104,6 +107,7 @@ namespace BookHarbour
             // Update object position with drag offset
             Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, selectedObject.transform.position.z);
             selectedObject.transform.position = newPosition;
+            Debug.Log(selectedObject.name);
             if (spawned3DObject != null)
             {
                 Vector3 objTransform = new Vector3(newPosition.x, (newPosition.y - 0.5f), -0.6f);
@@ -111,18 +115,23 @@ namespace BookHarbour
 
             }
             pointer.transform.position = worldPoint;
+            Debug.Log($"{selectedObject.name} is dragged");
 
-            // Check if pointer is outside the Panel bounds
-            if (!IsPointerWithinPanel(worldPoint))
+            if (isUIObject)
             {
-                // Handle logic for crossing the panel edge
-                selectedObject.SetActive(false);
+                // Check if pointer is outside the Panel bounds
+                if (!IsPointerWithinPanel(worldPoint))
+                {
+                    // Handle logic for crossing the panel edge
+                    selectedObject.SetActive(false);
+                }
+                else
+                {
+                    selectedObject.SetActive(true);
+                    // do something when inside the panel
+                }
             }
-            else
-            {
-                selectedObject.SetActive(true);
-                // do something when inside the panel
-            }
+
         }
 
         private void OnEnable()
@@ -137,14 +146,17 @@ namespace BookHarbour
             dragAction.canceled -= DragCancelled;
         }
 
-        private void DragPerformed(InputAction.CallbackContext context)
+        private void DragPerformed(InputAction.CallbackContext context) // assigns what is being dragged
         {
-            //Debug.Log("drag performed");
             if (isDragging) return; // Prevent re-detection during a drag
-            
 
             // Detect object under pointer
             Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
+            Ray ray = mainCamera.ScreenPointToRay(pointerPosition);
+            RaycastHit hit;
+
+            GameObject draggedObject;
+            
             var raycastResults = new List<RaycastResult>();
             var pointerEventData = new PointerEventData(EventSystem.current)
             {
@@ -152,47 +164,82 @@ namespace BookHarbour
             };
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
 
-            if (raycastResults.Count > 0)
+            if (Physics.Raycast(ray, out hit))
             {
-                
-                GameObject draggedObject = raycastResults[0].gameObject;
-                
-                // Traverse up the hierarchy to find the root prefab
-                GameObject rootTransform = draggedObject.gameObject;
-                while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
-                {
-                    rootTransform = rootTransform.transform.parent.gameObject;
-                }
-                // if the root has the Draggable tag, it is the correct prefab parent and thus is set as the correct object
-                draggedObject = rootTransform;
-                if (draggedObject.CompareTag("Draggable"))
-                {
-                    selectedObject = draggedObject;
-                    originalPosition = selectedObject.transform.position;
-                    selectedObjectOriginalParent = selectedObject.transform.parent.gameObject;
-                    
-                    // Re-parent to the root canvas for unrestricted movement
-                    draggedObject.transform.SetParent(canvas.transform, true);
-                    
-                    //draggedObject.transform.parent
-                    
-                    // Calculate the offset
-                    RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                        canvas.transform as RectTransform,
-                        pointerPosition,
-                        canvas.worldCamera,
-                        out Vector3 worldPoint
-                    );
-                    dragOffset = new Vector2 ((worldPoint.x - draggedObject.transform.position.x),(worldPoint.y - draggedObject.transform.position.y));
-                    
-                    isDragging = true;
-                }
-                object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
-                spawned3DObject = Instantiate(object3DPrefab);
-                pointer.SetActive(true);
+                draggedObject = hit.collider.gameObject;
+                var drag3DResult = Drag3DObject(draggedObject, pointerPosition);
+                selectedObject = drag3DResult;
             }
+            // checking to see if the object was 2D
+            else if (raycastResults.Count > 0)
+            {
+                // checking to see if the object was 3D
+                    draggedObject = raycastResults[0].gameObject;
+                    var dragUIResult = DragUIObject(draggedObject, pointerPosition);
+                    spawned3DObject = dragUIResult.Item1;
+                    selectedObject = dragUIResult.Item2;
+            }
+            else
+            {
+                Debug.Log("Error: Nothing to drag");
+                return;
+            }
+            
+            isDragging = true;
+            
+            // Calculate the offset
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                canvas.transform as RectTransform,
+                pointerPosition,
+                canvas.worldCamera,
+                out Vector3 worldPoint
+            );
+            dragOffset = new Vector2 ((worldPoint.x - draggedObject.transform.position.x),(worldPoint.y - draggedObject.transform.position.y));
+
+            
         }
 
+        private GameObject GetParentDraggable(GameObject rootTransform)
+        {
+            // Traverse up the hierarchy to find the root prefab
+
+            while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
+            {
+                rootTransform = rootTransform.transform.parent.gameObject;
+            }
+            return rootTransform;
+        }
+
+        private (GameObject, GameObject) DragUIObject(GameObject draggedObject, Vector2 pointerPosition)
+        {
+            isUIObject = true;
+            draggedObject = GetParentDraggable(draggedObject.gameObject);
+            if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable
+            {
+                selectedObject = draggedObject;
+            }
+            Debug.Log(draggedObject.name);
+
+            var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
+            GameObject objectSpawned = Instantiate(object3DPrefab);
+            isDragging = true;
+
+            return (objectSpawned, draggedObject);
+        }
+
+        private GameObject Drag3DObject(GameObject draggedObject, Vector2 pointerPosition)
+        {
+            isUIObject = false;
+            draggedObject = GetParentDraggable(draggedObject.gameObject);
+            GameObject thisObject = draggedObject;
+            if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable
+            {
+                thisObject = draggedObject;
+            }
+
+            isDragging = true;
+            return thisObject;
+        }
         private void DragCancelled(InputAction.CallbackContext context)
         {
             //Debug.Log("drag cancelled");
@@ -202,13 +249,8 @@ namespace BookHarbour
                 // perform snapping logic here if needed
                 isDragging = false; // flip the boolean
                 
-                // Re-parent to the original parent
-                selectedObject.SetActive(true);
-                selectedObject.transform.SetParent(selectedObjectOriginalParent.transform, true);
-                selectedObject.transform.position = originalPosition;
                 Debug.Log(selectedObject.transform.position);
                 
-                pointer.SetActive(false);
                 selectedObject = null; // remove the object from underneath the mouse
             }
         }
@@ -217,6 +259,17 @@ namespace BookHarbour
         {
             // Replace this with your logic for detecting valid drop zones
             return true;
+        }
+
+        private void ResetPosition(GameObject selectedObject)
+        {
+            // Re-parent to the original parent
+            //selectedObject.SetActive(true);
+            if (selectedObjectOriginalParent != null)
+            {
+                selectedObject.transform.SetParent(selectedObjectOriginalParent.transform, true);
+            }
+            selectedObject.transform.position = originalPosition;
         }
     }
 }
