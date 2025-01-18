@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017807ee8a780bb4b899658568c88eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
+    type: 3}
   bookTitleLoc: {fileID: 5508375483568664462}
   bookCoverLoc: {fileID: 4863707911513391115}
-  modelPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
-    type: 3}
 --- !u!1 &3543788876252580203
 GameObject:
   m_ObjectHideFlags: 0

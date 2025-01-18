@@ -8,14 +8,13 @@ using TMPro;
 
 namespace BookHarbour
 {
-    public class UIBookScript : MonoBehaviour
+    public class UIBookScript : UIBookshelfObj
     {
         [SerializeField] public Book book;
 
         public TMP_Text bookTitleLoc;
 
         public Image bookCoverLoc;
-        [SerializeField] public GameObject modelPrefab;
 
         public void SetBookTitle(string title)
         {
@@ -36,8 +35,6 @@ namespace BookHarbour
                 SetBookCover(book.bookCover);
 
             }
-            Debug.Log($"{book.bookTitle} was spawned");
-
         }
     }
 }

@@ -1,0 +1,141 @@
+------Book:------
+-- extends BookshelfObject
+Definitions:
+
+- Enum BookshelfState (Facing, Spines, Side): how the book is positioned on the shelf
+- Book constructor
+
+Variables:
+
+- string bookTitle: the title of the book
+- Sprite bookCover: the cover of the front of the book/3Dmodel; visible when BookshelfState is Facing
+- Sprite bookSpine: the image on the spine or side of the book; visible when BookshelfState is Spines
+- int bookPageCount: the amount of pages in the book; LATER- contributes to the width of the book
+- Vector3 bookSize: the dimensions of the book
+- Transform locationOnShelf: the book's location on the shelf
+- bool isPlaced: true/false if the book has a place on a bookshelf
+- BookshelfState bookshelfState: how this specific book is positioned on the shelf
+- GameObject bookGO: the actual game object that connects this script with the specific book
+
+Functions:
+
+- SetBookDetails(): TODO-set the specific book details (could be redundant with the getter and setters on the variables themselves)
+
+
+
+------Bookshelf------
+Definitions:
+
+- Bookshelf constructor
+- IndividualShelfMapping class
+- PerShelfObjectMapping class
+- BookshelfMapping class
+
+Variables:
+
+- int shelfCount: how many shelves the bookshelf has
+- int bookshelfIdx: which index is associated with this specific bookshelf
+- IndividualShelfMapping individualShelfMapping: dictionary that defines the actual mapping of each shelf is (key: index(so which shelf is being referenced), value: PerShelfObjectMapping, the dictionary that references the actual objects themselves (which dictionary is associated with which shelf))
+- PerShelfObjectMapping perShelfObjectMapping: the dictionary that actually references the items on each shelf (key: index of the specific location of each item, value: the object that is in the specific location)
+- BookshelfMapping bookshelfMapping: the mapping of the actual bookshelf and all of the shelves that it holds (key: index of the bookshelf itself, value: IndividualShelfMapping the Dictionary with all of the shelves of the bookshelf)
+
+-- IndividualShelfMapping --
+Definitions:
+- constructor
+Variables:
+- int intShelfHeight: how many units high the interior of the bookshelf is
+- int intShelfWidth: how many units wide the interior of the bookshelf is
+- Dictionary<int, PerShelfObjectMapping> SingleShelfMapping: the dictionary that references the actual objects themselves along with the index of which shelf it's on
+Functions:
+- void TryAddNewShelf(int shelfIdx, PerShelfObjectMapping singleShelfMapping): tries to add a new shelf with the shelf mapping associated it
+- bool TryGetShelf(int shelfIdx, out PerShelfObjectMapping singleShelfMapping): tries to get the shelf from a given index
+- void RemoveShelf(int shelfIdx): remove the shelf value at a given index
+
+-- PerShelfObjectMapping --
+Definitions:
+- constructor
+Variables:
+- Dictionary<int, GameObject> IndividualObjectMapping
+Functions:
+- void TryAddObject(int locationIdx, GameObject shelfObject): try to add an object to a given location //TODO: handle when stacking objects
+- bool TryGetObject(int locationIdx, out GameObject shelfObject): try to get the GameObject at a specific location index
+- void RemoveObject(int locationIdx): try to remove the object at a specific location index
+
+-- BookshelfMapping --
+Definitions:
+- constructor
+Variables:
+- Dictionary<int, IndividualSelfMapping> ShelfMappings: the shelf mappings (shelves) that are associated with a given bookshelf
+Functions:
+- IndividualShelfMapping TryGetOrCreateShelf(int shelfId): gets or creates the individual shelf on the bookshelf; this is where (for a bookshelf of 4 shelves, for example) you add the different dictionaries for the shelves on a bookshelf (so you would do this function 4 times)
+- bool TryGetShelf(int shelfId, out IndividualShelfMapping): try to get a shelf or shelfMapping for a given shelfId/shelfIdx
+- void RemoveShelf(id shelfId): remove a shelf from a given bookshelf 
+
+
+
+
+------BookshelfObject ------ // UNDER CONSTRUCTION //
+-- this script is attached to every object that goes on a shelf
+-- contains the functionality of all objects that go on shelves
+
+Definitions:
+
+- Enum ObjectType: the type of object that this is (Book, Plant, Figurine, Other); can add more later
+
+Variables:
+
+- String objName: the human readable name of this object
+- GameObject objPrefab: the prefab associated with this object
+- ObjectType objType: the type of object that this is
+- Transform objTransform: the Transform of this object
+
+
+------ BookScript ------ // UNDER CONSTRUCTION //
+-- the functionality specifically associated with Book objects
+-- extends ObjectScript
+
+Definitions:
+
+Variables:
+
+- Book book: the Book data that is associated with this specific object
+- Sprite bookCover: the book cover associated with this specific object (could be redundant)
+- Sprite bookSpine: the book spine associated with this specific object (could be redundant)
+- int bookPages: the pages that this specific object has (could be redundant)
+
+Functions:
+- function for getting the cover and spine and applying those to the book
+- function for changing the size of the book by pages; could also contain changing the height of the book by random means later on
+
+
+
+------ BookshelfManager ------ // UNDERCONSTRUCTION //
+-- manages all of the bookshelves and their functionality
+
+Definitions:
+
+
+Variables:
+- Bookshelf bookshelf: the bookshelf that this script is working on
+
+Functions:
+- book CanFit(BookshelfObject obj, IndividualShelfMapping individualShelf)
+- void PlaceObj(BookshelfObject obj, IndividualShelfMapping individualShelf)
+- Vector3 GetObjPosition(BookshelfObject obj, IndividualShelfMapping individualShelf)
+- int GetObjIdx(BookshelfObject obj, IndividualShelfMapping individualShelf)
+- bool IsSpaceOccupied(int bookshelfLocationIdx)
+- void StackObject(BookshelfObject obj, IndividualShelfMapping individualShelf)
+- void SaveObjectToShelf(BookshelfObject obj, IndividualShelfMapping individualShelf)
+
+
+
+------ UIBookScript ------ 
+-- manages specifically the UIBook representation
+
+Definitions:
+
+Variables:
+- [SerializeField] Book book: the actual Book object associated with this UIBook
+- [SerializeField] GameObject modelPrefab: the 3D model prefab associated with this UIBook (can you get this 
+- TMP_Text bookTitleLoc: where the title of the book is displayed to the user
+- Image bookCoverLoc: 

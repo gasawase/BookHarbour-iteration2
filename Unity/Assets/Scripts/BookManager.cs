@@ -30,7 +30,6 @@ namespace BookHarbour
             Sprite defaultCover = null; // Assign actual Sprite from Unity Editor or Resources later
             Sprite defaultSpine = null; // Assign actual Sprite from Unity Editor or Resources later
             Transform defaultTransform = null; // Assign actual Transform in the scene if needed
-            GameObject defaultBookGO = null; // Assign actual GameObject for book in the scene if needed
 
             // Default book size
             Vector3 defaultBookSize = new Vector3(0.17094f, 1f, 0.81175f);
@@ -46,8 +45,7 @@ namespace BookHarbour
                     defaultBookSize,
                     defaultTransform,
                     false,
-                    Book.BookshelfState.Spines,
-                    defaultBookGO
+                    Book.BookshelfState.Spines
                 ),
                 new Book(
                     "1984",
@@ -57,8 +55,7 @@ namespace BookHarbour
                     defaultBookSize,
                     defaultTransform,
                     false,
-                    Book.BookshelfState.Spines,
-                    defaultBookGO
+                    Book.BookshelfState.Spines
                 ),
                 new Book(
                     "To Kill a Mockingbird",
@@ -68,8 +65,7 @@ namespace BookHarbour
                     defaultBookSize,
                     defaultTransform,
                     false,
-                    Book.BookshelfState.Spines,
-                    defaultBookGO
+                    Book.BookshelfState.Spines
                 ),
                 new Book(
                     "Pride and Prejudice",
@@ -79,8 +75,7 @@ namespace BookHarbour
                     defaultBookSize,
                     defaultTransform,
                     false,
-                    Book.BookshelfState.Spines,
-                    defaultBookGO
+                    Book.BookshelfState.Spines
                 ),
                 new Book(
                     "Moby-Dick",
@@ -90,8 +85,7 @@ namespace BookHarbour
                     defaultBookSize,
                     defaultTransform,
                     false,
-                    Book.BookshelfState.Spines,
-                    defaultBookGO
+                    Book.BookshelfState.Spines
                 )
             };
 

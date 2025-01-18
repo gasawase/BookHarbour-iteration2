@@ -765,12 +765,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 398315888}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 496709d0032db91488e3c40db1727e36, type: 3}
+  m_Script: {fileID: 11500000, guid: 927a777dbe0982f4ea9aea27595e52f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shelfCount: 0
-  intShelfHeight: 0
-  intShelfWidth: 0
 --- !u!1001 &666965320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1151,8 +1148,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 229417763}
   sidePanel: {fileID: 1013848962}
-  book3DPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
-    type: 3}
   pointer: {fileID: 305655780}
 --- !u!1 &976128069
 GameObject:
@@ -1277,9 +1272,9 @@ RectTransform:
   - {fileID: 1851359177}
   m_Father: {fileID: 229417760}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -704.7992, y: 3.5264893}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 319, y: 0}
   m_SizeDelta: {x: 638.4016, y: 1348.189}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1013848964

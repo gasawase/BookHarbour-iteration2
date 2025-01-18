@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace BookHarbour
 {
     [Serializable]
-    public class Book
+    public class Book : BookshelfObject
     {
         public enum BookshelfState
         {
@@ -23,9 +23,10 @@ namespace BookHarbour
         public Transform locationOnShelf { get; set; }
         public bool isPlaced { get; set; }
         public BookshelfState bookshelfState { get; set; }
-        public GameObject bookGO { get; set; }
+        //public GameObject bookGO { get; set; }
+
         
-        public Book(string bookTitle, Sprite bookCover, Sprite bookSpine, int bookPageCount, Vector3 bookSize, Transform locationOnShelf, bool isPlaced, BookshelfState bookshelfState, GameObject bookGo)
+        public Book(string bookTitle, Sprite bookCover, Sprite bookSpine, int bookPageCount, Vector3 bookSize, Transform locationOnShelf, bool isPlaced, BookshelfState bookshelfState)
         {
             this.bookTitle = bookTitle;
             this.bookCover = bookCover;
@@ -35,10 +36,7 @@ namespace BookHarbour
             this.locationOnShelf = locationOnShelf;
             this.isPlaced = isPlaced;
             this.bookshelfState = bookshelfState;
-            bookGO = bookGo;
         }
-        
-
         public void SetBookDetails()
         {
             

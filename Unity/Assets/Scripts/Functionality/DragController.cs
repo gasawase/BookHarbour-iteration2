@@ -187,7 +187,7 @@ namespace BookHarbour
                     
                     isDragging = true;
                 }
-                object3DPrefab = draggedObject.GetComponent<UIBookScript>().modelPrefab;
+                object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
                 spawned3DObject = Instantiate(object3DPrefab);
                 pointer.SetActive(true);
             }
