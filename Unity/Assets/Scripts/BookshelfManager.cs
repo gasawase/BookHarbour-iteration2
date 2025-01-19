@@ -32,6 +32,12 @@ public class BookshelfManager : MonoBehaviour
             CreateBookshelf(bookshelf);
         // }
     }
+    
+    public void MakeShelves()
+    {
+        bookshelf.bookshelfMapping.GenerateShelves(bookshelf.arrayOfShelves);
+        Debug.Log($"Number of BookshelfMappings: {bookshelf.bookshelfMapping.ShelfMappings.Count}");
+    }
 
     private void CreateBookshelf(Bookshelf bookshelf)
     {

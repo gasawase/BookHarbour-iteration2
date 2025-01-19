@@ -21,7 +21,9 @@ namespace BookHarbour
         public int bookshelfIdx { get; set; }
         public BookshelfMapping bookshelfMapping { get; set; }
         public float bookPadding { get; set; }
+        
         [SerializeField] public BoxCollider[] arrayOfShelves;
+        [SerializeField] public int tempBookshelfIndex;
 
         // key: shelfIndex (the shelf that this happens on), value: the dictionary for the locations (internal Dictionary that holds the Vector3 and the object value)
 
@@ -71,8 +73,6 @@ namespace BookHarbour
         public float GetRemainingSpace(int shelfIndex)
         {
             float remainingSpace = floatShelfWidth;
-            //if (SingleShelfMapping.ContainsKey(shelfIndex))
-            //{
                 if (!SingleShelfMapping.ContainsKey(shelfIndex))
                 {
                     Debug.Log("No individual shelf present");
@@ -84,14 +84,9 @@ namespace BookHarbour
                         float objectWidth = item.Value.GetComponent<Renderer>().bounds.size.x;
                         remainingSpace -= objectWidth;
                     }
-
-                    Debug.Log($"Remaining space: {remainingSpace}");
                 }
-            //}
-
             return remainingSpace;
         }
-        
     }
     /// <summary>
     /// Represents the mapping of the objects on each shelf; each object is in one key but if they're in the same key, they're stacked on top of each other
@@ -142,6 +137,16 @@ namespace BookHarbour
                 ShelfMappings.TryAdd(shelfId, shelfMapping);
             }
             return shelfMapping;
+        }
+
+        public void GenerateShelves(BoxCollider[] arrayOfShelves )
+        {
+            for (int i = 0; i < arrayOfShelves.Length; i++)
+            {
+                IndividualShelfMapping shelfMapping = TryGetOrCreateShelf(i);
+                shelfMapping.shelfIndex = i;
+            }
+            Debug.Log($"Number of Shelves: {ShelfMappings.Count}");
         }
 
         public bool TryGetBookshelf(int shelfId, out IndividualShelfMapping shelfMapping)
