@@ -22,7 +22,7 @@ namespace BookHarbour
         public BookshelfMapping bookshelfMapping { get; set; }
         public float bookPadding { get; set; }
         
-        [SerializeField] public BoxCollider[] arrayOfShelves;
+        [SerializeField] public GameObject[] arrayOfShelves;
         [SerializeField] public int tempBookshelfIndex;
 
         // key: shelfIndex (the shelf that this happens on), value: the dictionary for the locations (internal Dictionary that holds the Vector3 and the object value)
@@ -32,20 +32,22 @@ namespace BookHarbour
     /// <summary>
     /// Represents the mapping of each shelf, sorted by index; contains the list of the actual objects
     /// </summary>
-    public class IndividualShelfMapping 
+    public class IndividualShelf 
     {
         public float floatShelfWidth { get; set; }
         public float floatShelfHeight { get; set; } // also shelfIndex
         public int shelfIndex { get; set; }
+        public Vector3 shelfLocation { get; set; }
+
         public Dictionary<int, PerShelfObjectMapping> SingleShelfMapping { get; set; } // location of the shelf
 
-        public IndividualShelfMapping(float floatShelfWidth, float floatShelfHeight) // initializes the custom IndividualShelfMapping dictionary
+        public IndividualShelf(float floatShelfWidth, float floatShelfHeight) // initializes the custom IndividualShelfMapping dictionary
         {
             SingleShelfMapping = new Dictionary<int, PerShelfObjectMapping>();
             this.floatShelfWidth = floatShelfWidth;
             this.floatShelfHeight = floatShelfHeight;
         }
-        public IndividualShelfMapping() // initializes the custom IndividualShelfMapping dictionary
+        public IndividualShelf() // initializes the custom IndividualShelf dictionary
         {
             this.floatShelfHeight = 1.198154f; // default height
             this.floatShelfWidth = 2.825437f; // default width
@@ -122,36 +124,36 @@ namespace BookHarbour
     /// </summary>
     public class BookshelfMapping
     {
-        public Dictionary<int, IndividualShelfMapping> ShelfMappings  { get; set; }
+        public Dictionary<int, IndividualShelf> ShelfMappings  { get; set; }
 
         public BookshelfMapping()
         {
-            ShelfMappings = new Dictionary<int, IndividualShelfMapping>();
+            ShelfMappings = new Dictionary<int, IndividualShelf>();
         }
 
-        public IndividualShelfMapping TryGetOrCreateShelf(int shelfId) // get or creates the individual shelf on the bookshelf
+        public IndividualShelf TryGetOrCreateShelf(int shelfId) // get or creates the individual shelf on the bookshelf
         {
             if (!ShelfMappings.TryGetValue(shelfId, out var shelfMapping))
             {
-                shelfMapping = new IndividualShelfMapping();
+                shelfMapping = new IndividualShelf();
                 ShelfMappings.TryAdd(shelfId, shelfMapping);
             }
             return shelfMapping;
         }
 
-        public void GenerateShelves(BoxCollider[] arrayOfShelves )
+        public void GenerateShelves(GameObject[] arrayOfShelves )
         {
             for (int i = 0; i < arrayOfShelves.Length; i++)
             {
-                IndividualShelfMapping shelfMapping = TryGetOrCreateShelf(i);
-                shelfMapping.shelfIndex = i;
+                IndividualShelf shelf = TryGetOrCreateShelf(i);
+                shelf.shelfIndex = i;
             }
             Debug.Log($"Number of Shelves: {ShelfMappings.Count}");
         }
 
-        public bool TryGetBookshelf(int shelfId, out IndividualShelfMapping shelfMapping)
+        public bool TryGetBookshelf(int shelfId, out IndividualShelf shelf)
         {
-            return ShelfMappings.TryGetValue(shelfId, out shelfMapping);
+            return ShelfMappings.TryGetValue(shelfId, out shelf);
         }
 
         public void RemoveShelf(int shelfId)
