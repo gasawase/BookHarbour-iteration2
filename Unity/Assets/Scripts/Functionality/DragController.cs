@@ -39,9 +39,6 @@ namespace BookHarbour
         
         private bool IsPointerWithinPanel(Vector2 worldPoint)
         {
-            
-            // Get the Panel's local rect
-            //Rect panelBounds = panelRect.rect;
             Rect panelBounds = panelRect;
             // Check if the pointer is within the rect bounds
             return panelBounds.Contains(worldPoint);
@@ -55,12 +52,6 @@ namespace BookHarbour
 
         private void Awake()
         {
-            // DragController controller = FindAnyObjectByType<DragController>();
-            // if (controller != null)
-            // {
-            //     Destroy(gameObject);
-            // }
-
             if (userInputActions == null)
             {
                 userInputActions = new UserInputActions();
@@ -70,14 +61,11 @@ namespace BookHarbour
             dragAction = userInputActions.User.ClickPress;
             pointerLocationAction = userInputActions.User.PointerPosition;
             canvasRect = canvas.transform as RectTransform;
-            //panelRect = sidePanel.transform as RectTransform;
             panelRect = GetPanelWorldRect(sidePanel.transform as RectTransform);
         }
 
         private void Update()
         {
-            //Debug.Log($"SelectedObject: {selectedObject.name} and isDragging: {isDragging}");
-
             if (isDragging && selectedObject != null)
             {
                 MoveObj();
@@ -126,7 +114,6 @@ namespace BookHarbour
             // Update object position with drag offset
             Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, selectedObject.transform.position.z);
             selectedObject.transform.position = newPosition;
-            //Debug.Log(selectedObject.name);
 
             if (spawned3DObject != null)
             {
@@ -136,7 +123,6 @@ namespace BookHarbour
 
             }
             pointer.transform.position = worldPoint;
-            //Debug.Log($"{selectedObject.name} is dragged");
 
             if (isUIObject)
             {
@@ -152,7 +138,6 @@ namespace BookHarbour
                     // do something when inside the panel
                 }
             }
-
         }
 
         private void OnEnable()
@@ -175,13 +160,6 @@ namespace BookHarbour
             Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
             Ray ray = mainCamera.ScreenPointToRay(pointerPosition);
             RaycastHit hit;
-
-            //GameObject draggedObject;
-            if (draggedObject != null)
-            {
-                Debug.Log($"Dragged object is: {draggedObject.gameObject.name}");
-
-            }
             
             var raycastResults = new List<RaycastResult>();
             var pointerEventData = new PointerEventData(EventSystem.current)
@@ -190,20 +168,14 @@ namespace BookHarbour
             };
             
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
-
-            foreach (var objHit in raycastResults)
-            {
-                Debug.Log($"Object hit: {objHit.gameObject.name}");
-            }
+            
             if (Physics.Raycast(ray, out hit))
             {
                 draggedObject = GetParentDraggable(hit.collider.gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
                 if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable; catches if there is no parent
                 {
                     selectedObject = draggedObject;
-                    Debug.Log($"{selectedObject.name} is dragged; compare tag draggable");
                     var drag3DResult = Drag3DObject(selectedObject, pointerPosition);
-                    //selectedObject = drag3DResult;
                 }
                 else
                 {
@@ -215,9 +187,6 @@ namespace BookHarbour
             else if (raycastResults.Count > 0)
             {
                 // checking to see if the object was 3D
-                //draggedObject = raycastResults[0].gameObject;
-                //Debug.Log($"{draggedObject.name} is dragged");
-                //draggedObject = GetParentDraggable(raycastResults[0].gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
                 var dragUIResult = DragUIObject(raycastResults[0].gameObject, pointerPosition);
                 spawned3DObject = dragUIResult.Item1;
                 selectedObject = dragUIResult.Item2;
@@ -302,7 +271,6 @@ namespace BookHarbour
                     objectSpawned.transform.position = closestSnap;
                 }
                 isDragging = false; // flip the boolean
-                //Debug.Log(selectedObject.transform.position);
                 selectedObject = null; // remove the object from underneath the mouse
                 draggedObject = null;
             }
@@ -318,7 +286,6 @@ namespace BookHarbour
         private void ResetPosition(GameObject selectedObject)
         {
             // Re-parent to the original parent
-            //selectedObject.SetActive(true);
             if (selectedObjectOriginalParent != null)
             {
                 selectedObject.transform.SetParent(selectedObjectOriginalParent.transform, true);
