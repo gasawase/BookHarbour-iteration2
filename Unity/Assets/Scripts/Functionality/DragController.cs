@@ -117,7 +117,6 @@ namespace BookHarbour
 
             if (spawned3DObject != null)
             {
-                Debug.Log($"Spawned object at {spawned3DObject.gameObject.name}");
                 Vector3 objTransform = new Vector3(newPosition.x, (newPosition.y - 0.5f), -0.6f);
                 spawned3DObject.transform.position = objTransform;
 
@@ -232,8 +231,7 @@ namespace BookHarbour
             {
                 selectedObject = draggedObject;
             }
-            Debug.Log(draggedObject.name);
-
+            
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
             objectSpawned = Instantiate(object3DPrefab);
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
