@@ -20,6 +20,7 @@ namespace BookHarbour
         private GameObject spawned3DObject = null;
         private GameObject object3DPrefab;
         private GameObject objectSpawned = null;
+        GameObject draggedObject = null;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
         private Camera mainCamera;
@@ -126,8 +127,10 @@ namespace BookHarbour
             Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, selectedObject.transform.position.z);
             selectedObject.transform.position = newPosition;
             //Debug.Log(selectedObject.name);
+
             if (spawned3DObject != null)
             {
+                Debug.Log($"Spawned object at {spawned3DObject.gameObject.name}");
                 Vector3 objTransform = new Vector3(newPosition.x, (newPosition.y - 0.5f), -0.6f);
                 spawned3DObject.transform.position = objTransform;
 
@@ -173,7 +176,12 @@ namespace BookHarbour
             Ray ray = mainCamera.ScreenPointToRay(pointerPosition);
             RaycastHit hit;
 
-            GameObject draggedObject;
+            //GameObject draggedObject;
+            if (draggedObject != null)
+            {
+                Debug.Log($"Dragged object is: {draggedObject.gameObject.name}");
+
+            }
             
             var raycastResults = new List<RaycastResult>();
             var pointerEventData = new PointerEventData(EventSystem.current)
@@ -183,6 +191,10 @@ namespace BookHarbour
             
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
 
+            foreach (var objHit in raycastResults)
+            {
+                Debug.Log($"Object hit: {objHit.gameObject.name}");
+            }
             if (Physics.Raycast(ray, out hit))
             {
                 draggedObject = GetParentDraggable(hit.collider.gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
@@ -203,14 +215,14 @@ namespace BookHarbour
             else if (raycastResults.Count > 0)
             {
                 // checking to see if the object was 3D
-                    //draggedObject = raycastResults[0].gameObject;
-                    //Debug.Log($"{draggedObject.name} is dragged");
-                    //draggedObject = GetParentDraggable(raycastResults[0].gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
-                    var dragUIResult = DragUIObject(raycastResults[0].gameObject, pointerPosition);
-                    spawned3DObject = dragUIResult.Item1;
-                    selectedObject = dragUIResult.Item2;
-                    draggedObject = selectedObject;
-                    isDragging = true;
+                //draggedObject = raycastResults[0].gameObject;
+                //Debug.Log($"{draggedObject.name} is dragged");
+                //draggedObject = GetParentDraggable(raycastResults[0].gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
+                var dragUIResult = DragUIObject(raycastResults[0].gameObject, pointerPosition);
+                spawned3DObject = dragUIResult.Item1;
+                selectedObject = dragUIResult.Item2;
+                draggedObject = selectedObject;
+                isDragging = true;
             }
             else
             {
@@ -287,17 +299,15 @@ namespace BookHarbour
                 {
                     Vector3 currPos = objectSpawned.transform.position;
                     Vector3 closestSnap = FindClosestSnapPoint(objectSnapPoints, currPos);
-                    Debug.Log($"The closes snap is {closestSnap}");
-                    Debug.Log($"The current location of this object is {currPos}");
                     objectSpawned.transform.position = closestSnap;
-                    Debug.Log($"The current location of this object is {currPos}");
-                    Debug.Log($"The current location of this object is {closestSnap}");
-                    Debug.Log($"The object has been moved.");
                 }
                 isDragging = false; // flip the boolean
                 //Debug.Log(selectedObject.transform.position);
                 selectedObject = null; // remove the object from underneath the mouse
+                draggedObject = null;
             }
+            spawned3DObject = null;
+
         }
         private bool IsValidDropArea(Vector3 position)
         {

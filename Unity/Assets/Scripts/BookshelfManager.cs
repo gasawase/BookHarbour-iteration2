@@ -127,30 +127,6 @@ public class BookshelfManager : GeneralFunctionality
         
     }
     
-    // public void CalculateSlotLocations(IndividualShelf shelf, float bookWidth, float bookPadding, GameObject[] shelfArray)
-    // {
-    //     float fullWidth = shelf.floatShelfWidth;
-    //     if (bookWidth + bookPadding <= 0)
-    //     {
-    //         Debug.LogError("Book width must be greater than 0.");
-    //     }
-    //
-    //     while (fullWidth > 0f)
-    //     {
-    //         fullWidth -= bookPadding;
-    //         Vector3 newBoxLoc = new Vector3((shelf.shelfLocation.x + bookPadding), shelf.shelfLocation.y, shelf.shelfLocation.z);
-    //         //Instantiate(objectStandIn, shelf.shelfLocation, Quaternion.identity);
-    //         
-    //         Debug.Log($"object stand in has renderer: {objectStandIn.GetComponent<Renderer>()}");
-    //         Debug.Log($"book has renderer: {tempBook.GetComponent<Renderer>()}");
-    //         
-    //         //Vector3 newObjectStandInSize = MatchSize(tempBook, objectStandIn);
-    //         fullWidth -= bookWidth;
-    //         Debug.Log($"New box location: {newBoxLoc}");
-    //         Debug.Log($"The full width is {fullWidth}");
-    //     }
-    // }
-    
     public float CalculateManualWidth()
     {
         if (leftEdge != null && rightEdge != null)
