@@ -18,7 +18,7 @@ public class BookshelfManager : GeneralFunctionality
     [SerializeField] private int bookshelfIndex;
     [SerializeField] private GameObject objectStandIn;
     [SerializeField] private GameObject tempBook;
-
+    
     private void Start()
     {
         // if (bookshelfMapping == null)
@@ -33,6 +33,7 @@ public class BookshelfManager : GeneralFunctionality
         // {
             Debug.Log($"There is no bookshelf with id {bookshelfIndex}");
             CreateBookshelf(bookshelf);
+            Debug.Log($"This bookshelf has the id of {bookshelfIndex}");
         // }
     }
     
@@ -64,7 +65,9 @@ public class BookshelfManager : GeneralFunctionality
             individualShelf.shelfLocation = shelf.transform.position;
             //CalculateSlotLocations(individualShelf, defaultBook.bookSize.x, bookPadding, bookshelf.arrayOfShelves);
 
-            GenerateStandIns(individualShelf, tempBook, bookPadding, shelf, objectStandIn);
+            //GenerateStandIns(individualShelf, tempBook, bookPadding, shelf, objectStandIn);
+            List<Vector3> gotSnapPoints = GenerateSnapPoints(tempBook, bookshelf, bookPadding);
+            Debug.Log($"This shelf has {gotSnapPoints.Count} snap points");
         }
         
     }
@@ -123,64 +126,7 @@ public class BookshelfManager : GeneralFunctionality
         return numOfSlots;
         
     }
-
-    // this function should probably be in the drag controller but we're going to leave it here just to get it working for now
-    public void GenerateStandIns(IndividualShelf individualShelf, GameObject objectToPlace, float bookPadding,
-        GameObject singleShelf, GameObject objectStandIn)
-    {
-        if (objectToPlace == null || objectStandIn == null || singleShelf == null)
-        {
-            Debug.LogError("Assign tempBook, bookPrefab, and individualShelf in the inspector.");
-            return;
-        }
-        
-        // Get the shelf's dimensions
-        BoxCollider shelfCollider = singleShelf.GetComponent<BoxCollider>();
-        if (shelfCollider == null)
-        {
-            Debug.LogError("The IndividualShelf must have a BoxCollider.");
-            return;
-        }
-        
-        Vector3 shelfSize = shelfCollider.size; // Local size of the shelf
-        Vector3 shelfCenter = shelfCollider.bounds.center; // World center of the shelf
-        float bottomOfShelf = shelfCollider.bounds.min.y;
-        float frontOfShelf = shelfCollider.bounds.min.z;
-        
-        Renderer objectPlacedRenderer = objectToPlace.GetComponent<Renderer>();
-        if (objectPlacedRenderer == null)
-        {
-            objectPlacedRenderer = objectToPlace.GetComponentInChildren<Renderer>();
-            if (objectPlacedRenderer == null)
-            {
-                Debug.LogError("The object to place must have a Renderer component.");
-                return;
-            }
-        }
-
-        Vector3 objectSize = objectPlacedRenderer.bounds.size;
-        
-        // Starting posiiton for the first book
-        Vector3 currentPosition = new Vector3(shelfCenter.x - (shelfSize.x / 2) + (objectSize.x / 2),
-            bottomOfShelf + (objectSize.y / 2),                      // Align to the bottom of the shelf
-            frontOfShelf + (objectSize.z / 2)
-        );
-        
-        // loop to fill the shelf
-        while (currentPosition.x + (objectSize.x / 2) <= shelfCenter.x + (shelfSize.x / 2))
-        {
-            // Resize the new book to match the dimensions of tempBook
-            Vector3 newSize = MatchSize(objectToPlace, objectStandIn);
-            Debug.Log($"The new size is {newSize}");
-            // Instantiate the book at the current position
-            GameObject newBook = Instantiate(objectStandIn, currentPosition, Quaternion.identity);
-
-            
-            // Update the position for the next book
-            currentPosition.x += objectSize.x + bookPadding;
-        }
-
-    }
+    
     // public void CalculateSlotLocations(IndividualShelf shelf, float bookWidth, float bookPadding, GameObject[] shelfArray)
     // {
     //     float fullWidth = shelf.floatShelfWidth;

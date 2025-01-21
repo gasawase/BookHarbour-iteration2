@@ -6,10 +6,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace BookHarbour
 {
-    public class DragController : MonoBehaviour
+    public class DragController : GeneralFunctionality
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
         [SerializeField] private GameObject sidePanel;
@@ -18,11 +19,14 @@ namespace BookHarbour
         private GameObject selectedObjectOriginalParent;
         private GameObject spawned3DObject = null;
         private GameObject object3DPrefab;
+        private GameObject objectSpawned = null;
         private Vector2 originalPosition;
         private Vector2 dragOffset; // Offset between pointer and object's center
         private Camera mainCamera;
         private RectTransform canvasRect;
         private Rect panelRect;
+        private Bookshelf bookshelf;
+        private List<Vector3> objectSnapPoints;
 
         private bool isDragging = false;
         private bool isUIObject;
@@ -45,6 +49,7 @@ namespace BookHarbour
         private void Start()
         {
             mainCamera = Camera.main;
+            bookshelf = GetCurrentBookshelf();
         }
 
         private void Awake()
@@ -78,8 +83,18 @@ namespace BookHarbour
             }
         }
 
-
-
+        /// <summary>
+        /// Returns whatever bookshelf is being shown and is visible; needs to be refined because it just
+        /// shows what is shown on screen
+        /// </summary>
+        /// <returns></returns>
+        public Bookshelf GetCurrentBookshelf()
+        {
+            BookshelfManager bookshelfManagerInScene = FindAnyObjectByType<BookshelfManager>();
+            Bookshelf bookshelfInScene = bookshelfManagerInScene.bookshelf;
+            return bookshelfInScene;
+        }
+        
         public Rect GetPanelWorldRect(RectTransform rectTransform)
         {
             Vector3[] worldCorners = new Vector3[4];
@@ -239,7 +254,12 @@ namespace BookHarbour
             Debug.Log(draggedObject.name);
 
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
-            GameObject objectSpawned = Instantiate(object3DPrefab);
+            objectSpawned = Instantiate(object3DPrefab);
+            for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
+            {
+                objectSnapPoints = GenerateSnapPoints(objectSpawned, bookshelf, bookshelf.bookPadding);
+            }
+
             isDragging = true;
 
             return (objectSpawned, draggedObject);
@@ -263,14 +283,22 @@ namespace BookHarbour
             if (isDragging)
             {
                 // perform snapping logic here if needed
+                if (objectSpawned != null)
+                {
+                    Vector3 currPos = objectSpawned.transform.position;
+                    Vector3 closestSnap = FindClosestSnapPoint(objectSnapPoints, currPos);
+                    Debug.Log($"The closes snap is {closestSnap}");
+                    Debug.Log($"The current location of this object is {currPos}");
+                    objectSpawned.transform.position = closestSnap;
+                    Debug.Log($"The current location of this object is {currPos}");
+                    Debug.Log($"The current location of this object is {closestSnap}");
+                    Debug.Log($"The object has been moved.");
+                }
                 isDragging = false; // flip the boolean
                 //Debug.Log(selectedObject.transform.position);
                 selectedObject = null; // remove the object from underneath the mouse
             }
         }
-
-
-
         private bool IsValidDropArea(Vector3 position)
         {
             // Replace this with your logic for detecting valid drop zones
@@ -287,8 +315,6 @@ namespace BookHarbour
             }
             selectedObject.transform.position = originalPosition;
         }
-        
-        
     }
 }
 
