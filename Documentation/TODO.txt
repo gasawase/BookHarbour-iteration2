@@ -3,12 +3,11 @@ TODO:
 - calculate location on shelf
 - remove book from list when placed on shelf
 - register book on a specific location on bookshelf
-- json parser that then saves the book information or instantiates books
 - parser that parses base64 into images
 
 Do later
 - variable heights of books
-- change size of book based on page number
 - get image and cut down to spine size and cover size
+- refine differentiating between 3D and 2D objects (currently complicated validation process with lots of conditionals)
 
 
