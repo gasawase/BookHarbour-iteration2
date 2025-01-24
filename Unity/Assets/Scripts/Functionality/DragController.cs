@@ -180,6 +180,7 @@ namespace BookHarbour
             
             EventSystem.current.RaycastAll(pointerEventData, raycastResults);
             
+            // checking to see if the object was 3D
             if (Physics.Raycast(ray, out hit))
             {
                 draggedObject = GetParentDraggable(hit.collider.gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
@@ -197,7 +198,6 @@ namespace BookHarbour
             // checking to see if the object was 2D
             else if (raycastResults.Count > 0)
             {
-                // checking to see if the object was 3D
                 var dragUIResult = DragUIObject(raycastResults[0].gameObject, pointerPosition);
                 spawned3DObject = dragUIResult.Item1;
                 selectedObject = dragUIResult.Item2;
@@ -248,10 +248,7 @@ namespace BookHarbour
             
             // setting a reference to the object's prefab
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
-            // setting the UID RIGHT BEFORE instantiation; this occurs on the reference to the 3D prefab;
-            // needs to happen because we run functions at start aka right when the object is instantiated
-            object3DPrefab.GetComponent<ObjectScript>().SetUID(draggedObjUID);
-            objectSpawned = Instantiate(object3DPrefab);
+            objectSpawned = Set3DBookInstance(draggedObjUID, object3DPrefab);
             
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
             {
@@ -304,7 +301,17 @@ namespace BookHarbour
                 draggedObject = null;
             }
             spawned3DObject = null;
+        }
 
+        public GameObject Set3DBookInstance(string uid, GameObject prefab)
+        {
+            // setting the UID RIGHT BEFORE instantiation; this occurs on the reference to the 3D prefab;
+            // needs to happen because we run functions at start aka right when the object is instantiated
+            prefab.GetComponent<ObjectScript>().SetUID(uid);
+            prefab.GetComponent<BookScript>().SetPageCount(uid);
+            GameObject locObjectSpawned = Instantiate(prefab);
+            
+            return locObjectSpawned;
         }
 
         private void SnapObject(GameObject objectToSnap, List<Vector3> snapPoints)

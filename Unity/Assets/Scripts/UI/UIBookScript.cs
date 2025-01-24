@@ -28,21 +28,12 @@ namespace BookHarbour
             bookTitleLoc.SetText(title);
             bookTitle = title;
         }
-
-        // public void SetBookCover(Sprite cover)
-        // {
-        //     bookCoverLoc.sprite = cover;
-        // }
+        
 
         public void SetBook(Book settingBook)
         {
-            //this.book = settingBook;
             SetBookTitle(settingBook.bookTitle);
             bookUID = settingBook.UID;
-            // if (book.bookCover != null)
-            // {
-            //     SetBookCover(book.bookCover);
-            // }
         }
     }
 }

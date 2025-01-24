@@ -10,19 +10,16 @@ public class BookScript : ObjectScript
 {
     // when instantiated, get the book information from the book manager
     
-    private int bookPages;
-
     private Vector3 bookPosition;
-    public String bookTitle;
+    public int bookPageCount = 0;
     public ObjectType objectType;
-    //public string UID { get; private set; }
+    public string UID { get; private set; }
     
     private void Start()
     {
         Debug.Log("Spawned!");
-        Debug.Log(objectUID);
-        string bookTitleChecker = BookManager.GetBookByUID(objectUID).bookTitle;
-        Debug.Log(bookTitleChecker);
+        SetBookSize(bookPageCount);
+
         //Book book = BookManager.GetBookByUID(objectUID); need to get this UID of whatever is got
         //Debug.Log(book.bookTitle);
     }
@@ -30,7 +27,7 @@ public class BookScript : ObjectScript
     // method for getting the cover and spine and applying those to the book
     
     // method for changing the size of the book by pages; could also change the height by arbitrary means
-    public void SetBookSize(Book book)
+    public void SetBookSize(int pageCount)
     {
         //BoxCollider thisBoxCollider = this.GetComponent<BoxCollider>();
         Renderer thisRenderer = this.GetComponentInChildren<Renderer>();
@@ -40,9 +37,10 @@ public class BookScript : ObjectScript
         
         // using the equation S=mP + b where S = spine width, m = growth rate (so the spine width per page),
         // P = page count, and b = fixed width from the page thickness
-        // if we assume that the size of the bookPrefab has 300 pages and that is our base, we get
-        // S = 0.06P+2 so we're going to use that
-        float newSizeX = ((0.06f * ogSize.x) + 2f);
+        // if we assume that the size of the bookPrefab has 300 pages and that is our base, along with altering numbers to fit the
+        // unity world scale (1/1000) we get
+        // S = 0.0006P + 0.02 so we're going to use that
+        float newSizeX = ((0.0006f * pageCount) + 0.02f);
         
         Vector3 scaleFactor = new Vector3(
             newSizeX / ogSizeX,
@@ -52,9 +50,15 @@ public class BookScript : ObjectScript
         // apply the scaling factor to the book
         
         this.gameObject.transform.localScale = scaleFactor;
-        Debug.Log($"The object has been resized to {scaleFactor.ToString()}");
+        Debug.Log($"The new X size is {newSizeX}");
     }
-    // 
+
+    public void SetPageCount(string uid)
+    {
+        this.UID = uid;
+        Book locBook = BookManager.GetBookByUID(UID);
+        bookPageCount = locBook.bookPageCount;
+    }
 }
 
 

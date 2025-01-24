@@ -25,7 +25,13 @@ public class UIBookListScript : MonoBehaviour
         }
     }
     
-    
+    /// <summary>
+    /// Clears the books currently in this panel
+    /// fetches the GlobalBookList and instantiates a book for each key,value pair
+    /// sets the book in the uibookscript (which sets the information that is displayed on each book in the UI panel)
+    /// sets the object's uid in the UIBookshelfObj instance
+    /// </summary>
+    /// <param name="books"></param>
     public void PopulateBooks(Dictionary<string, Book> books)
     {
         ClearBooks();
@@ -33,9 +39,9 @@ public class UIBookListScript : MonoBehaviour
         books = BookManager.GlobalBookList;
         foreach (KeyValuePair<string, Book> book in books)
         {
-            Instantiate(UIBookPrefab, UIBooksParent);
             UIBookPrefab.GetComponent<UIBookScript>().SetBook(book.Value);
             UIBookPrefab.GetComponent<UIBookshelfObj>().SetUID(book.Key);
+            Instantiate(UIBookPrefab, UIBooksParent);
         }
     }
 
@@ -46,4 +52,9 @@ public class UIBookListScript : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
+    
+    // method for when the book has been returned or is still in this panel, put it back to it's prior location
+    
+    // functionality somehow that keeps the space open for the book in case it is dragged either back in or back over; maybe
+    // it resets or re-sorts?
 }
