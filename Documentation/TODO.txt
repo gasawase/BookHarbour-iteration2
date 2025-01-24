@@ -1,11 +1,14 @@
 TODO:
 - detection of location on bookshelf
 - calculate location on shelf
-- change size of book based on page number
 - remove book from list when placed on shelf
 - register book on a specific location on bookshelf
-- create data structure for locations on bookshelf
-- make 3dbook draggable as well
+- json parser that then saves the book information or instantiates books
+- parser that parses base64 into images
 
 Do later
 - variable heights of books
+- change size of book based on page number
+- get image and cut down to spine size and cover size
+
+

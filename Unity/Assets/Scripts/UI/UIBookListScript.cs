@@ -11,7 +11,8 @@ public class UIBookListScript : MonoBehaviour
     [SerializeField] private Transform UIBooksParent; // Assign the Content GameObject (GridLayoutGroup parent)
     private BookManager bookManager;
     [SerializeField] private Button refreshBooksButton;
-    private List<Book> books;
+    //private List<Book> books;
+    private Dictionary<string, Book> books = new Dictionary<string, Book>();
 
     public void Start()
     {
@@ -25,14 +26,16 @@ public class UIBookListScript : MonoBehaviour
     }
     
     
-    public void PopulateBooks(List<Book> books)
+    public void PopulateBooks(Dictionary<string, Book> books)
     {
         ClearBooks();
-        books = bookManager.GlobalBookList;
-        foreach (Book book in books)
+        //books = bookManager.GlobalBookList;
+        books = BookManager.GlobalBookList;
+        foreach (KeyValuePair<string, Book> book in books)
         {
             Instantiate(UIBookPrefab, UIBooksParent);
-            UIBookPrefab.GetComponent<UIBookScript>().SetBook(book);
+            UIBookPrefab.GetComponent<UIBookScript>().SetBook(book.Value);
+            UIBookPrefab.GetComponent<UIBookshelfObj>().SetUID(book.Key);
         }
     }
 

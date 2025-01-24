@@ -71,23 +71,23 @@ public class BookshelfManager : GeneralFunctionality
         }
         
     }
-    public bool CanFit(BookshelfObject obj, IndividualShelf individualShelf)
+    public bool CanFit(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         
         return false;
     }
 
-    public void PlaceObj(Vector2 position, BookshelfObject obj, IndividualShelf individualShelf)
+    public void PlaceObj(Vector2 position, BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         throw new NotImplementedException();
     }
 
-    public Vector3 GetObjPosition(BookshelfObject obj, IndividualShelf individualShelf)
+    public Vector3 GetObjPosition(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         return obj.objTransform.position;
     }
 
-    public int GetObjIdx(BookshelfObject obj, IndividualShelf individualShelf)
+    public int GetObjIdx(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         return 0;
     }
@@ -97,12 +97,12 @@ public class BookshelfManager : GeneralFunctionality
         return false;
     }
 
-    public void StackObject(BookshelfObject obj, IndividualShelf individualShelf)
+    public void StackObject(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         throw new NotImplementedException();
     }
 
-    public void SaveObjectToShelf(BookshelfObject obj, IndividualShelf individualShelf)
+    public void SaveObjectToShelf(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         throw new NotImplementedException();
     }

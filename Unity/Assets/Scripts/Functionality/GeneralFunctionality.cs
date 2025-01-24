@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -116,10 +117,10 @@ namespace BookHarbour
                     snapPoints.Add(currentPosition);
                     currentPosition.x += objectSize.x + effectivePadding; // Move to the next snap point
                 }
-                Debug.Log($"Shelf number {i} snap points: {snapPoints.Count}");
+                //Debug.Log($"Shelf number {i} snap points: {snapPoints.Count}");
             }
             
-            Debug.Log($"Total snap points: {snapPoints.Count}");
+            //Debug.Log($"Total snap points: {snapPoints.Count}");
             return snapPoints;
 
         }
@@ -152,6 +153,11 @@ namespace BookHarbour
             }
 
             return closestPoint;
+        }
+
+        public Texture2D ConvertFromBase64ToTexture2D(string base64)
+        {
+            throw new NullReferenceException();
         }
     }
 }

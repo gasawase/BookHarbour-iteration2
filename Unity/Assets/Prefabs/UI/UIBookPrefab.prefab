@@ -49,10 +49,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017807ee8a780bb4b899658568c88eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultPadding: 0.05
   objPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
     type: 3}
+  book:
+    objectType: 0
   bookTitleLoc: {fileID: 5508375483568664462}
   bookCoverLoc: {fileID: 4863707911513391115}
+  bookTitle: 
 --- !u!1 &3543788876252580203
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +177,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4863707911513391115}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 876808797491586213}
+        m_TargetAssemblyTypeName: BookHarbour.UIBookScript, Assembly-CSharp
+        m_MethodName: CallDragControllerTestFunction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4393227483499724179
 GameObject:
   m_ObjectHideFlags: 0

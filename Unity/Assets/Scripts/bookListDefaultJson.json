@@ -1,0 +1,9 @@
+﻿{
+  "books": [
+    {"uid": "1", "title": "1984", "pageCount": 368},
+    {"uid": "2", "title": "Pride and Prejudice", "pageCount": 400},
+    {"uid": "3", "title": "To Kill a Mockingbird", "pageCount": 323},
+    {"uid": "4", "title": "Moby-Dick", "pageCount": 720},
+    {"uid": "5", "title": "The Great Gatsby", "pageCount": 180}
+    ]
+}

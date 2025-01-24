@@ -28,9 +28,11 @@ namespace BookHarbour
         private Rect panelRect;
         private Bookshelf bookshelf;
         private List<Vector3> objectSnapPoints;
-
+        private BookshelfObjectData objectDataSpawnedBookshelfObjectDataComp;
+        private BookManager bookManager;
         private bool isDragging = false;
         private bool isUIObject;
+        private string currentDraggedObjectUID;
 
         // Input Actions
         public UserInputActions userInputActions;
@@ -48,6 +50,11 @@ namespace BookHarbour
         {
             mainCamera = Camera.main;
             bookshelf = GetCurrentBookshelf();
+            if (bookManager == null)
+            {
+                // find the object in the scene and assign it here
+                bookManager = FindAnyObjectByType<BookManager>();
+            }
         }
 
         private void Awake()
@@ -151,9 +158,14 @@ namespace BookHarbour
             dragAction.canceled -= DragCancelled;
         }
 
+
         private void DragPerformed(InputAction.CallbackContext context) // assigns what is being dragged
         {
             if (isDragging) return; // Prevent re-detection during a drag
+            // double checking that these are null for constistent data
+            selectedObject = null; // remove the object from underneath the mouse
+            draggedObject = null;
+            spawned3DObject = null;
 
             // Detect object under pointer
             Vector2 pointerPosition = pointerLocationAction.ReadValue<Vector2>();
@@ -227,13 +239,20 @@ namespace BookHarbour
         {
             isUIObject = true;
             draggedObject = GetParentDraggable(draggedObject);
+            string draggedObjUID = draggedObject.GetComponent<UIBookshelfObj>().GetUID();
+            Debug.Log($"The current objUID is {draggedObjUID}");
             if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable
             {
                 selectedObject = draggedObject;
             }
             
+            // setting a reference to the object's prefab
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
+            // setting the UID RIGHT BEFORE instantiation; this occurs on the reference to the 3D prefab;
+            // needs to happen because we run functions at start aka right when the object is instantiated
+            object3DPrefab.GetComponent<ObjectScript>().SetUID(draggedObjUID);
             objectSpawned = Instantiate(object3DPrefab);
+            
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
             {
                 objectSnapPoints = GenerateSnapPoints(objectSpawned, bookshelf, bookshelf.bookPadding);
@@ -253,6 +272,12 @@ namespace BookHarbour
             {
                 thisObject = draggedObject;
             }
+            
+            for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
+            {
+                objectSnapPoints = GenerateSnapPoints(objectSpawned, bookshelf, bookshelf.bookPadding);
+            }
+            
             isDragging = true;
             return thisObject;
         }
@@ -262,11 +287,17 @@ namespace BookHarbour
             if (isDragging)
             {
                 // perform snapping logic here if needed
-                if (objectSpawned != null)
+                if (objectSpawned != null && isUIObject)
                 {
-                    Vector3 currPos = objectSpawned.transform.position;
-                    Vector3 closestSnap = FindClosestSnapPoint(objectSnapPoints, currPos);
-                    objectSpawned.transform.position = closestSnap;
+                    SnapObject(objectSpawned, objectSnapPoints);
+                    if (objectDataSpawnedBookshelfObjectDataComp != null)
+                    {
+                        Debug.Log($"Object spawned has the component {objectDataSpawnedBookshelfObjectDataComp}");
+                    }
+                }
+                else if (!isUIObject)
+                {
+                    SnapObject(draggedObject, objectSnapPoints);
                 }
                 isDragging = false; // flip the boolean
                 selectedObject = null; // remove the object from underneath the mouse
@@ -274,6 +305,13 @@ namespace BookHarbour
             }
             spawned3DObject = null;
 
+        }
+
+        private void SnapObject(GameObject objectToSnap, List<Vector3> snapPoints)
+        {
+            Vector3 currPos = objectToSnap.transform.position;
+            Vector3 closestSnap = FindClosestSnapPoint(snapPoints, currPos);
+            objectToSnap.transform.position = closestSnap;
         }
         private bool IsValidDropArea(Vector3 position)
         {

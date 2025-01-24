@@ -6,6 +6,7 @@ using UnityEngine;
 public class UIBookshelfObj : GeneralFunctionality
 {
     [SerializeField] public GameObject objPrefab;
+    public string objUID;
     void Start()
     {
         
@@ -17,8 +18,13 @@ public class UIBookshelfObj : GeneralFunctionality
         
     }
 
-    public void SpawnObject()
+    public void SetUID(string uid)
     {
-        
+        objUID = uid;
+    }
+
+    public string GetUID()
+    {
+        return objUID;
     }
 }
