@@ -7,17 +7,14 @@ using Unity.VisualScripting;
 
 public class BookshelfManager : GeneralFunctionality
 {
-    public Book defaultBook;
     public float bookPadding = 0.05f;
     public Bookshelf bookshelf;
     public BookshelfMapping bookshelfMapping;
     private IndividualShelf individualShelf;
     private PerShelfObjectMapping perShelfObjectMapping;
-    [SerializeField] private Transform leftEdge;
-    [SerializeField] private Transform rightEdge;
     [SerializeField] private int bookshelfIndex;
-    [SerializeField] private GameObject objectStandIn;
-    [SerializeField] private GameObject tempBook;
+    [SerializeField] private BoxCollider bookshelfDropZone;
+    public bool isValidDropAreaInBookshelf {get; set;}
     
     private void Start()
     {
@@ -56,40 +53,13 @@ public class BookshelfManager : GeneralFunctionality
             int shelfIndex = i;
             IndividualShelf individualShelf = new IndividualShelf(boxCollider.bounds.size.x, boxCollider.bounds.size.y);
             individualShelf.shelfIndex = shelfIndex;
-            Debug.Log($"This individual shelf has the size of x: {boxCollider.bounds.size.x}, y: {boxCollider.bounds.size.y}");
-            int slotsHolder = CalculateSlots(boxCollider.bounds.size.x, defaultBook.bookSize.x, bookPadding);
-            Debug.Log($"This shelf has {slotsHolder} slots");
-            float remainingSpace = individualShelf.GetRemainingSpace(i);
-            Debug.Log($"This shelf has {remainingSpace} remaining space");
-            
             individualShelf.shelfLocation = shelf.transform.position;
-            //CalculateSlotLocations(individualShelf, defaultBook.bookSize.x, bookPadding, bookshelf.arrayOfShelves);
-
-            //GenerateStandIns(individualShelf, tempBook, bookPadding, shelf, objectStandIn);
-            List<Vector3> gotSnapPoints = GenerateSnapPoints(tempBook, bookshelf, bookPadding);
-            Debug.Log($"This shelf has {gotSnapPoints.Count} snap points");
         }
-        
     }
     public bool CanFit(BookshelfObjectData obj, IndividualShelf individualShelf)
     {
         
         return false;
-    }
-
-    public void PlaceObj(Vector2 position, BookshelfObjectData obj, IndividualShelf individualShelf)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Vector3 GetObjPosition(BookshelfObjectData obj, IndividualShelf individualShelf)
-    {
-        return obj.objTransform.position;
-    }
-
-    public int GetObjIdx(BookshelfObjectData obj, IndividualShelf individualShelf)
-    {
-        return 0;
     }
 
     public bool IsSpaceOccupied(Vector2 objLocationOnBookshelf)
@@ -109,36 +79,48 @@ public class BookshelfManager : GeneralFunctionality
 
     public void Calculations()
     {
-        
+        throw new NotImplementedException();
     }
-    
-    // Calculate the number of slots a shelf can hold
-    public int CalculateSlots(float shelfWidth, float bookWidth, float bookPadding)
+
+    // specifically when the 3D object is inside the trigger
+    private void OnTriggerEnter(Collider other)
     {
-        if (bookWidth + bookPadding <= 0)
+        if (other.gameObject.layer == LayerMask.NameToLayer("UI"))
         {
-            Debug.LogError("Book width must be greater than 0.");
-            return 0;
+            isValidDropAreaInBookshelf = false;
+            return;
+        }
+        if (other.CompareTag("Draggable"))
+        {
+            isValidDropAreaInBookshelf = true;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("UI"))
+        {
+            isValidDropAreaInBookshelf = false;
+            return;
+        }
+        if (other.CompareTag("Draggable"))
+        {
+            isValidDropAreaInBookshelf = true;
         }
         
-        // Divide the shelf width by the book width and floor the result
-        int numOfSlots = Mathf.FloorToInt(shelfWidth/(bookWidth + bookPadding));
-        return numOfSlots;
-        
     }
-    
-    public float CalculateManualWidth()
+
+    // specifically when the 3D object is outside the trigger
+    private void OnTriggerExit(Collider other)
     {
-        if (leftEdge != null && rightEdge != null)
+        if (other.gameObject.layer == LayerMask.NameToLayer("UI"))
         {
-            float interiorWidth = Vector3.Distance(leftEdge.position, rightEdge.position);
-            Debug.Log("Manual Interior Width: " + interiorWidth);
-            return interiorWidth;
+            isValidDropAreaInBookshelf = false;
+            return;
         }
-        else
+        if (other.CompareTag("Draggable"))
         {
-            Debug.LogError("Left or Right Edge Transform is missing!");
-            return 0f;
+            isValidDropAreaInBookshelf = false;
         }
     }
 }

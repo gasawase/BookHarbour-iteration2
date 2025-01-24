@@ -13,8 +13,6 @@ public class BookScript : ObjectScript
     private Vector3 bookPosition;
     public int bookPageCount = 0;
     public ObjectType objectType;
-    public string UID { get; private set; }
-    
     private void Start()
     {
         Debug.Log("Spawned!");
@@ -55,8 +53,7 @@ public class BookScript : ObjectScript
 
     public void SetPageCount(string uid)
     {
-        this.UID = uid;
-        Book locBook = BookManager.GetBookByUID(UID);
+        Book locBook = BookManager.GetBookByUID(uid); 
         bookPageCount = locBook.bookPageCount;
     }
 }
