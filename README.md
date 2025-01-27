@@ -17,13 +17,16 @@ Whether you're an avid reader, a book collector, or someone who loves organizing
 ### ✅ **MVP Features**
 - Access EPUB files from the local file system (individual files or folders).  
 - Display book covers and metadata (title, author, description, and more).  
-- Read EPUB files with an integrated reading interface.  
+- Read EPUB files with an integrated reading interface.
+- Advanced library organization with customizable shelves through Unity Integration.    
 
 ### 🛤️ **Future Enhancements (Phase 2)**
-- Advanced library organization with customizable shelves.  
+
 - Bookshelf and room decoration (themes, lighting, decor items).  
 - Multiple bookshelf views with swipe navigation.  
-- Enhanced tagging system and personalized reading analytics.  
+- Enhanced tagging system and personalized reading analytics.
+- Additional data gathering from Google Books API
+- Book detail customization (custom covers, summaries, title, author, etc.)  
 
 ---
 
@@ -35,8 +38,9 @@ Whether you're an avid reader, a book collector, or someone who loves organizing
 
 ## 🧑‍💻 **Tech Stack**
 
-- **SwiftUI** (UI Framework)  
-- **Readium** (EPUB Integration)  
+- **SwiftUI** (UI Framework for Reading, Data Processing and Management)  
+- **Readium** (EPUB Integration)
+- **Unity** (Bookshelf Display, UI Framework for Interactibility)  
 - Additional dependencies may be added as development progresses.  
 
 ---
