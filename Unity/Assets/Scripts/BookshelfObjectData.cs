@@ -11,12 +11,14 @@ namespace BookHarbour
         FigurineObj,
         OtherObj
     }
-    public class BookshelfObjectData
+    public class BookshelfObjectData : IBookshelfObject
     {
         public String objName { get; set; }
         public GameObject objPrefab { get; set; }
         public ObjectType objType { get; set; }
         public Transform objTransform { get; set; }
+        public bool isPlaced { get; set; }
+
         
         // Method to update its Transform
         public void SetTransform(Transform newTransform)

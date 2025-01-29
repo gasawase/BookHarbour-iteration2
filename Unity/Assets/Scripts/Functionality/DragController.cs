@@ -34,6 +34,7 @@ namespace BookHarbour
         private bool isUIObject;
         private string currentDraggedObjectUID;
         private BookshelfManager bookshelfManagerInScene;
+        public BooleanMonitor isInPanelBoolMonitored = new BooleanMonitor();
 
         // Input Actions
         public UserInputActions userInputActions;
@@ -130,6 +131,22 @@ namespace BookHarbour
 
             }
             
+            // // Check if pointer is outside the Panel bounds
+            // if (!IsPointerWithinPanel(worldPoint))
+            // {
+            //     // Handle logic for crossing the panel edge
+            //     selectedObject.SetActive(false);
+            //     isInPanelBoolMonitored.MonitoredValue = false;
+            //     // TODO: need to not have this one count for being inside the bookshelf?
+            //
+            // }
+            // else
+            // {
+            //     selectedObject.SetActive(true);
+            //     isInPanelBoolMonitored.MonitoredValue = true;
+            //     // do something when inside the panel
+            // }
+            
             if (isUIObject) // change to check to see if 3D object is brought back
             {
                 // Check if pointer is outside the Panel bounds
@@ -137,11 +154,14 @@ namespace BookHarbour
                 {
                     // Handle logic for crossing the panel edge
                     selectedObject.SetActive(false);
+                    isInPanelBoolMonitored.MonitoredValue = false;
                     // TODO: need to not have this one count for being inside the bookshelf?
+            
                 }
                 else
                 {
                     selectedObject.SetActive(true);
+                    isInPanelBoolMonitored.MonitoredValue = true;
                     // do something when inside the panel
                 }
             }
@@ -151,19 +171,42 @@ namespace BookHarbour
         {
             dragAction.performed += DragPerformed;
             dragAction.canceled += DragCancelled;
+            
+            isInPanelBoolMonitored.OnBooleanChanged.AddListener((() => DoThis()));
         }
 
         private void OnDisable()
         {
             dragAction.performed -= DragPerformed;
             dragAction.canceled -= DragCancelled;
+            isInPanelBoolMonitored.OnBooleanChanged.RemoveListener((() => DoThis()));
+        }
+
+        public void DoThis()
+        {
+            Debug.Log("BooleanChanged");
+            //Debug.Log($"The value is {isInPanelBoolMonitored.MonitoredValue}");
+            if (isInPanelBoolMonitored.MonitoredValue)
+            {
+                Debug.Log("true");
+                //isUIObject = true;
+                Debug.Log($"isUiObject value: {isUIObject}");
+
+            }
+            else if (!isInPanelBoolMonitored.MonitoredValue)
+            {
+                Debug.Log("false");
+                //isUIObject = false;
+                Debug.Log($"isUiObject value: {isUIObject}");
+                // NOTE WHEN isUIObject IS SET TO FALSE, SOMETHING HAPPENS WHICH DOES SOMETHING TO THE UIBookObj!!!
+            }
         }
 
 
         private void DragPerformed(InputAction.CallbackContext context) // assigns what is being dragged
         {
             if (isDragging) return; // Prevent re-detection during a drag
-            // double checking that these are null for constistent data
+            // double-checking that these are null for consistent data
             selectedObject = null; // remove the object from underneath the mouse
             draggedObject = null;
             spawned3DObject = null;
@@ -185,15 +228,9 @@ namespace BookHarbour
             if (Physics.Raycast(ray, out hit))
             {
                 draggedObject = GetParentDraggable(hit.collider.gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
-                if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable; catches if there is no parent
-                {
-                    selectedObject = draggedObject;
-                    var drag3DResult = Drag3DObject(selectedObject, pointerPosition);
-                }
-                else
-                {
-                    Debug.Log($"{hit.collider.gameObject.name} is not a Draggable");
-                }
+                selectedObject = draggedObject;
+                var drag3DResult = Drag3DObject(selectedObject, pointerPosition);
+                selectedObject = drag3DResult;
                 isDragging = true;
             }
             // checking to see if the object was 2D
@@ -224,16 +261,26 @@ namespace BookHarbour
 
         private GameObject GetParentDraggable(GameObject rootTransform)
         {
-            if (rootTransform.transform.parent == null)
+            while (rootTransform != null)
             {
-                return rootTransform;
+                if (rootTransform.CompareTag("Draggable"))
+                {
+                    return rootTransform;
+                }
+                rootTransform = rootTransform.transform.parent?.gameObject;
             }
-            // Traverse up the hierarchy to find the root prefab
-            while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
-            {
-                rootTransform = rootTransform.transform.parent.gameObject;
-            }
-            return rootTransform;
+
+            return null;
+            // if (rootTransform.transform.parent == null)
+            // {
+            //     return rootTransform;
+            // }
+            // // Traverse up the hierarchy to find the root prefab
+            // while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
+            // {
+            //     rootTransform = rootTransform.transform.parent.gameObject;
+            // }
+            // return rootTransform;
         }
 
         
@@ -244,10 +291,6 @@ namespace BookHarbour
             draggedObject = GetParentDraggable(draggedObject);
             string draggedObjUID = draggedObject.GetComponent<UIBookshelfObj>().GetUID();
             Debug.Log($"The current objUID is {draggedObjUID}");
-            if (draggedObject.CompareTag("Draggable")) // double-checking to make sure that the object is draggable
-            {
-                selectedObject = draggedObject;
-            }
             
             // setting a reference to the object's prefab
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
@@ -290,24 +333,32 @@ namespace BookHarbour
                 if (IsValidDropArea(objectSpawned.transform.position) ||
                     IsValidDropArea(draggedObject.transform.position))
                 {
-                    Debug.Log("");
+                    Debug.Log("valid drop area in drag cancelled");
                 }
                 // perform snapping logic here if needed
                 // if the object is 2D ; TODO: handle for when the 3D model is in the right spot but the ui object is not
-                if (objectSpawned != null && isUIObject)
+                if (objectSpawned != null && isUIObject) // specifically, this is dragging the UI book AND the 3D object with it
                 {
+                    Debug.Log("this is a ui object"); 
                     SnapObject(objectSpawned, objectSnapPoints); // snaps the ui AND 3D object btw
-                    if (objectDataSpawnedBookshelfObjectDataComp != null)
+                    if (objectSpawned.GetComponent<BookHarbour.IBookshelfObject>() != null)
                     {
-                        Debug.Log($"Object spawned has the component {objectDataSpawnedBookshelfObjectDataComp}");
+                        Debug.Log("This object is a BookshelfObjectData!");
                     }
+                    Debug.Log($" The object spawned has the value of :{objectSpawned.GetComponent<IBookshelfObject>()}");
+                    // if () 
+                    // {
+                    //     Debug.Log($"Object spawned has the component {objectDataSpawnedBookshelfObjectDataComp}");
+                    //
+                    // }
                 }
                 // if the object is 3D and isn't immediately after spawned
                 else if (!isUIObject)
                 {
-                        SnapObject(draggedObject, objectSnapPoints);
+                    Debug.Log("this is a 3d object");
+                        //SnapObject(draggedObject, objectSnapPoints);
                 }
-                isDragging = false; // flip the boolean
+                isDragging = false; // flip the boolean | this is no longer dragging
                 selectedObject = null; // remove the object from underneath the mouse
                 draggedObject = null;
             }
@@ -334,31 +385,31 @@ namespace BookHarbour
         }
         private bool IsValidDropArea(Vector3 droppedObjectPos)
         {
-            // Replace this with your logic for detecting valid drop zones
-            // Check this IsPointerWithinPanel OR if it is in the bookshelf's drop zone
+            bool isWithinPanel = IsPointerWithinPanel(droppedObjectPos);
+            bool isValidBookshelfDrop = bookshelfManagerInScene.isValidDropAreaInBookshelf;
             
             // if the uibook is within the panel, put the uibook back in its og position and destroy the instantiated object
-            Debug.Log($"isUi: {isUIObject} IsPointerWithinPanel: {IsPointerWithinPanel(droppedObjectPos)} and bookshelfManagerIsValidDropArea: { bookshelfManagerInScene.isValidDropAreaInBookshelf}");
-            if (isUIObject && IsPointerWithinPanel(droppedObjectPos) && !bookshelfManagerInScene.isValidDropAreaInBookshelf)
+            Debug.Log($"isUi: {isUIObject} IsPointerWithinPanel: {isWithinPanel} and bookshelfManagerIsValidDropArea: {isValidBookshelfDrop}");
+            
+            // Handle destruction of object if within panel
+            if (isUIObject && isWithinPanel && !isValidBookshelfDrop)
             {
-                Debug.Log($"This object is UI and is within the panel");
+                Debug.Log("This is an object from the panel and is within the panel");
                 Destroy(objectSpawned);
                 return true;
             }
-            else if (isUIObject && !IsPointerWithinPanel(droppedObjectPos) && bookshelfManagerInScene.isValidDropAreaInBookshelf)
+            
+            // Valid drops for UI and non-UI objects
+            if ((isUIObject && !isWithinPanel && isValidBookshelfDrop) || 
+                (!isUIObject && isWithinPanel && !isValidBookshelfDrop) || 
+                (!isUIObject && !isWithinPanel && isValidBookshelfDrop))
             {
-                Debug.Log($"This object is not UI but is within the bookshelf");
+                Debug.Log("This is a valid drop area");
                 return true;
             }
-            else if (!isUIObject && IsPointerWithinPanel(droppedObjectPos) && !bookshelfManagerInScene.isValidDropAreaInBookshelf)
-            {
-                Debug.Log($"This object is not UI and is within the panel");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            
+            // Default to invalid
+            return false;
         }
 
         private void ResetPosition(GameObject selectedObject)

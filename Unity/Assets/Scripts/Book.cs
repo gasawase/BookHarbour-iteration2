@@ -21,7 +21,6 @@ namespace BookHarbour
         public int bookPageCount { get; set; }
         public Vector3 bookSize { get; set; } = new Vector3(0.17094f, 1f, 0.81175f); //default scale is x=0.17094 y=1 z=0.81175
         public Transform locationOnShelf { get; set; }
-        public bool isPlaced { get; set; }
         public BookshelfState bookshelfState { get; set; }
 
         public ObjectType objectType = ObjectType.BookObj;

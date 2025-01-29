@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace BookHarbour
 {
@@ -158,6 +159,29 @@ namespace BookHarbour
         public Texture2D ConvertFromBase64ToTexture2D(string base64)
         {
             throw new NullReferenceException();
+        }
+
+        public class BooleanMonitor
+        {
+            public UnityEvent OnBooleanChanged = new UnityEvent(); // Initialize here
+            private bool monitoredValue;
+            
+            public BooleanMonitor(bool initialValue = false)
+            {
+                monitoredValue = initialValue;
+            }
+            public bool MonitoredValue
+            {
+                get => monitoredValue;
+                set
+                {
+                    if (monitoredValue != value) // Trigger only if the value changes
+                    {
+                        monitoredValue = value;
+                        OnBooleanChanged?.Invoke(); // Invoke the event
+                    }
+                }
+            }
         }
     }
 }

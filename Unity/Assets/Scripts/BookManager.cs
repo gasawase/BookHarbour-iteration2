@@ -9,6 +9,9 @@ using Newtonsoft.Json;
 
 namespace BookHarbour
 {
+    /// <summary>
+    /// Handles the books that are present only in this session (not ALL books)
+    /// </summary>
     public class BookManager : MonoBehaviour
     {
         public static BookManager Instance { get; private set; }
