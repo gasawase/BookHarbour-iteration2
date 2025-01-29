@@ -13,6 +13,7 @@ public class UIBookListScript : MonoBehaviour
     [SerializeField] private Button refreshBooksButton;
     //private List<Book> books;
     private Dictionary<string, Book> books = new Dictionary<string, Book>();
+    private Queue<GameObject> bookUIPool = new Queue<GameObject>();
 
     public void Start()
     {
@@ -21,10 +22,11 @@ public class UIBookListScript : MonoBehaviour
             // find the object in the scene and assign it here
             bookManager = FindAnyObjectByType<BookManager>();
 
-            refreshBooksButton.onClick.AddListener(() => PopulateBooks(books));
+            //refreshBooksButton.onClick.AddListener(() => PopulateBooks(books));
+            refreshBooksButton.onClick.AddListener(() => PopulateBooks());
         }
     }
-    
+
     /// <summary>
     /// Clears the books currently in this panel
     /// fetches the GlobalBookList and instantiates a book for each key,value pair
@@ -32,17 +34,47 @@ public class UIBookListScript : MonoBehaviour
     /// sets the object's uid in the UIBookshelfObj instance
     /// </summary>
     /// <param name="books"></param>
-    public void PopulateBooks(Dictionary<string, Book> books)
+    // public void PopulateBooks(Dictionary<string, Book> books)
+    // {
+    //     ClearBooks();
+    //     //books = bookManager.GlobalBookList;
+    //     books = BookManager.GlobalBookList;
+    //     foreach (KeyValuePair<string, Book> book in books)
+    //     {
+    //         UIBookPrefab.GetComponent<UIBookScript>().SetBook(book.Value);
+    //         UIBookPrefab.GetComponent<UIBookshelfObj>().SetUID(book.Key);
+    //         Instantiate(UIBookPrefab, UIBooksParent);
+    //     }
+    // }
+
+    public void PopulateBooks()
     {
-        ClearBooks();
-        //books = bookManager.GlobalBookList;
-        books = BookManager.GlobalBookList;
-        foreach (KeyValuePair<string, Book> book in books)
+        // clear UI list only if books have changed
+        if (!DidBookListChange()) return;
+        
+        // reuse existing UI elements instead of clearing everything
+        foreach (Transform child in UIBooksParent)
         {
-            UIBookPrefab.GetComponent<UIBookScript>().SetBook(book.Value);
-            UIBookPrefab.GetComponent<UIBookshelfObj>().SetUID(book.Key);
-            Instantiate(UIBookPrefab, UIBooksParent);
+            ReturnToPool(child.gameObject);
         }
+        
+        // get books from BookManager that got the books on startup
+        Dictionary<string, Book> booksToDisplay = BookManager.Instance.GetAllBooks();
+
+        foreach (var book in booksToDisplay)
+        {
+            GameObject uiBook = GetBookUIObject();
+            uiBook.transform.SetParent(UIBooksParent, false);
+            uiBook.GetComponent<UIBookshelfObj>().SetUID(book.Key); // because the key is the same as book.uid
+        }
+
+    }
+
+
+
+    private bool DidBookListChange() {
+        // Compare current UI list with book data from BookManager
+        return books.Count != BookManager.Instance.GetAllBooks().Count;
     }
 
     public void ClearBooks() // clears all of the children of UIBooksParent
@@ -51,6 +83,22 @@ public class UIBookListScript : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    private GameObject GetBookUIObject()
+    {
+        if (bookUIPool.Count > 0)
+        {
+            return bookUIPool.Dequeue();
+        }
+        
+        return Instantiate(UIBookPrefab);
+    }
+    
+    private void ReturnToPool(GameObject bookUIToReturn)
+    {
+        bookUIToReturn.SetActive(false);
+        bookUIPool.Enqueue(bookUIToReturn);
     }
     
     // method for when the book has been returned or is still in this panel, put it back to it's prior location

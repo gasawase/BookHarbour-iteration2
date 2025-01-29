@@ -6,20 +6,19 @@ using UnityEngine.TextCore;
 using UnityEngine.UI;
 using BookHarbour;
 
-public class BookScript : ObjectScript
+public class BookScript : ObjectScript, IBookshelfObject
 {
     // when instantiated, get the book information from the book manager
     
     private Vector3 bookPosition;
     public int bookPageCount = 0;
     public ObjectType objectType;
+    private BookManager bookManager;
     private void Start()
     {
         Debug.Log("Spawned!");
         SetBookSize(bookPageCount);
-
-        //Book book = BookManager.GetBookByUID(objectUID); need to get this UID of whatever is got
-        //Debug.Log(book.bookTitle);
+        bookManager = FindFirstObjectByType<BookManager>();
     }
     
     // method for getting the cover and spine and applying those to the book
@@ -54,7 +53,13 @@ public class BookScript : ObjectScript
     public void SetPageCount(string uid)
     {
         Book locBook = BookManager.GetBookByUID(uid); 
+        // Book locBook = bookManager.GetBookByUID(uid); 
         bookPageCount = locBook.bookPageCount;
+    }
+
+    public void Initialize(KeyValuePair<string, Book> book)
+    {
+        throw new NotImplementedException();
     }
 }
 

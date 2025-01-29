@@ -341,16 +341,7 @@ namespace BookHarbour
                 {
                     Debug.Log("this is a ui object"); 
                     SnapObject(objectSpawned, objectSnapPoints); // snaps the ui AND 3D object btw
-                    if (objectSpawned.GetComponent<BookHarbour.IBookshelfObject>() != null)
-                    {
-                        Debug.Log("This object is a BookshelfObjectData!");
-                    }
                     Debug.Log($" The object spawned has the value of :{objectSpawned.GetComponent<IBookshelfObject>()}");
-                    // if () 
-                    // {
-                    //     Debug.Log($"Object spawned has the component {objectDataSpawnedBookshelfObjectDataComp}");
-                    //
-                    // }
                 }
                 // if the object is 3D and isn't immediately after spawned
                 else if (!isUIObject)
