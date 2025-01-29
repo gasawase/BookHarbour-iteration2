@@ -69,9 +69,7 @@ public class UIBookListScript : MonoBehaviour
         }
 
     }
-
-
-
+    
     private bool DidBookListChange() {
         // Compare current UI list with book data from BookManager
         return books.Count != BookManager.Instance.GetAllBooks().Count;
@@ -101,7 +99,7 @@ public class UIBookListScript : MonoBehaviour
         bookUIPool.Enqueue(bookUIToReturn);
     }
     
-    // method for when the book has been returned or is still in this panel, put it back to it's prior location
+    // method for when the book has been returned or is still in this panel, put it back to its prior location
     
     // functionality somehow that keeps the space open for the book in case it is dragged either back in or back over; maybe
     // it resets or re-sorts?

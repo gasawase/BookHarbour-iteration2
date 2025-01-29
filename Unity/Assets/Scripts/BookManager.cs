@@ -53,14 +53,6 @@ namespace BookHarbour
         // }
         public static void AddBookJustTitleAndPages(string uid, string title, int bookPageCount)
         {
-            // if (!GlobalBookList.ContainsKey(uid))
-            // {
-            //     GlobalBookList[uid] = new Book(uid, title, bookPageCount);
-            // }
-            // else
-            // {
-            //     Console.WriteLine($"Duplicate uid found: {GlobalBookList[uid]}. Skipping entry.");
-            // }
             if (!activeBooks.ContainsKey(uid))
             {
                 activeBooks[uid] = new Book(uid, title, bookPageCount);
@@ -72,24 +64,6 @@ namespace BookHarbour
         }
 
         // TESTING //
-
-        //public Dictionary<string, Book> GetDefaultBooks()
-        // public void GetDefaultBooks()
-        // {
-        //     // Placeholder sprites and transforms
-        //     //string defaultCover = ""; // Assign actual Sprite from Unity Editor or Resources later
-        //     //string defaultSpine = ""; // Assign actual Sprite from Unity Editor or Resources later
-        //     //Transform defaultTransform = null; // Assign actual Transform in the scene if needed
-        //
-        //     // Default book size
-        //     Vector3 defaultBookSize = new Vector3(0.17094f, 1f, 0.81175f);
-        //     
-        //     AddBookJustTitleAndPages("1", "The Great Gatsby", 180);
-        //     AddBookJustTitleAndPages("2", "1984", 328);
-        //     AddBookJustTitleAndPages("3", "To Kill a Mockingbird", 2810);
-        //     AddBookJustTitleAndPages("4", "Pride and Prejudice", 1000);
-        //     AddBookJustTitleAndPages("5", "Moby-Dick", 635);
-        // }
         
         // public void GetBookInfo(string uid) // temp function; testing for correct communication
         // {
