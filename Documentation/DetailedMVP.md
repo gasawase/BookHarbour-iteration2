@@ -33,6 +33,7 @@ _______________________
   - [ ] Book placement
     - [X] Drag-and-drop functionality for placing books onto the bookshelf
     - [X] Define snap zones on the bookshelf where books can be placed
+      - [ ] Handle calculating new snap points based on already placed objects 
   - [ ] Reordering
     - [ ] Allow users to drag books already on the shelf to reposition them
     - [ ] Handle collision detection to prevent overlapping books
