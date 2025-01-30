@@ -15,7 +15,7 @@ namespace BookHarbour
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
         [SerializeField] private GameObject sidePanel;
-        private GameObject selectedObject; // currently dragged object; 
+        private GameObject objectThatWillBeMoving; // currently dragged object; 
         private GameObject selectedObjectOriginalParent;
         private GameObject spawned3DObject = null;
         private GameObject object3DPrefab;
@@ -76,7 +76,7 @@ namespace BookHarbour
 
         private void Update()
         {
-            if (isDragging && selectedObject != null)
+            if (isDragging && objectThatWillBeMoving != null)
             {
                 MoveObj();
             }
@@ -121,8 +121,8 @@ namespace BookHarbour
             );
 
             // Update object position with drag offset
-            Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, selectedObject.transform.position.z);
-            selectedObject.transform.position = newPosition;
+            Vector3 newPosition = new Vector3(worldPoint.x - dragOffset.x, worldPoint.y - dragOffset.y, objectThatWillBeMoving.transform.position.z);
+            objectThatWillBeMoving.transform.position = newPosition;
 
             if (spawned3DObject != null)
             {
@@ -153,14 +153,14 @@ namespace BookHarbour
                 if (!IsPointerWithinPanel(worldPoint))
                 {
                     // Handle logic for crossing the panel edge
-                    selectedObject.SetActive(false);
+                    objectThatWillBeMoving.SetActive(false);
                     isInPanelBoolMonitored.MonitoredValue = false;
                     // TODO: need to not have this one count for being inside the bookshelf?
             
                 }
                 else
                 {
-                    selectedObject.SetActive(true);
+                    objectThatWillBeMoving.SetActive(true);
                     isInPanelBoolMonitored.MonitoredValue = true;
                     // do something when inside the panel
                 }
@@ -207,7 +207,7 @@ namespace BookHarbour
         {
             if (isDragging) return; // Prevent re-detection during a drag
             // double-checking that these are null for consistent data
-            selectedObject = null; // remove the object from underneath the mouse
+            objectThatWillBeMoving = null; // remove the object from underneath the mouse
             draggedObject = null;
             spawned3DObject = null;
 
@@ -228,9 +228,11 @@ namespace BookHarbour
             if (Physics.Raycast(ray, out hit))
             {
                 draggedObject = GetParentDraggable(hit.collider.gameObject); // checks if it has a parent with the tag Draggable; if it has no parent, returns the object
-                selectedObject = draggedObject;
-                var drag3DResult = Drag3DObject(selectedObject, pointerPosition);
-                selectedObject = drag3DResult;
+                //objectThatWillBeMoving = draggedObject;
+                //var drag3DResult = Drag3DObject(objectThatWillBeMoving, pointerPosition);
+                draggedObject = Drag3DObject(draggedObject, pointerPosition);
+                //objectThatWillBeMoving = drag3DResult;
+                objectThatWillBeMoving = draggedObject;
                 isDragging = true;
             }
             // checking to see if the object was 2D
@@ -238,8 +240,8 @@ namespace BookHarbour
             {
                 var dragUIResult = DragUIObject(raycastResults[0].gameObject, pointerPosition);
                 spawned3DObject = dragUIResult.Item1;
-                selectedObject = dragUIResult.Item2;
-                draggedObject = selectedObject;
+                objectThatWillBeMoving = dragUIResult.Item2;
+                draggedObject = objectThatWillBeMoving;
                 isDragging = true;
             }
             else
@@ -318,7 +320,7 @@ namespace BookHarbour
             
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
             {
-                objectSnapPoints = GenerateSnapPoints(objectSpawned, bookshelf, bookshelf.bookPadding);
+                objectSnapPoints = GenerateSnapPoints(draggedObject, bookshelf, bookshelf.bookPadding);
             }
             
             isDragging = true;
@@ -339,18 +341,18 @@ namespace BookHarbour
                 // if the object is 2D ; TODO: handle for when the 3D model is in the right spot but the ui object is not
                 if (objectSpawned != null && isUIObject) // specifically, this is dragging the UI book AND the 3D object with it
                 {
-                    Debug.Log("this is a ui object"); 
                     SnapObject(objectSpawned, objectSnapPoints); // snaps the ui AND 3D object btw
-                    Debug.Log($" The object spawned has the value of :{objectSpawned.GetComponent<IBookshelfObject>()}");
+                    bookshelfManagerInScene.TrackObjectMovement(objectSpawned.GetComponent<ObjectScript>().GetUID(), objectSpawned);
                 }
                 // if the object is 3D and isn't immediately after spawned
                 else if (!isUIObject)
                 {
-                    Debug.Log("this is a 3d object");
-                        //SnapObject(draggedObject, objectSnapPoints);
+                    SnapObject(objectThatWillBeMoving, objectSnapPoints);
+                    bookshelfManagerInScene.TrackObjectMovement(objectThatWillBeMoving.GetComponent<ObjectScript>().GetUID(), objectThatWillBeMoving);
+                    
                 }
                 isDragging = false; // flip the boolean | this is no longer dragging
-                selectedObject = null; // remove the object from underneath the mouse
+                objectThatWillBeMoving = null; // remove the object from underneath the mouse
                 draggedObject = null;
             }
             spawned3DObject = null;

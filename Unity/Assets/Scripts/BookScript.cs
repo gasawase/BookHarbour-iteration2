@@ -57,9 +57,14 @@ public class BookScript : ObjectScript, IBookshelfObject
         bookPageCount = locBook.bookPageCount;
     }
 
-    public void Initialize(KeyValuePair<string, Book> book)
+    public void Initialize(Book book) // obj of book somewhere has this information of this book
     {
-        throw new NotImplementedException();
+        // set the book page count
+        // set the cover/spine/book wrap
+        // set the book size
+        
+        objectUID = book.UID;
+        bookPageCount = book.bookPageCount;
     }
 }
 

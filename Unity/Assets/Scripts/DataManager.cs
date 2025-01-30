@@ -28,7 +28,8 @@ namespace BookHarbour
         /// </summary>
         public void LoadBookshelfData(string jsonData) {
             Dictionary<string, Book> books = ParseJSON(jsonData);
-            BookManager.Instance.LoadBooks(books);
+            //BookManager.Instance.LoadBooks(books); // UNCOMMENT THIS WHEN YOU HOOK UP TO SWIFT
+            // TODO: update bookmanager or something to also implement the objects that we will be putting into the scene
         }
         
         /// <summary>
@@ -42,6 +43,8 @@ namespace BookHarbour
             UnityMessageManager.Instance.SendBookshelfData(jsonData); // Send to Swift
         }
         
+        
+        
         /// **3. Request bookshelf data from Swift (CoreData)**
         private string RequestFromSwift() {
             return UnityMessageManager.Instance.RequestMessageFromNative();
@@ -54,6 +57,11 @@ namespace BookHarbour
         
         private string ConvertToJSON(Dictionary<string, Book> books) {
             return JsonUtility.ToJson(books);
+        }
+
+        public void SaveObjectData(string objectAlteredUID)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

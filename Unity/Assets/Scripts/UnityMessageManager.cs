@@ -19,20 +19,20 @@ namespace BookHarbour
             }
             
         }
-        /// **1. Request Bookshelf Data from Swift (CoreData)**
+        /// 1. Request Bookshelf Data from Swift (CoreData)
         public void RequestBookshelfData() {
 #if UNITY_IOS
             UnitySendMessage("iOSMessageReceiver", "OnUnityRequestBooks", "REQUEST_BOOKS");
 #endif
         }
         
-        /// **2. Receive Bookshelf Data from Swift (JSON)**
+        /// 2. Receive Bookshelf Data from Swift (JSON)
         public void OnBookshelfDataReceived(string jsonData) {
             Debug.Log($"[Unity] Received bookshelf data: {jsonData}");
             DataManager.Instance.LoadBookshelfData(jsonData); // Pass data to DataManager
         }
         
-        /// **3. Send Updated Bookshelf Data to Swift**
+        /// 3. Send Updated Bookshelf Data to Swift**
         public void SendBookshelfData(string jsonData) {
 #if UNITY_IOS
             UnitySendMessage("iOSMessageReceiver", "OnUnityUpdateBooks", jsonData);

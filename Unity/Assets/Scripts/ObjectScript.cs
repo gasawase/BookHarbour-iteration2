@@ -22,4 +22,14 @@ public class ObjectScript : GeneralFunctionality
     {
         return objectUID;
     }
+
+    public void SetLocation(string uid, Vector3 location)
+    {
+        
+    }
+
+    public void ApplyAppearance()
+    {
+        throw new NotImplementedException();
+    }
 }

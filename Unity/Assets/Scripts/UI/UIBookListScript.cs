@@ -7,6 +7,7 @@ using BookHarbour;
 
 public class UIBookListScript : MonoBehaviour
 {
+    public static UIBookListScript Instance { get; private set; }
     [SerializeField] private GameObject UIBookPrefab; // Assign the Book prefab in the Inspector
     [SerializeField] private Transform UIBooksParent; // Assign the Content GameObject (GridLayoutGroup parent)
     private BookManager bookManager;
@@ -23,51 +24,45 @@ public class UIBookListScript : MonoBehaviour
             bookManager = FindAnyObjectByType<BookManager>();
 
             //refreshBooksButton.onClick.AddListener(() => PopulateBooks(books));
-            refreshBooksButton.onClick.AddListener(() => PopulateBooks());
+            //refreshBooksButton.onClick.AddListener(() => PopulateBooks());
         }
     }
 
-    /// <summary>
-    /// Clears the books currently in this panel
-    /// fetches the GlobalBookList and instantiates a book for each key,value pair
-    /// sets the book in the uibookscript (which sets the information that is displayed on each book in the UI panel)
-    /// sets the object's uid in the UIBookshelfObj instance
-    /// </summary>
-    /// <param name="books"></param>
-    // public void PopulateBooks(Dictionary<string, Book> books)
+    private void Awake()
+    {
+        if (Instance == null) { Instance = this; }
+
+    }
+
+    // public void PopulateBooks()
     // {
-    //     ClearBooks();
-    //     //books = bookManager.GlobalBookList;
-    //     books = BookManager.GlobalBookList;
-    //     foreach (KeyValuePair<string, Book> book in books)
+    //     // clear UI list only if books have changed
+    //     if (!DidBookListChange()) return;
+    //     
+    //     // reuse existing UI elements instead of clearing everything
+    //     foreach (Transform child in UIBooksParent)
     //     {
-    //         UIBookPrefab.GetComponent<UIBookScript>().SetBook(book.Value);
-    //         UIBookPrefab.GetComponent<UIBookshelfObj>().SetUID(book.Key);
-    //         Instantiate(UIBookPrefab, UIBooksParent);
+    //         ReturnToPool(child.gameObject);
     //     }
+    //     
+    //     // get books from BookManager that got the books on startup
+    //     Dictionary<string, Book> booksToDisplay = BookManager.Instance.GetAllBooks();
+    //
+    //     foreach (var book in booksToDisplay)
+    //     {
+    //         GameObject uiBook = GetBookUIObject();
+    //         uiBook.transform.SetParent(UIBooksParent, false);
+    //         uiBook.GetComponent<UIBookshelfObj>().SetUID(book.Key); // because the key is the same as book.uid
+    //     }
+    //
     // }
 
-    public void PopulateBooks()
+    public void AddBookToPanel(Book book)
     {
-        // clear UI list only if books have changed
-        if (!DidBookListChange()) return;
-        
-        // reuse existing UI elements instead of clearing everything
-        foreach (Transform child in UIBooksParent)
-        {
-            ReturnToPool(child.gameObject);
-        }
-        
-        // get books from BookManager that got the books on startup
-        Dictionary<string, Book> booksToDisplay = BookManager.Instance.GetAllBooks();
-
-        foreach (var book in booksToDisplay)
-        {
-            GameObject uiBook = GetBookUIObject();
-            uiBook.transform.SetParent(UIBooksParent, false);
-            uiBook.GetComponent<UIBookshelfObj>().SetUID(book.Key); // because the key is the same as book.uid
-        }
-
+        GameObject uiBook = GetBookUIObject();
+        uiBook.transform.SetParent(UIBooksParent, false);
+        uiBook.GetComponent<UIBookshelfObj>().SetUID(book.UID);
+        // set the cover
     }
     
     private bool DidBookListChange() {

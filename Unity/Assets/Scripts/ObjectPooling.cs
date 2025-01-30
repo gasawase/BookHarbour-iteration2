@@ -20,8 +20,16 @@ namespace BookHarbour
             {
                 GameObject bookObj = GetBook();
                 bookObj.SetActive(true);
-                bookObj.GetComponent<BookScript>().Initialize(book);
+                bookObj.GetComponent<BookScript>().Initialize(book.Value);
             }
+        }
+
+        public void InitializeSingleBook(Book book)
+        {
+            GameObject bookObj = GetBook();
+            bookObj.SetActive(true);
+            bookObj.GetComponent<BookScript>().Initialize(book);
+            bookObj.transform.position = book.objTransform;
         }
 
         public GameObject GetBook()
