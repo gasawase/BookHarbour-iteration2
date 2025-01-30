@@ -9,45 +9,101 @@ namespace BookHarbour
     public class ObjectPooling : MonoBehaviour
     {
         public static ObjectPooling Instance;
-        private Queue<GameObject> bookPool = new Queue<GameObject>();
-        public GameObject bookPrefab;
+        private Dictionary<GameObject, Queue<GameObject>> objectPool = new Dictionary<GameObject, Queue<GameObject>>();
+        private Queue<GameObject> bookUIPool = new Queue<GameObject>();
+        [SerializeField] private GameObject bookPrefab;
+        [SerializeField] private GameObject plantPrefab;
+        [SerializeField] private GameObject figurinePrefab;
+        [SerializeField] private GameObject otherObjectPrefab;
 
-        void Awake() { if (Instance == null) { Instance = this; } }
-
-        public void InitializeBooks(Dictionary<string, Book> books)
+        void Awake()
         {
-            foreach (var book in books)
+            if (Instance == null)
             {
-                GameObject bookObj = GetBook();
-                bookObj.SetActive(true);
-                bookObj.GetComponent<BookScript>().Initialize(book.Value);
+                Instance = this;
             }
         }
 
-        public void InitializeSingleBook(Book book)
+        public void InitializeSingleBook(BookshelfObjectData bookshelfObj)
         {
-            GameObject bookObj = GetBook();
-            bookObj.SetActive(true);
-            bookObj.GetComponent<BookScript>().Initialize(book);
-            bookObj.transform.position = book.objTransform;
-        }
+            GameObject objectPrefab = GetPrefabForType(bookshelfObj.objType);
 
-        public GameObject GetBook()
-        {
-            if (bookPool.Count > 0)
+            if (objectPrefab == null)
             {
-                return bookPool.Dequeue();
+                Debug.LogError($"No prefab found for object type: {bookshelfObj.objType}");
+                return;
+            }
+
+            GameObject objInstance = GetObjectFromPool(objectPrefab);
+            objInstance.SetActive(true);
+
+            // Set position & transform
+            objInstance.transform.position = bookshelfObj.objTransform;
+            // objInstance.transform.rotation = new Quaternion(); // not sure if this is needed
+
+            if (bookshelfObj is Book bookData)
+            {
+                objInstance.GetComponent<BookScript>().Initialize(bookData);
             }
             else
             {
-                return Instantiate(bookPrefab);
+                objInstance.GetComponent<ObjectScript>().SetUID(bookshelfObj.objName); // Generic setup
             }
         }
 
-        public void ReturnBook(GameObject bookObj)
+        /// <summary>
+        /// Checks if the prefab has a pool.
+        /// If not, it creates an empty queue.
+        /// Checks if the pool has available objects.
+        /// If yes, it returns a recycled object.
+        /// If no, it creates a new object.
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <returns></returns>
+        private GameObject GetObjectFromPool(GameObject prefab)
         {
-            bookObj.SetActive(false);
-            bookPool.Enqueue(bookObj);
+            if (objectPool.ContainsKey(prefab) && objectPool[prefab].Count > 0)
+            {
+                return objectPool[prefab].Dequeue();
+            }
+
+            return Instantiate(prefab);
+        }
+
+        /// <summary>
+        /// The object is disabled and stored for future use.
+        /// Prevents unnecessary destruction & creation.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="prefab"></param>
+        /// <returns></returns>
+        private void ReturnObjectToPool(GameObject obj, GameObject prefab)
+        {
+            obj.SetActive(false);
+
+            if (!objectPool.ContainsKey(prefab))
+            {
+                objectPool[prefab] = new Queue<GameObject>();
+            }
+
+            objectPool[prefab].Enqueue(obj);
+        }
+
+    private GameObject GetPrefabForType(ObjectType objType)
+        {
+            switch (objType)
+            {
+                case ObjectType.BookObj:
+                    return bookPrefab;
+                case ObjectType.PlantObj:
+                    return plantPrefab;
+                case ObjectType.FigurineObj:
+                    return figurinePrefab;
+                case ObjectType.OtherObj:
+                    return otherObjectPrefab;
+                default:
+                    return null;
+            }
         }
     }
 }

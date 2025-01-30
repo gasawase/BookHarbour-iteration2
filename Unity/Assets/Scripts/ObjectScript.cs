@@ -32,4 +32,11 @@ public class ObjectScript : GeneralFunctionality
     {
         throw new NotImplementedException();
     }
+    
+    public void Initialize() 
+    {
+        // set object information here
+        throw new NotImplementedException();
+
+    }
 }
