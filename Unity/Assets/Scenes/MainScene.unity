@@ -1160,6 +1160,7 @@ GameObject:
   - component: {fileID: 867427674}
   - component: {fileID: 867427676}
   - component: {fileID: 867427677}
+  - component: {fileID: 867427678}
   m_Layer: 0
   m_Name: PersistentHolder
   m_TagString: BookManager
@@ -1221,6 +1222,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0afc7235af214889a6ae69acfb0d2f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &867427678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867427673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b596993380dc47bdafe13f828ee003c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
+    type: 3}
+  plantPrefab: {fileID: 0}
+  figurinePrefab: {fileID: 0}
+  otherObjectPrefab: {fileID: 0}
 --- !u!1 &976128069
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,7 +1685,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.1242, y: 6.045, z: 0}
-  m_LocalScale: {x: 0.90651, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 398315889}
@@ -1691,8 +1709,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.825437, y: 1.2154303, z: 1.9845475}
-  m_Center: {x: 0.9220207, y: 0.10771513, z: -0.12524265}
+  m_Size: {x: 2.5680575, y: 1.2154303, z: 1.9845475}
+  m_Center: {x: 0.8337743, y: 0.10771513, z: -0.12524265}
 --- !u!1 &1156006262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1973,7 +1991,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.1242, y: 4.912, z: 0}
-  m_LocalScale: {x: 0.90651, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 398315889}
@@ -1997,8 +2015,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.825437, y: 1.0207105, z: 1.9845475}
-  m_Center: {x: 0.9220207, y: 0.010355234, z: -0.12524265}
+  m_Size: {x: 2.5702085, y: 1.0207105, z: 1.9845475}
+  m_Center: {x: 0.8278308, y: 0.010355234, z: -0.12524265}
 --- !u!1 &1448844411
 GameObject:
   m_ObjectHideFlags: 0
