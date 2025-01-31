@@ -18,6 +18,12 @@ public class UIBookshelfObj : GeneralFunctionality
         
     }
 
+    // TODO: replace the InitializeUIObject in UIBookScript
+    public void InitializeUIObject()
+    {
+        
+    }
+    
     public void SetUID(string uid)
     {
         objUID = uid;

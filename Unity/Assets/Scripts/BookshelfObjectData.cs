@@ -14,6 +14,7 @@ namespace BookHarbour
     public class BookshelfObjectData : IBookshelfObject
     {
         public String objName { get; set; }
+        public string objUID { get; set; }
         public GameObject objPrefab { get; set; }
         public ObjectType objType { get; set; }
         public Vector3 objTransform { get; set; }
@@ -35,6 +36,11 @@ namespace BookHarbour
         public void RemoveObject()
         {
             isPlaced = false;
+        }
+
+        public void SetObjUID(string uid)
+        {
+            objUID = uid;
         }
     }
 }

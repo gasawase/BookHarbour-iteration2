@@ -296,8 +296,9 @@ namespace BookHarbour
             
             // setting a reference to the object's prefab
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
-            objectSpawned = Set3DBookInstance(draggedObjUID, object3DPrefab);
-            
+            //objectSpawned = Set3DBookInstance(draggedObjUID, object3DPrefab);
+            Book draggedObjBook = BookManager.Instance.GetBookByUIDNonStatic(draggedObjUID);
+            objectSpawned = ObjectPooling.Instance.InitializeSingleBook(draggedObjBook, true);
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
             {
                 objectSnapPoints = GenerateSnapPoints(objectSpawned, bookshelf, bookshelf.bookPadding);

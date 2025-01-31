@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace BookHarbour
 {
     [Serializable]
-    public class Book : BookshelfObjectData
+    public class Book : BookshelfObjectData, IBookshelfObject
     {
         public enum BookshelfState
         {
@@ -32,6 +32,7 @@ namespace BookHarbour
         public Book(string uid, string bookTitle, string bookCover, string bookSpine, int bookPageCount, bool isPlaced, BookshelfState bookshelfState)
         {
             this.UID = uid; // get this from SwiftUI
+            objUID = uid;
             this.bookTitle = bookTitle;
             this.bookCover = bookCover;
             this.bookSpine = bookSpine;

@@ -50,7 +50,8 @@ namespace BookHarbour
                 }
                 else
                 {
-                    UIBookListScript.Instance.AddBookToPanel(book);
+                    //UIBookListScript.Instance.AddBookToPanel(book);
+                    ObjectPooling.Instance.InitializeUIObject(book);
                 }
             }
             OnActiveBooksCreated?.Invoke();
@@ -102,6 +103,7 @@ namespace BookHarbour
                         if (!tempBookList.ContainsKey(bookJson.uid))
                         {
                             tempBookList[bookJson.uid] = new Book(bookJson.uid, bookJson.title, bookJson.pageCount);
+                            tempBookList[bookJson.uid].SetObjUID(bookJson.uid);
                         }
                         else
                         {

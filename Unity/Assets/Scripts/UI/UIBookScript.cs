@@ -23,6 +23,12 @@ namespace BookHarbour
         void Start()
         {
         }
+
+        public void InitializeUIObject(Book book)
+        {
+            SetBook(book);
+        }
+        
         public void SetBookTitle(string title)
         {
             bookTitleLoc.SetText(title);

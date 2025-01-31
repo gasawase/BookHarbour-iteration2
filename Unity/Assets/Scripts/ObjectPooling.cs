@@ -10,11 +10,13 @@ namespace BookHarbour
     {
         public static ObjectPooling Instance;
         private Dictionary<GameObject, Queue<GameObject>> objectPool = new Dictionary<GameObject, Queue<GameObject>>();
-        private Queue<GameObject> bookUIPool = new Queue<GameObject>();
+        private Queue<GameObject> objUIPool = new Queue<GameObject>();
         [SerializeField] private GameObject bookPrefab;
         [SerializeField] private GameObject plantPrefab;
         [SerializeField] private GameObject figurinePrefab;
         [SerializeField] private GameObject otherObjectPrefab;
+        [SerializeField] private GameObject objUIPrefab;
+        [SerializeField] private Transform UIPanelParent;
 
         void Awake()
         {
@@ -24,14 +26,15 @@ namespace BookHarbour
             }
         }
 
-        public void InitializeSingleBook(BookshelfObjectData bookshelfObj)
+        // do this but with ui pooling
+        public GameObject InitializeSingleBook(BookshelfObjectData bookshelfObj, bool returnInstance = false)
         {
             GameObject objectPrefab = GetPrefabForType(bookshelfObj.objType);
 
             if (objectPrefab == null)
             {
                 Debug.LogError($"No prefab found for object type: {bookshelfObj.objType}");
-                return;
+                return null;
             }
 
             GameObject objInstance = GetObjectFromPool(objectPrefab);
@@ -47,9 +50,30 @@ namespace BookHarbour
             }
             else
             {
-                objInstance.GetComponent<ObjectScript>().SetUID(bookshelfObj.objName); // Generic setup
+                objInstance.GetComponent<ObjectScript>().SetUID(bookshelfObj.objUID); // Generic setup
             }
+            return returnInstance ? objInstance : null;
         }
+        
+        public void InitializeUIObject(Book book)
+        {
+            GameObject uiBook = GetObjUIObject();
+            uiBook.transform.SetParent(UIPanelParent, false);
+            uiBook.GetComponent<UIBookshelfObj>().SetUID(book.UID);
+            uiBook.GetComponent<UIBookScript>().InitializeUIObject(book); // TODO: replace this line with a different InitializeUIObject that uses object instead of book
+            // set the cover
+        }
+        
+        // public void InitializeUIObject(BookshelfObjectData bookshelfObj)
+        // {
+        //     GameObject uiObjectInstance = GetObjUIObject();
+        //     uiObjectInstance.SetActive(true);
+        //     
+        //     // set the position so set the parent and world position
+        //     uiObjectInstance.transform.SetParent(UIPanelParent, false);
+        //     uiObjectInstance.GetComponent<UIBookshelfObj>().SetUID(bookshelfObj.objUID);
+        //     Debug.Log($"UI object uid ${bookshelfObj.objUID}");
+        // }
 
         /// <summary>
         /// Checks if the prefab has a pool.
@@ -89,7 +113,7 @@ namespace BookHarbour
             objectPool[prefab].Enqueue(obj);
         }
 
-    private GameObject GetPrefabForType(ObjectType objType)
+        private GameObject GetPrefabForType(ObjectType objType)
         {
             switch (objType)
             {
@@ -104,6 +128,22 @@ namespace BookHarbour
                 default:
                     return null;
             }
+        }
+
+        private GameObject GetObjUIObject()
+        {
+            if (objUIPool.Count > 0)
+            {
+                return objUIPool.Dequeue();
+            }
+
+            return Instantiate(objUIPrefab);
+        }
+
+        private void ReturnUIToPool(GameObject obj)
+        {
+            obj.SetActive(false);
+            objUIPool.Enqueue(obj);
         }
     }
 }

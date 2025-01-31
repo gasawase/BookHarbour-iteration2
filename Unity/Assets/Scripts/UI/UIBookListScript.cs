@@ -34,36 +34,13 @@ public class UIBookListScript : MonoBehaviour
 
     }
 
-    // public void PopulateBooks()
+    // public void AddBookToPanel(Book book)
     // {
-    //     // clear UI list only if books have changed
-    //     if (!DidBookListChange()) return;
-    //     
-    //     // reuse existing UI elements instead of clearing everything
-    //     foreach (Transform child in UIBooksParent)
-    //     {
-    //         ReturnToPool(child.gameObject);
-    //     }
-    //     
-    //     // get books from BookManager that got the books on startup
-    //     Dictionary<string, Book> booksToDisplay = BookManager.Instance.GetAllBooks();
-    //
-    //     foreach (var book in booksToDisplay)
-    //     {
-    //         GameObject uiBook = GetBookUIObject();
-    //         uiBook.transform.SetParent(UIBooksParent, false);
-    //         uiBook.GetComponent<UIBookshelfObj>().SetUID(book.Key); // because the key is the same as book.uid
-    //     }
-    //
+    //     GameObject uiBook = GetBookUIObject();
+    //     uiBook.transform.SetParent(UIBooksParent, false);
+    //     uiBook.GetComponent<UIBookshelfObj>().SetUID(book.UID);
+    //     // set the cover
     // }
-
-    public void AddBookToPanel(Book book)
-    {
-        GameObject uiBook = GetBookUIObject();
-        uiBook.transform.SetParent(UIBooksParent, false);
-        uiBook.GetComponent<UIBookshelfObj>().SetUID(book.UID);
-        // set the cover
-    }
     
     private bool DidBookListChange() {
         // Compare current UI list with book data from BookManager
@@ -78,21 +55,21 @@ public class UIBookListScript : MonoBehaviour
         }
     }
 
-    private GameObject GetBookUIObject()
-    {
-        if (bookUIPool.Count > 0)
-        {
-            return bookUIPool.Dequeue();
-        }
-        
-        return Instantiate(UIBookPrefab);
-    }
+    // private GameObject GetBookUIObject()
+    // {
+    //     if (bookUIPool.Count > 0)
+    //     {
+    //         return bookUIPool.Dequeue();
+    //     }
+    //     
+    //     return Instantiate(UIBookPrefab);
+    // }
     
-    private void ReturnToPool(GameObject bookUIToReturn)
-    {
-        bookUIToReturn.SetActive(false);
-        bookUIPool.Enqueue(bookUIToReturn);
-    }
+    // private void ReturnToPool(GameObject bookUIToReturn)
+    // {
+    //     bookUIToReturn.SetActive(false);
+    //     bookUIPool.Enqueue(bookUIToReturn);
+    // }
     
     // method for when the book has been returned or is still in this panel, put it back to its prior location
     
