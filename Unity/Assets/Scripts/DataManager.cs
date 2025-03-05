@@ -44,13 +44,10 @@ namespace BookHarbour
         }
         
         
-        
-        /// **3. Request bookshelf data from Swift (CoreData)**
         private string RequestFromSwift() {
             return UnityMessageManager.Instance.RequestMessageFromNative();
         }
         
-        /// **4. Convert JSON to Dictionary**
         private Dictionary<string, Book> ParseJSON(string json) {
             return JsonUtility.FromJson<Dictionary<string, Book>>(json);
         }

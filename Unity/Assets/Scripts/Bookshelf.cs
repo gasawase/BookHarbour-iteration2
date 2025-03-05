@@ -118,6 +118,11 @@ namespace BookHarbour
         {
             IndividualObjectMapping.Remove(location);
         }
+        
+        // public bool IsPositionOccupied(Vector3 position) // also calculate the immediate area around the spot?
+        // {
+        //     return occupiedPositions.Contains(position);
+        // }
     }
     /// <summary>
     /// Represents the mapping of all the shelves in one bookshelf

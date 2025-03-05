@@ -7,9 +7,9 @@ using BookHarbour;
 [RequireComponent(typeof(Collider))]
 public class ObjectScript : GeneralFunctionality
 {
-    // applies to all objects that will go on the shelf
+    // handle generic object behavior (for all bookshelf objects)
     
-    private BookshelfObjectData bookshelfObjectData;
+    protected BookshelfObjectData bookshelfObjectData;
     public string objectUID = "";
 
     public void SetUID(string uid)
@@ -18,17 +18,9 @@ public class ObjectScript : GeneralFunctionality
         Debug.Log($"Just got a new UID: {uid}");
     }
 
-    public string GetUID()
-    {
-        return objectUID;
-    }
+    public string GetUID() => bookshelfObjectData?.objUID;
 
-    public void SetLocation(string uid, Vector3 location)
-    {
-        
-    }
-
-    public void ApplyAppearance()
+    public virtual void ApplyAppearance() // uses virtual so BookScript can override methods
     {
         throw new NotImplementedException();
     }

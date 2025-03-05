@@ -5,6 +5,7 @@ namespace BookHarbour
 {
     /// <summary>
     /// Prevents unnecessary instantiation/destruction.
+    /// Object pooling to hold objects that you will be spawning
     /// </summary>
     public class ObjectPooling : MonoBehaviour
     {

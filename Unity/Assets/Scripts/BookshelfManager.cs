@@ -155,7 +155,7 @@ public class BookshelfManager : GeneralFunctionality
     public void TrackObjectMovement(string objectMovedUID, GameObject objectMoved)
     {
         // get the master list of all objects and find this object by UID
-        Book tempBook = BookManager.Instance.GetBookByUIDNonStatic(objectMovedUID);
+        Book tempBook = BookManager.GetBookByUID(objectMovedUID);
         // validation to make sure that this is a valid UID
         if (tempBook == null || tempBook.objTransform == null)
         {

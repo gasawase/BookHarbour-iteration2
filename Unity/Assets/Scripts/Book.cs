@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 namespace BookHarbour
 {
+    /// <summary>
+    /// holds the book functionality and variables for a 3D book
+    /// </summary>
     [Serializable]
     public class Book : BookshelfObjectData, IBookshelfObject
     {
@@ -29,18 +32,14 @@ namespace BookHarbour
         //public GameObject bookGO { get; set; }
 
         
-        public Book(string uid, string bookTitle, string bookCover, string bookSpine, int bookPageCount, bool isPlaced, BookshelfState bookshelfState)
+        public Book(string uid, string bookTitle, string bookCover, string bookSpine, int bookPageCount)
         {
-            this.UID = uid; // get this from SwiftUI
-            objUID = uid;
+            this.objUID = uid;
             this.bookTitle = bookTitle;
             this.bookCover = bookCover;
             this.bookSpine = bookSpine;
             this.bookPageCount = bookPageCount;
-            //this.bookSize = bookSize;
-            //this.locationOnShelf = locationOnShelf;
-            this.isPlaced = isPlaced;
-            this.bookshelfState = bookshelfState;
+            this.objType = ObjectType.BookObj; // Ensure type is always set
         }
 
         public Book(string uid, string bookTitle, int bookPageCount)
@@ -49,9 +48,11 @@ namespace BookHarbour
             this.bookTitle = bookTitle;
             this.bookPageCount = bookPageCount;
         }
-        public void SetBookDetails()
+        public void SetBookDetails(string newTitle, string newCover, string newSpine)
         {
-            
+            this.bookTitle = newTitle;
+            this.bookCover = newCover;
+            this.bookSpine = newSpine;
         }
     }
 

@@ -15,15 +15,22 @@ namespace BookHarbour
     {
         public static BookManager Instance { get; private set; }
         // public static Dictionary<string, Book> GlobalBookList = new Dictionary<string, Book>();
-        private static Dictionary<string, Book> activeBooks = new Dictionary<string, Book>();
+        private Dictionary<string, Book> activeBooks = new Dictionary<string, Book>(); //instance-based
         public static event Action OnActiveBooksCreated;
         public static bool IsInstanceCreated { get; private set; }
 
         
         private void Awake()
         {
-            if (Instance == null) { Instance = this; }
-            InstantiateBookManager();
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject); // Ensure it persists across scenes
+            }
+            else
+            {
+                Destroy(gameObject); // If another BookManager exists, destroy the new one
+            }
         }
 
         private void Start()
@@ -63,27 +70,26 @@ namespace BookHarbour
             return activeBooks;
         }
         
-        public static void AddBookJustTitleAndPages(string uid, string title, int bookPageCount)
-        {
-            if (!activeBooks.ContainsKey(uid))
-            {
-                activeBooks[uid] = new Book(uid, title, bookPageCount);
-            }
-            else
-            {
-                Console.WriteLine($"Duplicate uid found: {activeBooks[uid]}. Skipping entry.");
-            }
-        }
+        // public static void AddBookJustTitleAndPages(string uid, string title, int bookPageCount)
+        // {
+        //     if (!activeBooks.ContainsKey(uid))
+        //     {
+        //         activeBooks[uid] = new Book(uid, title, bookPageCount);
+        //     }
+        //     else
+        //     {
+        //         Console.WriteLine($"Duplicate uid found: {activeBooks[uid]}. Skipping entry.");
+        //     }
+        // }
         public static Book GetBookByUID(string uid)
         {
-            return activeBooks.TryGetValue(uid, out Book book) ? book : null;
-            //return GlobalBookList.TryGetValue(uid, out Book book) ? book : null;
-        }
-        
-        public Book GetBookByUIDNonStatic(string uid)
-        {
-            return activeBooks.TryGetValue(uid, out Book book) ? book : null;
-            //return GlobalBookList.TryGetValue(uid, out Book book) ? book : null;
+            if (Instance == null)
+            {
+                Debug.LogError("BookManager Instance is null! Make sure it exists in the scene.");
+                return null;
+            }
+
+            return Instance.activeBooks.TryGetValue(uid, out Book book) ? book : null;
         }
 
         public static Dictionary<string, Book> LoadBooksFromJson(string filePath)
@@ -103,7 +109,7 @@ namespace BookHarbour
                         if (!tempBookList.ContainsKey(bookJson.uid))
                         {
                             tempBookList[bookJson.uid] = new Book(bookJson.uid, bookJson.title, bookJson.pageCount);
-                            tempBookList[bookJson.uid].SetObjUID(bookJson.uid);
+                            tempBookList[bookJson.uid].SetUID(bookJson.uid);
                         }
                         else
                         {
@@ -119,23 +125,10 @@ namespace BookHarbour
             }
             return tempBookList;
         }
-        
-        private void InstantiateBookManager() // used in Awake; don't need in separate method, but wanted to keep things clean
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            IsInstanceCreated = true;
-        }
 
         public Dictionary<string, Book> GetAllBooks()
         {
-            return new Dictionary<string, Book>(activeBooks); // Returns a COPY of activeBooks so no altering of data can happen
+            return new Dictionary<string, Book>(activeBooks); // Return a copy to avoid unintended modifications
         }
 
         public void UpdateBookLocation(string objectUID, Vector3 movedLoc)
@@ -143,7 +136,7 @@ namespace BookHarbour
             Book bookMoved = GetBookByUID(objectUID);
             if (bookMoved.objTransform != movedLoc)
             {
-                bookMoved.SetVector3(movedLoc);
+                bookMoved.SetPosition(movedLoc);
                 bookMoved.PlaceObject();
             }
         }

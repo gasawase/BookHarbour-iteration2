@@ -13,34 +13,24 @@ namespace BookHarbour
     }
     public class BookshelfObjectData : IBookshelfObject
     {
-        public String objName { get; set; }
-        public string objUID { get; set; }
-        public GameObject objPrefab { get; set; }
-        public ObjectType objType { get; set; }
-        public Vector3 objTransform { get; set; }
-        public bool isPlaced { get; set; }
+        public string objName { get; set; }   // Name of the object
+        public string objUID { get; set; }    // Unique identifier
+        public GameObject objPrefab { get; set; }  // 3D model prefab
+        public ObjectType objType { get; set; }  // Enum for object type (Book, Plant, etc.)
+        public Vector3 objTransform { get; set; }  // Position in the bookshelf
+        public bool isPlaced { get; set; }  // Whether the object is on the shelf
 
-        
-        // Method to update its Transform
-        public void SetVector3(Vector3 newVector3)
+        public void SetPosition(Vector3 newPosition) => objTransform = newPosition;
+        public Vector3 GetPosition()
         {
-            objTransform = newVector3;
-            // Additional logic to handle transform updates, if needed
+            return objTransform;
         }
-        
-        public void PlaceObject()
+        public void PlaceObject() => isPlaced = true;
+        public void RemoveObject() => isPlaced = false;
+        public string GetUID()
         {
-            isPlaced = true;
+            return objUID;
         }
-
-        public void RemoveObject()
-        {
-            isPlaced = false;
-        }
-
-        public void SetObjUID(string uid)
-        {
-            objUID = uid;
-        }
+        public void SetUID(string uid) => objUID = uid;
     }
 }

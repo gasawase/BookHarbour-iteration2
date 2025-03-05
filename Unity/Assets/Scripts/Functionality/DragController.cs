@@ -11,6 +11,10 @@ using Object = UnityEngine.Object;
 
 namespace BookHarbour
 {
+    /// <summary>
+    /// handles the dragging and dropping of the objects, 3D or otherwise
+    /// 
+    /// </summary>
     public class DragController : GeneralFunctionality
     {
         [SerializeField] private Canvas canvas; // Reference to your canvas
@@ -273,16 +277,6 @@ namespace BookHarbour
             }
 
             return null;
-            // if (rootTransform.transform.parent == null)
-            // {
-            //     return rootTransform;
-            // }
-            // // Traverse up the hierarchy to find the root prefab
-            // while (rootTransform.transform.parent != null && rootTransform.transform.parent.CompareTag("Draggable"))
-            // {
-            //     rootTransform = rootTransform.transform.parent.gameObject;
-            // }
-            // return rootTransform;
         }
 
         
@@ -297,7 +291,7 @@ namespace BookHarbour
             // setting a reference to the object's prefab
             var object3DPrefab = draggedObject.GetComponent<UIBookScript>().objPrefab;
             //objectSpawned = Set3DBookInstance(draggedObjUID, object3DPrefab);
-            Book draggedObjBook = BookManager.Instance.GetBookByUIDNonStatic(draggedObjUID);
+            Book draggedObjBook = BookManager.GetBookByUID(draggedObjUID);
             objectSpawned = ObjectPooling.Instance.InitializeSingleBook(draggedObjBook, true);
             for (int i = 0; i < bookshelf.arrayOfShelves.Length; i++)
             {
@@ -360,16 +354,33 @@ namespace BookHarbour
             bookshelfManagerInScene.isValidDropAreaInBookshelf = false;
         }
 
-        public GameObject Set3DBookInstance(string uid, GameObject prefab)
-        {
-            // setting the UID RIGHT BEFORE instantiation; this occurs on the reference to the 3D prefab;
-            // needs to happen because we run functions at start aka right when the object is instantiated
-            prefab.GetComponent<ObjectScript>().SetUID(uid);
-            prefab.GetComponent<BookScript>().SetPageCount(uid);
-            GameObject locObjectSpawned = Instantiate(prefab);
-            
-            return locObjectSpawned;
-        }
+        // public GameObject Set3DBookInstance(string uid, GameObject prefab)
+        // {
+        //     // Get the actual book object from BookManager
+        //     Book bookData = BookManager.GetBookByUID(uid);
+        //     if (bookData == null)
+        //     {
+        //         Debug.LogError($"Book with UID {uid} not found!");
+        //         return null;
+        //     }
+        //
+        //     // Instantiate the book prefab
+        //     GameObject locObjectSpawned = Instantiate(prefab);
+        //
+        //     // Initialize the BookScript with the full book object
+        //     BookScript bookScript = locObjectSpawned.GetComponent<BookScript>();
+        //     if (bookScript != null)
+        //     {
+        //         bookScript.Initialize(bookData); // Assigns bookData to bookshelfObjectData
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("BookScript not found on the instantiated object!");
+        //     }
+        //
+        //     return locObjectSpawned;
+        // }
+
 
         private void SnapObject(GameObject objectToSnap, List<Vector3> snapPoints)
         {

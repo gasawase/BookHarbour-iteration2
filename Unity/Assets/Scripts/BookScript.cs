@@ -6,7 +6,10 @@ using UnityEngine.TextCore;
 using UnityEngine.UI;
 using BookHarbour;
 
-public class BookScript : ObjectScript, IBookshelfObject
+/// handles the creation of books, the functionality of the books, and the variables associated
+/// with the 3D book object
+///
+public class BookScript : ObjectScript
 {
     // when instantiated, get the book information from the book manager
     
@@ -17,8 +20,9 @@ public class BookScript : ObjectScript, IBookshelfObject
     private void Start()
     {
         Debug.Log("Spawned!");
-        SetBookSize(bookPageCount);
         bookManager = FindFirstObjectByType<BookManager>();
+        SetBookSize(bookPageCount);
+
     }
     
     // method for getting the cover and spine and applying those to the book
@@ -50,12 +54,26 @@ public class BookScript : ObjectScript, IBookshelfObject
         Debug.Log($"The new X size is {newSizeX}");
     }
 
-    public void SetPageCount(string uid)
+    // public void SetPageCount(string uid)
+    // {
+    //     Book locBook = BookManager.GetBookByUID(uid); 
+    //     // Book locBook = bookManager.GetBookByUID(uid); 
+    //     bookPageCount = locBook.bookPageCount;
+    // }
+    
+    public void SetPageCount(int newPageCount)
     {
-        Book locBook = BookManager.GetBookByUID(uid); 
-        // Book locBook = bookManager.GetBookByUID(uid); 
-        bookPageCount = locBook.bookPageCount;
+        if (bookshelfObjectData is Book book)  // Cast to Book to access book-specific properties
+        {
+            book.bookPageCount = newPageCount;
+            SetBookSize(newPageCount); // Adjust the book size based on new page count
+        }
+        else
+        {
+            Debug.LogError("SetPageCount failed: bookshelfObjectData is not a Book.");
+        }
     }
+
 
     public void Initialize(Book book) // obj of book somewhere has this information of this book
     {
@@ -63,8 +81,15 @@ public class BookScript : ObjectScript, IBookshelfObject
         // set the cover/spine/book wrap
         // set the book size
         
-        objectUID = book.UID;
+        bookshelfObjectData = book; // Directly assign the book data!
         bookPageCount = book.bookPageCount;
+        ApplyAppearance();
+    }
+    
+    public override void ApplyAppearance()
+    {
+        Debug.Log("Applying book appearance...");
+        // later, this is going to apply the book wrap
     }
 }
 
