@@ -184,18 +184,26 @@ struct BookUpdatePopup: View {
             Text("Google Book Info Found!").font(.headline)
             Divider()
             HStack {
+                Spacer()
                 VStack(alignment: .leading) {
-                    Text("Original: \(originalBook.bookTitle ?? "Unknown")")
+                    Text("Original Title: \(originalBook.bookTitle ?? "Unknown")")
                     Text("Author: \(originalBook.author ?? "Unknown")")
+                    Text("Pages: \(originalBook.pageCount)")
                 }
+                Spacer()
                 VStack(alignment: .leading) {
-                    Text("Google: \(fetchedBook.title)")
+                    Text("New Title: \(fetchedBook.title)")
                     Text("Author: \(fetchedBook.authors)")
+                    Text("Pages: \(fetchedBook.pageCount)")
                 }
+                Spacer()
             }
             HStack {
+                Spacer()
                 Button("Confirm") { onConfirm() }
+                Spacer()
                 Button("Next") { onNext() }
+                Spacer()
             }
         }
         .padding()
