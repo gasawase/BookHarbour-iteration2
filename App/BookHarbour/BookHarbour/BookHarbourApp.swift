@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct BookHarbourApp: App {
+    let dataController = DataController.shared
+
     var body: some Scene {
         WindowGroup {
-            MainView(someBindingValue: .constant("Example"))
+            MainView()
+                .environment(\.managedObjectContext, dataController.container.viewContext)
         }
     }
 }

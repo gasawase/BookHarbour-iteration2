@@ -1,0 +1,96 @@
+PODS:
+  - CryptoSwift (1.8.4)
+  - DifferenceKit (1.3.0):
+    - DifferenceKit/Core (= 1.3.0)
+    - DifferenceKit/UIKitExtension (= 1.3.0)
+  - DifferenceKit/Core (1.3.0)
+  - DifferenceKit/UIKitExtension (1.3.0):
+    - DifferenceKit/Core
+  - Fuzi (3.1.4)
+  - Minizip (1.0.0)
+  - ReadiumGCDWebServer (4.0.0):
+    - ReadiumGCDWebServer/Core (= 4.0.0)
+  - ReadiumGCDWebServer/Core (4.0.0)
+  - ReadiumInternal (3.0.0-beta.1)
+  - ReadiumLCP (3.0.0-beta.1):
+    - CryptoSwift (~> 1.8.0)
+    - ReadiumInternal
+    - ReadiumShared
+    - ZIPFoundation (~> 0.9.0)
+  - ReadiumNavigator (3.0.0-beta.1):
+    - DifferenceKit (~> 1.0)
+    - ReadiumInternal
+    - ReadiumShared
+    - SwiftSoup (~> 2.7.0)
+  - ReadiumOPDS (3.0.0-beta.1):
+    - Fuzi (~> 3.1.0)
+    - ReadiumInternal
+    - ReadiumShared
+  - ReadiumShared (3.0.0-beta.1):
+    - Fuzi (~> 3.1.0)
+    - Minizip (~> 1.0.0)
+    - ReadiumInternal
+    - SwiftSoup (~> 2.7.0)
+  - ReadiumStreamer (3.0.0-beta.1):
+    - CryptoSwift (~> 1.8.0)
+    - Fuzi (~> 3.1.0)
+    - Minizip (~> 1.0.0)
+    - ReadiumInternal
+    - ReadiumShared
+  - SwiftSoup (2.7.0)
+  - ZIPFoundation (0.9.16)
+
+DEPENDENCIES:
+  - Fuzi (from `https://raw.githubusercontent.com/readium/Fuzi/refs/heads/master/Fuzi.podspec`)
+  - ReadiumGCDWebServer (from `https://raw.githubusercontent.com/readium/GCDWebServer/4.0.0/GCDWebServer.podspec`)
+  - ReadiumInternal (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumInternal.podspec`)
+  - ReadiumLCP (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumLCP.podspec`)
+  - ReadiumNavigator (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumNavigator.podspec`)
+  - ReadiumOPDS (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumOPDS.podspec`)
+  - ReadiumShared (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumShared.podspec`)
+  - ReadiumStreamer (from `https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumStreamer.podspec`)
+
+SPEC REPOS:
+  trunk:
+    - CryptoSwift
+    - DifferenceKit
+    - Minizip
+    - SwiftSoup
+    - ZIPFoundation
+
+EXTERNAL SOURCES:
+  Fuzi:
+    :podspec: https://raw.githubusercontent.com/readium/Fuzi/refs/heads/master/Fuzi.podspec
+  ReadiumGCDWebServer:
+    :podspec: https://raw.githubusercontent.com/readium/GCDWebServer/4.0.0/GCDWebServer.podspec
+  ReadiumInternal:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumInternal.podspec
+  ReadiumLCP:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumLCP.podspec
+  ReadiumNavigator:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumNavigator.podspec
+  ReadiumOPDS:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumOPDS.podspec
+  ReadiumShared:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumShared.podspec
+  ReadiumStreamer:
+    :podspec: https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumStreamer.podspec
+
+SPEC CHECKSUMS:
+  CryptoSwift: e64e11850ede528a02a0f3e768cec8e9d92ecb90
+  DifferenceKit: ab185c4d7f9cef8af3fcf593e5b387fb81e999ca
+  Fuzi: 8813eb51bf22a1425ae7ed6af7a76464934fb09c
+  Minizip: 188cb3e39a1195c283ae03bf673d182596fefd0b
+  ReadiumGCDWebServer: ed0e73316939f647cab27428813f464ac01209e7
+  ReadiumInternal: 71731c32b91bd1fa4202f436f3d8f59d72034226
+  ReadiumLCP: b28b6e7c786ff7749e018e7a3cae83ca68bc66ed
+  ReadiumNavigator: a82359c2eeadb12e35e7e154844f4f8525d2c150
+  ReadiumOPDS: 2b4dd28e9bcc585e47502149f43a436dc4713b7b
+  ReadiumShared: e66cfae2d1597ba3e8377485b827c17bd0c016dc
+  ReadiumStreamer: 4ba6861b954e3cd2c21b275c743e339ed14c7356
+  SwiftSoup: 06cbbf665257adfbfe0c927c63de246e5e844b9d
+  ZIPFoundation: d170fa8e270b2a32bef9dcdcabff5b8f1a5deced
+
+PODFILE CHECKSUM: 1a0261657df20ff3b40efa6fb6ebe28ab7a550a6
+
+COCOAPODS: 1.16.2

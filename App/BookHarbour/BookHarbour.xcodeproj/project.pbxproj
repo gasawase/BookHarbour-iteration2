@@ -7,21 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72E43B6B940EEFEC5613E1D1 /* Pods_BookHarbour.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1B9CFFFD34E0396F6B0E21 /* Pods_BookHarbour.framework */; };
+		8E3D56F62D556FA0008F2EFB /* CoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8E3D56F42D556FA0008F2EFB /* CoreData.xcdatamodeld */; };
+		8E3D56F82D55703B008F2EFB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3D56F72D55703B008F2EFB /* DataController.swift */; };
+		8E3D57022D58ED27008F2EFB /* GoogleFetchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */; };
+		8E519A292D2496A200E48BE0 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E519A282D2496A200E48BE0 /* BookDetails.swift */; };
 		8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */; };
 		8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC452D20CD5E00EFC670 /* MainView.swift */; };
 		8EADAC482D20CD6100EFC670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EADAC472D20CD6100EFC670 /* Assets.xcassets */; };
 		8EADAC4B2D20CD6100EFC670 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EADAC4A2D20CD6100EFC670 /* Preview Assets.xcassets */; };
-		8EADAC582D20CFF600EFC670 /* R2Navigator in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC572D20CFF600EFC670 /* R2Navigator */; };
-		8EADAC5A2D20CFF600EFC670 /* R2Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC592D20CFF600EFC670 /* R2Shared */; };
-		8EADAC5C2D20CFF600EFC670 /* R2Streamer in Frameworks */ = {isa = PBXBuildFile; productRef = 8EADAC5B2D20CFF600EFC670 /* R2Streamer */; };
+		8EADAC5E2D221C2C00EFC670 /* EpubPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC5D2D221C2C00EFC670 /* EpubPickerView.swift */; };
+		8EADAC612D221E5500EFC670 /* EpubManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC602D221E5500EFC670 /* EpubManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05735AF3C701FD4E23FFF25B /* Pods-BookHarbour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookHarbour.debug.xcconfig"; path = "Target Support Files/Pods-BookHarbour/Pods-BookHarbour.debug.xcconfig"; sourceTree = "<group>"; };
+		68D5D24F01A72EF4BF08B5F3 /* Pods-BookHarbour.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookHarbour.release.xcconfig"; path = "Target Support Files/Pods-BookHarbour/Pods-BookHarbour.release.xcconfig"; sourceTree = "<group>"; };
+		8E3D56F52D556FA0008F2EFB /* CoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreData.xcdatamodel; sourceTree = "<group>"; };
+		8E3D56F72D55703B008F2EFB /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleFetchController.swift; sourceTree = "<group>"; };
+		8E519A282D2496A200E48BE0 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
+		8E519A2A2D2CAAA800E48BE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8EADAC402D20CD5E00EFC670 /* BookHarbour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookHarbour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHarbourApp.swift; sourceTree = "<group>"; };
 		8EADAC452D20CD5E00EFC670 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8EADAC472D20CD6100EFC670 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8EADAC4A2D20CD6100EFC670 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8EADAC5D2D221C2C00EFC670 /* EpubPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpubPickerView.swift; sourceTree = "<group>"; };
+		8EADAC602D221E5500EFC670 /* EpubManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpubManager.swift; sourceTree = "<group>"; };
+		AD1B9CFFFD34E0396F6B0E21 /* Pods_BookHarbour.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookHarbour.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,20 +43,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EADAC5C2D20CFF600EFC670 /* R2Streamer in Frameworks */,
-				8EADAC582D20CFF600EFC670 /* R2Navigator in Frameworks */,
-				8EADAC5A2D20CFF600EFC670 /* R2Shared in Frameworks */,
+				72E43B6B940EEFEC5613E1D1 /* Pods_BookHarbour.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1A5EF684AD5B986563A3B29C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AD1B9CFFFD34E0396F6B0E21 /* Pods_BookHarbour.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8E3D56F32D556F89008F2EFB /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8E3D56F42D556FA0008F2EFB /* CoreData.xcdatamodeld */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		8EADAC372D20CD5E00EFC670 = {
 			isa = PBXGroup;
 			children = (
 				8EADAC422D20CD5E00EFC670 /* BookHarbour */,
 				8EADAC412D20CD5E00EFC670 /* Products */,
+				E9E3213E5213F26393D49155 /* Pods */,
+				1A5EF684AD5B986563A3B29C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,14 +87,16 @@
 		8EADAC422D20CD5E00EFC670 /* BookHarbour */ = {
 			isa = PBXGroup;
 			children = (
+				8E3D56F32D556F89008F2EFB /* Data */,
+				8E519A2A2D2CAAA800E48BE0 /* Info.plist */,
+				8EADAC5F2D221E0800EFC670 /* Controllers */,
+				8EADAC452D20CD5E00EFC670 /* MainView.swift */,
 				8EADAC552D20CF4B00EFC670 /* Resources */,
 				8EADAC542D20CF3F00EFC670 /* Assets */,
 				8EADAC532D20CDFC00EFC670 /* ViewModels */,
 				8EADAC522D20CDF100EFC670 /* Views */,
 				8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */,
 				8EADAC512D20CDD700EFC670 /* Models */,
-				8EADAC472D20CD6100EFC670 /* Assets.xcassets */,
-				8EADAC452D20CD5E00EFC670 /* MainView.swift */,
 				8EADAC492D20CD6100EFC670 /* Preview Content */,
 			);
 			path = BookHarbour;
@@ -81,6 +113,7 @@
 		8EADAC512D20CDD700EFC670 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8E519A282D2496A200E48BE0 /* BookDetails.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -88,6 +121,7 @@
 		8EADAC522D20CDF100EFC670 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8EADAC5D2D221C2C00EFC670 /* EpubPickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -109,8 +143,28 @@
 		8EADAC552D20CF4B00EFC670 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8EADAC472D20CD6100EFC670 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		8EADAC5F2D221E0800EFC670 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8EADAC602D221E5500EFC670 /* EpubManager.swift */,
+				8E3D56F72D55703B008F2EFB /* DataController.swift */,
+				8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E9E3213E5213F26393D49155 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				05735AF3C701FD4E23FFF25B /* Pods-BookHarbour.debug.xcconfig */,
+				68D5D24F01A72EF4BF08B5F3 /* Pods-BookHarbour.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,20 +174,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8EADAC4E2D20CD6100EFC670 /* Build configuration list for PBXNativeTarget "BookHarbour" */;
 			buildPhases = (
+				DDC3799D2641D5C99A689790 /* [CP] Check Pods Manifest.lock */,
 				8EADAC3C2D20CD5E00EFC670 /* Sources */,
 				8EADAC3D2D20CD5E00EFC670 /* Frameworks */,
 				8EADAC3E2D20CD5E00EFC670 /* Resources */,
+				76D22494443C89221C4A26B4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = BookHarbour;
-			packageProductDependencies = (
-				8EADAC572D20CFF600EFC670 /* R2Navigator */,
-				8EADAC592D20CFF600EFC670 /* R2Shared */,
-				8EADAC5B2D20CFF600EFC670 /* R2Streamer */,
-			);
 			productName = BookHarbour;
 			productReference = 8EADAC402D20CD5E00EFC670 /* BookHarbour.app */;
 			productType = "com.apple.product-type.application";
@@ -162,9 +213,6 @@
 				Base,
 			);
 			mainGroup = 8EADAC372D20CD5E00EFC670;
-			packageReferences = (
-				8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */,
-			);
 			productRefGroup = 8EADAC412D20CD5E00EFC670 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -186,13 +234,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		76D22494443C89221C4A26B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BookHarbour/Pods-BookHarbour-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BookHarbour/Pods-BookHarbour-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BookHarbour/Pods-BookHarbour-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDC3799D2641D5C99A689790 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BookHarbour-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8EADAC3C2D20CD5E00EFC670 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E3D56F82D55703B008F2EFB /* DataController.swift in Sources */,
+				8E3D57022D58ED27008F2EFB /* GoogleFetchController.swift in Sources */,
 				8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */,
+				8EADAC5E2D221C2C00EFC670 /* EpubPickerView.swift in Sources */,
+				8E3D56F62D556FA0008F2EFB /* CoreData.xcdatamodeld in Sources */,
 				8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */,
+				8EADAC612D221E5500EFC670 /* EpubManager.swift in Sources */,
+				8E519A292D2496A200E48BE0 /* BookDetails.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +416,7 @@
 		};
 		8EADAC4F2D20CD6100EFC670 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05735AF3C701FD4E23FFF25B /* Pods-BookHarbour.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -328,7 +425,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BookHarbour/Preview Content\"";
 				DEVELOPMENT_TEAM = ZP8NKVKQDN;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BookHarbour/Info.plist;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to your documents folder to load EPUB files";
+				INFOPLIST_KEY_NSDownloadsFolderUsageDescription = "We need access to your documents folder to load EPUB files";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "We need access to your documents folder to load EPUB files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,6 +451,7 @@
 		};
 		8EADAC502D20CD6100EFC670 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68D5D24F01A72EF4BF08B5F3 /* Pods-BookHarbour.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -357,7 +460,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"BookHarbour/Preview Content\"";
 				DEVELOPMENT_TEAM = ZP8NKVKQDN;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BookHarbour/Info.plist;
+				INFOPLIST_KEY_NSDocumentsFolderUsageDescription = "We need access to your documents folder to load EPUB files";
+				INFOPLIST_KEY_NSDownloadsFolderUsageDescription = "We need access to your documents folder to load EPUB files";
+				INFOPLIST_KEY_NSFileProviderPresenceUsageDescription = "We need access to your documents folder to load EPUB files.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -399,34 +507,19 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/readium/swift-toolkit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.4;
-			};
+/* Begin XCVersionGroup section */
+		8E3D56F42D556FA0008F2EFB /* CoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8E3D56F52D556FA0008F2EFB /* CoreData.xcdatamodel */,
+			);
+			currentVersion = 8E3D56F52D556FA0008F2EFB /* CoreData.xcdatamodel */;
+			name = CoreData.xcdatamodeld;
+			path = "/Users/summergasaway/Documents/GitHub/BookHarbour-iteration2/App/BookHarbour/BookHarbour/Data/CoreData.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
 		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8EADAC572D20CFF600EFC670 /* R2Navigator */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
-			productName = R2Navigator;
-		};
-		8EADAC592D20CFF600EFC670 /* R2Shared */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
-			productName = R2Shared;
-		};
-		8EADAC5B2D20CFF600EFC670 /* R2Streamer */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8EADAC562D20CFF600EFC670 /* XCRemoteSwiftPackageReference "swift-toolkit" */;
-			productName = R2Streamer;
-		};
-/* End XCSwiftPackageProductDependency section */
+/* End XCVersionGroup section */
 	};
 	rootObject = 8EADAC382D20CD5E00EFC670 /* Project object */;
 }

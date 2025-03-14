@@ -1,0 +1,20 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '17.3'
+
+target 'BookHarbour' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for BookHarbour
+	pod 'ReadiumShared', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumShared.podspec'
+	pod 'ReadiumStreamer', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumStreamer.podspec'
+	pod 'ReadiumNavigator', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumNavigator.podspec'
+	pod 'ReadiumOPDS', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumOPDS.podspec'
+	pod 'ReadiumLCP', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumLCP.podspec'
+	pod 'ReadiumInternal', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumInternal.podspec'
+	pod 'Fuzi', podspec: 'https://raw.githubusercontent.com/readium/Fuzi/refs/heads/master/Fuzi.podspec'
+
+# Required if you use ReadiumAdapterGCDWebServer.
+	pod 'ReadiumGCDWebServer', podspec: 'https://raw.githubusercontent.com/readium/GCDWebServer/4.0.0/GCDWebServer.podspec'
+
+end

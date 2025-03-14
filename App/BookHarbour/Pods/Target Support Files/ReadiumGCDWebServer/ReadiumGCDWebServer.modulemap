@@ -1,0 +1,6 @@
+framework module ReadiumGCDWebServer {
+  umbrella header "ReadiumGCDWebServer-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "ReadiumShared",
+  "version": "3.0.0-beta.1",
+  "license": "BSD 3-Clause License",
+  "summary": "Readium Shared",
+  "homepage": "http://readium.github.io",
+  "authors": {
+    "Readium": "contact@readium.org"
+  },
+  "source": {
+    "git": "https://github.com/readium/swift-toolkit.git",
+    "tag": "3.0.0-beta.1"
+  },
+  "exclude_files": [
+    "Sources/Shared/Toolkit/ZIP/ZIPFoundation.swift"
+  ],
+  "requires_arc": true,
+  "source_files": "Sources/Shared/**/*.{m,h,swift}",
+  "platforms": {
+    "ios": "13.0"
+  },
+  "frameworks": "CoreServices",
+  "libraries": "xml2",
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "$(SDKROOT)/usr/include/libxml2"
+  },
+  "dependencies": {
+    "Fuzi": [
+      "~> 3.1.0"
+    ],
+    "Minizip": [
+      "~> 1.0.0"
+    ],
+    "SwiftSoup": [
+      "~> 2.7.0"
+    ],
+    "ReadiumInternal": [
+
+    ]
+  }
+}

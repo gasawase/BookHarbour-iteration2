@@ -1,0 +1,6 @@
+framework module ReadiumLCP {
+  umbrella header "ReadiumLCP-umbrella.h"
+
+  export *
+  module * { export * }
+}
