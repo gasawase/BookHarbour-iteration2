@@ -46,8 +46,8 @@ private extension EpubPickerView {
         List(booksFromCoreData) { book in
 //            BookRow(book: book, onReplaceInfo: { fetchBookInfo(for: book) })
 //            BookRow(book: book, pressedRead: { openBookToRead(for: book) })
-            BookRow(book: book, pressedRead: {
-                await readerController.readBook(for: book)
+            BookRow(book: book, pressedRead: { presentingVC in
+                await readerController.readBook(for: book, presentingViewController: presentingVC)
             })
                 //.padding(.vertical, 4)
         }
@@ -156,8 +156,8 @@ private extension EpubPickerView {
 struct BookRow: View {
     let book: EbookData
     //let onReplaceInfo: () -> Void
-    let pressedRead: () async -> Void
-    
+    let pressedRead: (UIViewController) async -> Void
+
     var body: some View {
         HStack(alignment: .top) {
 //            Button(action: onReplaceInfo) {
@@ -176,8 +176,11 @@ struct BookRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             
             Button(action: {
-                Task{
-                    await pressedRead()
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let rootViewController = scene.windows.first?.rootViewController {
+                    Task {
+                        await pressedRead(rootViewController)
+                    }
                 }
             }) {
                 Text("Read")

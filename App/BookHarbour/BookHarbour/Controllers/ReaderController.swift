@@ -30,17 +30,19 @@ class ReaderController : ObservableObject
                     print("⚠️ Bookmark is stale. Need to re-save it.")
                 }
 
-                // ✅ Start security-scoped access
-                guard resolvedURL.startAccessingSecurityScopedResource() else {
+
+                // ✅ Ensure security-scoped resource access stays open
+                if !resolvedURL.startAccessingSecurityScopedResource() {
                     print("❌ Failed to access security-scoped resource.")
                     return nil
                 }
-                defer { resolvedURL.stopAccessingSecurityScopedResource() }
 
-                // ✅ Now you can safely use the resolvedURL
-                print("✅ Successfully accessed EPUB file:", resolvedURL)
+                // ✅ Now process the EPUB file
                 let publication = await readBook(for: resolvedURL)
+
+                // ❌ Do NOT stop accessing security resource immediately—let the caller manage it!
                 return publication
+
 
             } catch {
                 print("❌ Failed to resolve bookmark:", error)
@@ -82,7 +84,7 @@ class ReaderController : ObservableObject
         }
     }
     
-    public func readBook(for book: EbookData) async
+    public func readBook(for book: EbookData, presentingViewController: UIViewController) async
     {
 //        guard let bookPath = book.epubPath else {
 //            print("Book path is invalid: \(book.epubPath)")
@@ -104,6 +106,11 @@ class ReaderController : ObservableObject
             }
             do {
                 let navigator = try await EPUBNavigatorViewController(publication: ebookPublicationObj, initialLocation: nil, httpServer: GCDHTTPServer(assetRetriever: assetRetriever))
+                
+                // ✅ Present the navigator to allow reading
+                DispatchQueue.main.async {
+                    presentingViewController.present(navigator, animated: true, completion: nil)
+                }
             } catch {
                 print("Failed to create a navigator")
                 return

@@ -1000,7 +1000,7 @@
 		03AA92AC5E9E976F2491B03BAC734BFD /* OCB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCB.swift; path = Sources/CryptoSwift/BlockMode/OCB.swift; sourceTree = "<group>"; };
 		044CC52FDF801DB9B9449A77D32BEF7B /* ECB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ECB.swift; path = Sources/CryptoSwift/BlockMode/ECB.swift; sourceTree = "<group>"; };
 		04570268A3754C6303E98DCDDEA3203E /* EPUBSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBSettings.swift; path = Sources/Navigator/EPUB/Preferences/EPUBSettings.swift; sourceTree = "<group>"; };
-		046EE3004D4A184862A7C953F2BE25D4 /* sha1.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sha1.c; path = Vendor/Minizip/aes/sha1.c; sourceTree = "<group>"; };
+		046EE3004D4A184862A7C953F2BE25D4 /* sha1.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = sha1.c; path = Vendor/Minizip/aes/sha1.c; sourceTree = "<group>"; };
 		049641BC1F597E451A0FCB5DED3D3B3C /* HREFNormalizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HREFNormalizer.swift; path = Sources/Shared/Publication/HREFNormalizer.swift; sourceTree = "<group>"; };
 		05142145C7A4A84026BE3534FE954B35 /* ArchiveProperties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArchiveProperties.swift; path = Sources/Shared/Toolkit/Archive/ArchiveProperties.swift; sourceTree = "<group>"; };
 		05BAC055061064B42DE47BE868852326 /* FileResourceFactory.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileResourceFactory.swift; path = Sources/Shared/Toolkit/File/FileResourceFactory.swift; sourceTree = "<group>"; };
@@ -1024,11 +1024,11 @@
 		0BFE96E6A79AA425D66242A154E29EC8 /* GCDWebServerPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDWebServerPrivate.h; path = GCDWebServer/Core/GCDWebServerPrivate.h; sourceTree = "<group>"; };
 		0DFEF91AA43B42B604D82F857C53CBFA /* WebView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebView.swift; path = Sources/Navigator/Toolkit/WebView.swift; sourceTree = "<group>"; };
 		0E53F301E5EE52E23536BC5E02F72F4E /* RelativeURL.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RelativeURL.swift; path = Sources/Shared/Toolkit/URL/RelativeURL.swift; sourceTree = "<group>"; };
-		0EAC5E9D43C1C18FF6E7DBC1FE761283 /* aescrypt.c */ = {isa = PBXFileReference; includeInIndex = 1; name = aescrypt.c; path = Vendor/Minizip/aes/aescrypt.c; sourceTree = "<group>"; };
+		0EAC5E9D43C1C18FF6E7DBC1FE761283 /* aescrypt.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = aescrypt.c; path = Vendor/Minizip/aes/aescrypt.c; sourceTree = "<group>"; };
 		0F5F312D2DD665B4060E6BCA81B49205 /* ManifestTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ManifestTransformer.swift; path = Sources/Shared/Publication/ManifestTransformer.swift; sourceTree = "<group>"; };
 		102F04B08742FF3DB1CF252AC3019530 /* URL+ZIP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "URL+ZIP.swift"; path = "Sources/ZIPFoundation/URL+ZIP.swift"; sourceTree = "<group>"; };
 		104BD9BE051F11D05179752ABB629F19 /* StringEncoding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringEncoding.swift; path = Sources/Shared/Toolkit/Extensions/StringEncoding.swift; sourceTree = "<group>"; };
-		10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumStreamer; path = ReadiumStreamer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumStreamer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		10E7B96ABAE6831FB63A466E30C8E4E2 /* pwd2key.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = pwd2key.h; path = Vendor/Minizip/aes/pwd2key.h; sourceTree = "<group>"; };
 		11EBF5105F4E15DD0E296EC010C8A9BC /* EPUBEncryptionParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBEncryptionParser.swift; path = Sources/Streamer/Parser/EPUB/EPUBEncryptionParser.swift; sourceTree = "<group>"; };
 		128566E78F3527F8065491E8B605B95E /* PublicationContentIterator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationContentIterator.swift; path = Sources/Shared/Publication/Services/Content/Iterators/PublicationContentIterator.swift; sourceTree = "<group>"; };
@@ -1056,7 +1056,7 @@
 		1ACFA227C467AB70B04E0A04E119BEFF /* PublicationMediaLoader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationMediaLoader.swift; path = Sources/Navigator/Audiobook/PublicationMediaLoader.swift; sourceTree = "<group>"; };
 		1B59FCF2937CC3A0D977DB0A925F59EB /* Generics.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Generics.swift; path = Sources/CryptoSwift/Generics.swift; sourceTree = "<group>"; };
 		1BC4C3420156C88775C4862BB98D7C32 /* FileDataSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileDataSource.swift; path = Sources/ZIPFoundation/FileDataSource.swift; sourceTree = "<group>"; };
-		1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumZIPFoundation; path = ReadiumZIPFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumZIPFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CFA5BE6280A4D883FC15516969E59A4 /* PDFParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PDFParser.swift; path = Sources/Streamer/Parser/PDF/PDFParser.swift; sourceTree = "<group>"; };
 		1D131C47AA657F798809D60453876A7B /* String+FoundationExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+FoundationExtension.swift"; path = "Sources/CryptoSwift/Foundation/String+FoundationExtension.swift"; sourceTree = "<group>"; };
 		1D336F5D71A9E23A47827D59EB1B3687 /* Content.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Content.swift; path = Sources/Shared/Publication/Services/Content/Content.swift; sourceTree = "<group>"; };
@@ -1070,7 +1070,7 @@
 		1FDF8141D3162E3AF08A0FD9A2DC983C /* SwiftSoup-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-prefix.pch"; sourceTree = "<group>"; };
 		207C5949177DE71BBF76258BF7509E35 /* ParseSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseSettings.swift; path = Sources/ParseSettings.swift; sourceTree = "<group>"; };
 		20AA62A6EAEDEADF698A7BEB08483294 /* ReadiumStreamer-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadiumStreamer-prefix.pch"; sourceTree = "<group>"; };
-		211F8FFD1A172DBFEF4E82942E5D0D84 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Sources/CryptoSwift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		211F8FFD1A172DBFEF4E82942E5D0D84 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Sources/CryptoSwift/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		215E3A66BC2F363F172E9841DCD1B02A /* DifferenceKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DifferenceKit.release.xcconfig; sourceTree = "<group>"; };
 		217C13607A17D140848E8BB165178F9D /* CBCMAC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CBCMAC.swift; path = Sources/CryptoSwift/CBCMAC.swift; sourceTree = "<group>"; };
 		226B344ABF37377273A9CDFDA5725B3F /* ZIPFoundationContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZIPFoundationContainer.swift; path = Sources/Shared/Toolkit/ZIP/ZIPFoundation/ZIPFoundationContainer.swift; sourceTree = "<group>"; };
@@ -1085,7 +1085,7 @@
 		241B7D5193551D9DA6F7338F61CFDF84 /* LCPDialogViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; name = LCPDialogViewController.xib; path = Base.lproj/LCPDialogViewController.xib; sourceTree = "<group>"; };
 		2447D569CAE8DED922BEB366F49539B8 /* Encryption.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Encryption.swift; path = Sources/Shared/Publication/Extensions/Encryption/Encryption.swift; sourceTree = "<group>"; };
 		2494F7CAC931138EF7476AE01831210C /* XmlDeclaration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XmlDeclaration.swift; path = Sources/XmlDeclaration.swift; sourceTree = "<group>"; };
-		24C92B9CA12D61961C8CFE35E9941037 /* Assets */ = {isa = PBXFileReference; includeInIndex = 1; name = Assets; path = Sources/Navigator/EPUB/Assets; sourceTree = "<group>"; };
+		24C92B9CA12D61961C8CFE35E9941037 /* Assets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = Assets; path = Sources/Navigator/EPUB/Assets; sourceTree = "<group>"; };
 		24F86A791CD867E1243A669D691B9D86 /* PublicationServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationServer.swift; path = Sources/Streamer/Server/PublicationServer.swift; sourceTree = "<group>"; };
 		254C43DCAB83300B6660A3D0C1F5B452 /* ReadiumGCDWebServer.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ReadiumGCDWebServer.modulemap; sourceTree = "<group>"; };
 		2564A7CD54F819C1073D9A5C7500BE0A /* SwiftSoup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftSoup.swift; path = Sources/SwiftSoup.swift; sourceTree = "<group>"; };
@@ -1114,7 +1114,7 @@
 		2C8C6F4CC1E3C695C0909F4204011A36 /* OrderedSet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OrderedSet.swift; path = Sources/OrderedSet.swift; sourceTree = "<group>"; };
 		2C913817E14D19467EFB04FE378E2235 /* HTMLDecorationTemplate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTMLDecorationTemplate.swift; path = Sources/Navigator/EPUB/HTMLDecorationTemplate.swift; sourceTree = "<group>"; };
 		2CE4CCB5151827C4D3982ABD6BFA5F9E /* ReadiumFuzi.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ReadiumFuzi.modulemap; sourceTree = "<group>"; };
-		2D4686D37D07B71B9E1168DA3516B0DF /* aeskey.c */ = {isa = PBXFileReference; includeInIndex = 1; name = aeskey.c; path = Vendor/Minizip/aes/aeskey.c; sourceTree = "<group>"; };
+		2D4686D37D07B71B9E1168DA3516B0DF /* aeskey.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = aeskey.c; path = Vendor/Minizip/aes/aeskey.c; sourceTree = "<group>"; };
 		2D76E21469423D4BA4AC23E6796556A5 /* OPDSAcquisition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OPDSAcquisition.swift; path = Sources/Shared/OPDS/OPDSAcquisition.swift; sourceTree = "<group>"; };
 		2DF97B84D5933132A9BE7C3845CA228A /* GCDWebServerRequest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDWebServerRequest.m; path = GCDWebServer/Core/GCDWebServerRequest.m; sourceTree = "<group>"; };
 		2E046330F927872CDE758E5C585D0DC8 /* Contributor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Contributor.swift; path = Sources/Shared/Publication/Contributor.swift; sourceTree = "<group>"; };
@@ -1125,8 +1125,8 @@
 		2FB4EDF8B755750B55A0F57964445B97 /* AudiobookFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudiobookFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/AudiobookFormatSniffer.swift; sourceTree = "<group>"; };
 		312ADFEA7B7E246114DBF9D12A5BD9F5 /* CGRect.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CGRect.swift; path = Sources/Navigator/Toolkit/Extensions/CGRect.swift; sourceTree = "<group>"; };
 		315D034CF92E6682FDC646AD1E8913CC /* Node.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Node.swift; path = Sources/Node.swift; sourceTree = "<group>"; };
-		315F0E5CF5F6586EA798BB4C007AB1F6 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = Sources/Navigator/Resources/en.lproj; sourceTree = "<group>"; };
-		31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumOPDS; path = ReadiumOPDS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		315F0E5CF5F6586EA798BB4C007AB1F6 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = Sources/Navigator/Resources/en.lproj; sourceTree = "<group>"; };
+		31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumOPDS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3207C189F71D434DA22EFEFABACEB374 /* CFB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CFB.swift; path = Sources/CryptoSwift/BlockMode/CFB.swift; sourceTree = "<group>"; };
 		324588D504DAA22FE70D37C3C19C6316 /* Archive+MemoryFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Archive+MemoryFile.swift"; path = "Sources/ZIPFoundation/Archive+MemoryFile.swift"; sourceTree = "<group>"; };
 		32629091F47B2782E3E28D15371B9BF4 /* Bit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bit.swift; path = Sources/CryptoSwift/Bit.swift; sourceTree = "<group>"; };
@@ -1136,7 +1136,7 @@
 		339279FFC39740C3D0D8AF7DEC57DFB8 /* HTTPServer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPServer.swift; path = Sources/Shared/Toolkit/HTTP/HTTPServer.swift; sourceTree = "<group>"; };
 		33FAC6AD4DF65A7354501474FF65F6C3 /* GCDWebServerStreamedResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDWebServerStreamedResponse.h; path = GCDWebServer/Responses/GCDWebServerStreamedResponse.h; sourceTree = "<group>"; };
 		344418C1E4A29A56D7961A7B06FD454F /* StringSearchService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringSearchService.swift; path = Sources/Shared/Publication/Services/Search/StringSearchService.swift; sourceTree = "<group>"; };
-		350D824A9B02042871C56E908873F006 /* ReadiumShared */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumShared; path = ReadiumShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		350D824A9B02042871C56E908873F006 /* ReadiumShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		35EF034FBBA14A631BD1EE3AFA059BD8 /* Algorithm.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Algorithm.swift; path = Sources/Algorithm.swift; sourceTree = "<group>"; };
 		35F70A6A6925B8B5C604AC3FEB2EF660 /* Archive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Archive.swift; path = Sources/ZIPFoundation/Archive.swift; sourceTree = "<group>"; };
 		360DC2EB88B3D2CD87687DB7AFB11631 /* ContentTokenizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ContentTokenizer.swift; path = Sources/Shared/Publication/Services/Content/ContentTokenizer.swift; sourceTree = "<group>"; };
@@ -1145,10 +1145,10 @@
 		3667814D5192C6E5F24810F6AED89763 /* EPUBPreferencesEditor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBPreferencesEditor.swift; path = Sources/Navigator/EPUB/Preferences/EPUBPreferencesEditor.swift; sourceTree = "<group>"; };
 		367AE2444264CD275984C4F77F1F6C57 /* GCDWebServerErrorResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDWebServerErrorResponse.h; path = GCDWebServer/Responses/GCDWebServerErrorResponse.h; sourceTree = "<group>"; };
 		36CD2434E81CCFDEF8DB5F3224AEBB69 /* PublicationServicesBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationServicesBuilder.swift; path = Sources/Shared/Publication/Services/PublicationServicesBuilder.swift; sourceTree = "<group>"; };
-		37EE65995CC7126845142D984347634A /* ioapi_mem.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ioapi_mem.c; path = Vendor/Minizip/ioapi_mem.c; sourceTree = "<group>"; };
+		37EE65995CC7126845142D984347634A /* ioapi_mem.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi_mem.c; path = Vendor/Minizip/ioapi_mem.c; sourceTree = "<group>"; };
 		383284CBEBB1791E9F3E833EBF4FC397 /* UInt128.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UInt128.swift; path = Sources/CryptoSwift/UInt128.swift; sourceTree = "<group>"; };
 		386558EC800706B1CE32A5645C8B3CC4 /* GCDWebServer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDWebServer.m; path = GCDWebServer/Core/GCDWebServer.m; sourceTree = "<group>"; };
-		389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumGCDWebServer; path = ReadiumGCDWebServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumGCDWebServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38B552B940E499E223E730D1186B02FD /* Date+ZIP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+ZIP.swift"; path = "Sources/ZIPFoundation/Date+ZIP.swift"; sourceTree = "<group>"; };
 		390A63FC872EC8CFBB4F31EF953C63AB /* Pods-BookHarbour.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BookHarbour.debug.xcconfig"; sourceTree = "<group>"; };
 		396DE89E907E1092CB8CB5C8838B8E5A /* ReadiumStreamer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ReadiumStreamer.release.xcconfig; sourceTree = "<group>"; };
@@ -1156,7 +1156,7 @@
 		39D4ECF8E5AFE642FA65D7F32897B71A /* Exception.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Exception.swift; path = Sources/Exception.swift; sourceTree = "<group>"; };
 		39FF7F050FF09FC4F7059D415C3F6366 /* Container.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Container.swift; path = Sources/Shared/Toolkit/Data/Container/Container.swift; sourceTree = "<group>"; };
 		3B118CC4DFE48701531F7C4B2D0FE7F1 /* Validate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Validate.swift; path = Sources/Validate.swift; sourceTree = "<group>"; };
-		3B221C19D7682FCEA5FB427BA8A12E19 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = Sources/LCP/Resources/en.lproj; sourceTree = "<group>"; };
+		3B221C19D7682FCEA5FB427BA8A12E19 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = en.lproj; path = Sources/LCP/Resources/en.lproj; sourceTree = "<group>"; };
 		3B7F5229E7315521861B554E4B8BF23A /* ArraySection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArraySection.swift; path = Sources/ArraySection.swift; sourceTree = "<group>"; };
 		3BDA180C83C43E75F1F6CB1C8C7E0EB9 /* Comparable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Comparable.swift; path = Sources/Internal/Extensions/Comparable.swift; sourceTree = "<group>"; };
 		3CEF7926C6C4A7D73A802D1980AB6426 /* GCDWebServerFileResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDWebServerFileResponse.h; path = GCDWebServer/Responses/GCDWebServerFileResponse.h; sourceTree = "<group>"; };
@@ -1200,13 +1200,13 @@
 		49AC9F20131103B9915701507A8CDDA8 /* StringUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringUtil.swift; path = Sources/StringUtil.swift; sourceTree = "<group>"; };
 		49C8F18749320FF691573B2E7B870D4D /* PublicationSpeechSynthesizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationSpeechSynthesizer.swift; path = Sources/Navigator/TTS/PublicationSpeechSynthesizer.swift; sourceTree = "<group>"; };
 		4BBEF0E4C8594E5A58477085ACB3ED97 /* EPUBLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBLayout.swift; path = Sources/Shared/Publication/Extensions/EPUB/EPUBLayout.swift; sourceTree = "<group>"; };
-		4C160BC82DB161A112737203FFB76DC0 /* Assets */ = {isa = PBXFileReference; includeInIndex = 1; name = Assets; path = Sources/Streamer/Assets; sourceTree = "<group>"; };
+		4C160BC82DB161A112737203FFB76DC0 /* Assets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder; name = Assets; path = Sources/Streamer/Assets; sourceTree = "<group>"; };
 		4C6B0487ED15BF9E8176994EE10ECE96 /* ISO78164Padding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ISO78164Padding.swift; path = Sources/CryptoSwift/ISO78164Padding.swift; sourceTree = "<group>"; };
 		4C6B6A80EC174F83218935B9E3C6BDC2 /* ImageViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ImageViewController.swift; path = Sources/Navigator/CBZ/ImageViewController.swift; sourceTree = "<group>"; };
 		4C99DF49EAB2D2B4850162F416E04048 /* DataCompression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataCompression.swift; path = Sources/LCP/Toolkit/DataCompression.swift; sourceTree = "<group>"; };
 		4D2230A675D510B23CE23C8EE5D68DA3 /* TextNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextNode.swift; path = Sources/TextNode.swift; sourceTree = "<group>"; };
 		4D4C03C8DA32A45A7FAE34307D94EDD8 /* DifferenceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DifferenceKit-prefix.pch"; sourceTree = "<group>"; };
-		4D524A159F257146689B6537181A34FD /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = zip.c; path = Vendor/Minizip/zip.c; sourceTree = "<group>"; };
+		4D524A159F257146689B6537181A34FD /* zip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = zip.c; path = Vendor/Minizip/zip.c; sourceTree = "<group>"; };
 		4D61567F3AF0900F33CB45D0352774FC /* FormElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormElement.swift; path = Sources/FormElement.swift; sourceTree = "<group>"; };
 		4D821DAA142F32D18CDD9327C40A9DDF /* NodeVisitor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NodeVisitor.swift; path = Sources/NodeVisitor.swift; sourceTree = "<group>"; };
 		4DA68AA6693652ECCD3A3F6817F9974B /* UnicodeScalar.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UnicodeScalar.swift; path = Sources/UnicodeScalar.swift; sourceTree = "<group>"; };
@@ -1235,7 +1235,7 @@
 		5772E84D65ADF6C7D4234E0A44D9302D /* Whitelist.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Whitelist.swift; path = Sources/Whitelist.swift; sourceTree = "<group>"; };
 		57757DD16CDD49CF052126758B5548D5 /* Feed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Feed.swift; path = Sources/Shared/OPDS/Feed.swift; sourceTree = "<group>"; };
 		57904F1612025C90160EE1329A8C146C /* JSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = Sources/Shared/Toolkit/JSON.swift; sourceTree = "<group>"; };
-		57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumLCP; path = ReadiumLCP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumLCP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57E8B6CD1378BC1C07F22F8B967AE416 /* WKWebView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WKWebView.swift; path = Sources/Navigator/Toolkit/Extensions/WKWebView.swift; sourceTree = "<group>"; };
 		587D5008C1D848B1AAB218191001606B /* Logger.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Logger.swift; path = Sources/Shared/Logger/Logger.swift; sourceTree = "<group>"; };
 		590CA26A7342FB9122E3F517BDCCED8F /* ReadiumZIPFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ReadiumZIPFoundation.release.xcconfig; sourceTree = "<group>"; };
@@ -1252,7 +1252,7 @@
 		5CEA079B06660319451DFB1004B55820 /* ASN1Encoder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ASN1Encoder.swift; path = Sources/CryptoSwift/ASN1/ASN1Encoder.swift; sourceTree = "<group>"; };
 		5D06CEE4A660BB30932B22B196ED0C10 /* GCDWebServerStreamedResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDWebServerStreamedResponse.m; path = GCDWebServer/Responses/GCDWebServerStreamedResponse.m; sourceTree = "<group>"; };
 		5DE9F046866BA8B7A6C0A75703E7EAE9 /* Minizip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Minizip.debug.xcconfig; sourceTree = "<group>"; };
-		5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftSoup; path = SwiftSoup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftSoup.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F619EA0745646497B2D8F56D18B46D6 /* DefaultLocatorService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DefaultLocatorService.swift; path = Sources/Shared/Publication/Services/Locator/DefaultLocatorService.swift; sourceTree = "<group>"; };
 		5FA72DFA7D4C3A1661E6C81663B3D7EC /* StatusDocument.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StatusDocument.swift; path = Sources/LCP/License/Model/StatusDocument.swift; sourceTree = "<group>"; };
 		60229EFAF4F7451A88D70C8C94F13309 /* FileManager+ZIP.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "FileManager+ZIP.swift"; path = "Sources/ZIPFoundation/FileManager+ZIP.swift"; sourceTree = "<group>"; };
@@ -1317,7 +1317,7 @@
 		735228EDF9FC57A41D89DEB34FC8DC73 /* Result.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Result.swift; path = Sources/Internal/Extensions/Result.swift; sourceTree = "<group>"; };
 		739810384C32AF1B0945F6C5D40DC89E /* zip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = zip.h; path = Vendor/Minizip/zip.h; sourceTree = "<group>"; };
 		73AAC8D517B5708E96ADBAC47039A370 /* StringConversion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringConversion.swift; path = Sources/CryptoSwift/CS_BigInt/StringConversion.swift; sourceTree = "<group>"; };
-		744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumInternal; path = ReadiumInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumInternal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		748CEDE38F30B4375EFE0849321FBB95 /* SHA2.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA2.swift; path = Sources/CryptoSwift/SHA2.swift; sourceTree = "<group>"; };
 		74A8414B212C239B7FFE66D2B874B499 /* Properties+OPDS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Properties+OPDS.swift"; path = "Sources/Shared/Publication/Extensions/OPDS/Properties+OPDS.swift"; sourceTree = "<group>"; };
 		75839BAFD6524341A11ABEAF43BBA72E /* GeneratedCoverService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GeneratedCoverService.swift; path = Sources/Shared/Publication/Services/Cover/GeneratedCoverService.swift; sourceTree = "<group>"; };
@@ -1332,12 +1332,12 @@
 		7869EDE4B7B9139E27F752E46F2325B6 /* EPUBPreferences+Legacy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "EPUBPreferences+Legacy.swift"; path = "Sources/Navigator/EPUB/Preferences/EPUBPreferences+Legacy.swift"; sourceTree = "<group>"; };
 		788CBBB252FD82F60E94C38BBA5A0671 /* PotentialRights.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PotentialRights.swift; path = Sources/LCP/License/Model/Components/LSD/PotentialRights.swift; sourceTree = "<group>"; };
 		78A85A43AEC56FB23C7CF72973171EAB /* Token.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Token.swift; path = Sources/Token.swift; sourceTree = "<group>"; };
-		797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = DifferenceKit; path = DifferenceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DifferenceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A7943562B0C2C8A7C9B6AFE82FB4DB6 /* StreamDecryptor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StreamDecryptor.swift; path = Sources/CryptoSwift/StreamDecryptor.swift; sourceTree = "<group>"; };
 		7B97070C53BD8CCC5CF9BB2A0F84F4A0 /* JSON.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = Sources/Internal/JSON.swift; sourceTree = "<group>"; };
 		7BA157940E418B1274D4619EF445F5D9 /* DocumentTypes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DocumentTypes.swift; path = Sources/Shared/Toolkit/DocumentTypes.swift; sourceTree = "<group>"; };
 		7BC259CF07DC05032BCAE45BB5DF4A54 /* unzip.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = Vendor/Minizip/unzip.h; sourceTree = "<group>"; };
-		7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumAdapterGCDWebServer; path = ReadiumAdapterGCDWebServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumAdapterGCDWebServer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA1DD214C28687824AEA5163183A94C /* Helpers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = Sources/Helpers.swift; sourceTree = "<group>"; };
 		7D18F6602F790E8B28B572680C77D3B9 /* ReadiumLicenseContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReadiumLicenseContainer.swift; path = Sources/LCP/License/Container/ReadiumLicenseContainer.swift; sourceTree = "<group>"; };
 		7E034F082F91FDBF30B5FF0A5FE0186B /* Codable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Codable.swift; path = Sources/CryptoSwift/CS_BigInt/Codable.swift; sourceTree = "<group>"; };
@@ -1371,7 +1371,7 @@
 		85E1D808FAB7DA58B49D90A60225025D /* Publication+EPUB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Publication+EPUB.swift"; path = "Sources/Shared/Publication/Extensions/EPUB/Publication+EPUB.swift"; sourceTree = "<group>"; };
 		85F6114A80F9F9C6D6164BE0714D33B5 /* ioapi.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = Vendor/Minizip/ioapi.h; sourceTree = "<group>"; };
 		869B7C6489A7BBCDC7DFDC78F382AC37 /* Pods-BookHarbour-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BookHarbour-umbrella.h"; sourceTree = "<group>"; };
-		870EA4DAE520D849F9736FB0FDA7919E /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; name = unzip.c; path = Vendor/Minizip/unzip.c; sourceTree = "<group>"; };
+		870EA4DAE520D849F9736FB0FDA7919E /* unzip.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = Vendor/Minizip/unzip.c; sourceTree = "<group>"; };
 		8740018E4504BC2BE90684A5DEC4D14B /* ParseErrorList.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseErrorList.swift; path = Sources/ParseErrorList.swift; sourceTree = "<group>"; };
 		876BD56E4BCA259E230A85B1AB61D1C5 /* BufferingResource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BufferingResource.swift; path = Sources/Shared/Toolkit/Data/Resource/BufferingResource.swift; sourceTree = "<group>"; };
 		87792D335F8B913AF8D25F3BF2183FAB /* Properties+Archive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Properties+Archive.swift"; path = "Sources/Shared/Publication/Extensions/Archive/Properties+Archive.swift"; sourceTree = "<group>"; };
@@ -1392,7 +1392,7 @@
 		8B24BC145B7229F5EB1BED3FF9E4E940 /* Collector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collector.swift; path = Sources/Collector.swift; sourceTree = "<group>"; };
 		8B61196DFD1594080CC49F56846DEE3B /* Properties.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Properties.swift; path = Sources/Shared/Publication/Properties.swift; sourceTree = "<group>"; };
 		8B7E8F26115C38C19B590F238EA8D36B /* aestab.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = aestab.h; path = Vendor/Minizip/aes/aestab.h; sourceTree = "<group>"; };
-		8BE03BC0C67374934B50FDA5103F5901 /* ioapi_buf.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ioapi_buf.c; path = Vendor/Minizip/ioapi_buf.c; sourceTree = "<group>"; };
+		8BE03BC0C67374934B50FDA5103F5901 /* ioapi_buf.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi_buf.c; path = Vendor/Minizip/ioapi_buf.c; sourceTree = "<group>"; };
 		8BE9855221D852A430E2AC1115CB6C84 /* DigestType.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DigestType.swift; path = Sources/CryptoSwift/DigestType.swift; sourceTree = "<group>"; };
 		8C468DDF97EEB7DDA80B145CCE13F72A /* Random.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Random.swift; path = Sources/CryptoSwift/CS_BigInt/Random.swift; sourceTree = "<group>"; };
 		8C8CE1A28764A2DD8455E64EEF016376 /* OPFMeta.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OPFMeta.swift; path = Sources/Streamer/Parser/EPUB/OPFMeta.swift; sourceTree = "<group>"; };
@@ -1402,7 +1402,7 @@
 		8F9AB726959BDE214D5480A51FBC9C6C /* FormatSnifferBlob.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FormatSnifferBlob.swift; path = Sources/Shared/Toolkit/Format/FormatSnifferBlob.swift; sourceTree = "<group>"; };
 		8FF19BDC56835505D733E655B3FA5477 /* ZeroPadding.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ZeroPadding.swift; path = Sources/CryptoSwift/ZeroPadding.swift; sourceTree = "<group>"; };
 		90657DC9192F33C180A141D4F0B0CBF8 /* LCPRenewDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LCPRenewDelegate.swift; path = Sources/LCP/LCPRenewDelegate.swift; sourceTree = "<group>"; };
-		90C37A499CF2661A3C061E3358B61C64 /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ioapi.c; path = Vendor/Minizip/ioapi.c; sourceTree = "<group>"; };
+		90C37A499CF2661A3C061E3358B61C64 /* ioapi.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = Vendor/Minizip/ioapi.c; sourceTree = "<group>"; };
 		9114A171AA1C56DD2E54E5CBBE20A23D /* ReadiumZIPFoundation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadiumZIPFoundation-umbrella.h"; sourceTree = "<group>"; };
 		918F9A28ECD06D227BF43A62518E231D /* Navigator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Navigator.swift; path = Sources/Navigator/Navigator.swift; sourceTree = "<group>"; };
 		91D5FBBD92BA6E82F573177B68A0D55F /* GCDWebServerFunctions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GCDWebServerFunctions.m; path = GCDWebServer/Core/GCDWebServerFunctions.m; sourceTree = "<group>"; };
@@ -1434,7 +1434,7 @@
 		9C960A50C23BBFF669BB55635F817399 /* Number.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Number.swift; path = Sources/Internal/Extensions/Number.swift; sourceTree = "<group>"; };
 		9CB8EC1C15369D8C00EB6EC2CF15465D /* ReadiumLCP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ReadiumLCP.debug.xcconfig; sourceTree = "<group>"; };
 		9D86D2003D5F7F7EAB3F0CC88478F4E5 /* EPUBContainerParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBContainerParser.swift; path = Sources/Streamer/Parser/EPUB/EPUBContainerParser.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9DC859AABC541414AC289C510A93FA0D /* HREF.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HREF.swift; path = Sources/Shared/Toolkit/HREF.swift; sourceTree = "<group>"; };
 		9E0FBC67A1CC1FE505D1AD8140ACA679 /* FailureResource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FailureResource.swift; path = Sources/Shared/Toolkit/Data/Resource/FailureResource.swift; sourceTree = "<group>"; };
 		9E4FB46D90BB36D0AFFD63A9C357F69A /* ioapi_mem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ioapi_mem.h; path = Vendor/Minizip/ioapi_mem.h; sourceTree = "<group>"; };
@@ -1501,7 +1501,7 @@
 		B54B12297C100854F06FABD96E1D065D /* Date+ISO8601.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Date+ISO8601.swift"; path = "Sources/Internal/Extensions/Date+ISO8601.swift"; sourceTree = "<group>"; };
 		B558A7A96DCBF1AD40AFBC55E44A1D7E /* Closeable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Closeable.swift; path = Sources/Shared/Toolkit/Closeable.swift; sourceTree = "<group>"; };
 		B5901414735DC12DA56FF240E61464A2 /* Division.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Division.swift; path = Sources/CryptoSwift/CS_BigInt/Division.swift; sourceTree = "<group>"; };
-		B67616BD1271BED7CE5210FCD08AB004 /* Minizip */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Minizip; path = Minizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B67616BD1271BED7CE5210FCD08AB004 /* Minizip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Minizip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B67987ACE2607FEDB7EED8BFBFE8AFD6 /* AssetRetriever.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetRetriever.swift; path = Sources/Shared/Toolkit/Data/Asset/AssetRetriever.swift; sourceTree = "<group>"; };
 		B6C48BBCD17D5DF7AAD9C53E190C2D96 /* SwiftSoup.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftSoup.debug.xcconfig; sourceTree = "<group>"; };
 		B78E5B1583A41C37A76A79F84E80EFF6 /* PublicationParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PublicationParser.swift; path = Sources/Streamer/Parser/PublicationParser.swift; sourceTree = "<group>"; };
@@ -1521,7 +1521,7 @@
 		BB137D220FB5CD53FDC56DB70347AA21 /* CryptoSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CryptoSwift-prefix.pch"; sourceTree = "<group>"; };
 		BB54F9B2A4375C52BA73AF5700E98878 /* Streamable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Streamable.swift; path = Sources/Shared/Toolkit/Data/Streamable.swift; sourceTree = "<group>"; };
 		BB59171012640304DFF3D71854F615A0 /* DifferenceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DifferenceKit-umbrella.h"; sourceTree = "<group>"; };
-		BBB4CC5C582F527F822A9CA78B33F303 /* prng.c */ = {isa = PBXFileReference; includeInIndex = 1; name = prng.c; path = Vendor/Minizip/aes/prng.c; sourceTree = "<group>"; };
+		BBB4CC5C582F527F822A9CA78B33F303 /* prng.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = prng.c; path = Vendor/Minizip/aes/prng.c; sourceTree = "<group>"; };
 		BBC721E065972A4EC03605133752552C /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		BBE0C83026A6105B3812C0222B8139BE /* MediaTypeSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MediaTypeSniffer.swift; path = Sources/Shared/Toolkit/Format/MediaTypeSniffer.swift; sourceTree = "<group>"; };
 		BC66509BA10B629F4CB7ACD7A6842E33 /* AudioFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AudioFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/AudioFormatSniffer.swift; sourceTree = "<group>"; };
@@ -1536,7 +1536,7 @@
 		BE82518CCA067BD0541BCCF00CAAF0A9 /* ReadiumStreamer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReadiumStreamer-dummy.m"; sourceTree = "<group>"; };
 		BEE2B893D8CAB256997AFBF32E783BE6 /* hmac.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = hmac.h; path = Vendor/Minizip/aes/hmac.h; sourceTree = "<group>"; };
 		BF17B2A44771B5BE4206153DA9A7C397 /* ReadiumInternal-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReadiumInternal-dummy.m"; sourceTree = "<group>"; };
-		BF1C2D7FE81B1190689A8A5696331FAB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = Sources/ZIPFoundation/Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		BF1C2D7FE81B1190689A8A5696331FAB /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = Sources/ZIPFoundation/Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BF32673875A77994C9BE0DAC1AC634F6 /* LCPService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LCPService.swift; path = Sources/LCP/LCPService.swift; sourceTree = "<group>"; };
 		BF8D1503A10918A75EA60E68F0AC279A /* AnyDifferentiable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AnyDifferentiable.swift; path = Sources/AnyDifferentiable.swift; sourceTree = "<group>"; };
 		C005CD843D501E46C14588EBB1F49E23 /* EncryptionParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionParser.swift; path = "Sources/LCP/Content Protection/EncryptionParser.swift"; sourceTree = "<group>"; };
@@ -1552,7 +1552,7 @@
 		C36419C941F4B3F2C90A40F4758A3F1E /* SHA1.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA1.swift; path = Sources/CryptoSwift/SHA1.swift; sourceTree = "<group>"; };
 		C3F7542DEBF510CB3524FB9AE052DB9C /* Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = Sources/Shared/Toolkit/Data/Asset/Asset.swift; sourceTree = "<group>"; };
 		C40F0682B2FEAFA4B02EE07ADD836AE7 /* GCDWebServerRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GCDWebServerRequest.h; path = GCDWebServer/Core/GCDWebServerRequest.h; sourceTree = "<group>"; };
-		C4523BF353F4F4B84EACE5674AB87D99 /* fileenc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = fileenc.c; path = Vendor/Minizip/aes/fileenc.c; sourceTree = "<group>"; };
+		C4523BF353F4F4B84EACE5674AB87D99 /* fileenc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = fileenc.c; path = Vendor/Minizip/aes/fileenc.c; sourceTree = "<group>"; };
 		C4804F70D3FB14BB35CDF8905A4D9BAB /* ReadiumFuzi-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadiumFuzi-prefix.pch"; sourceTree = "<group>"; };
 		C4B24C2FD7764EDC2322AA54A620810C /* RWPMFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RWPMFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/RWPMFormatSniffer.swift; sourceTree = "<group>"; };
 		C509255D21A290AD38E74CE96F06D423 /* Accessibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Accessibility.swift; path = Sources/Shared/Publication/Accessibility.swift; sourceTree = "<group>"; };
@@ -1577,7 +1577,7 @@
 		CE40DF42BB293748E48310A88C3112E0 /* ReadiumZIPFoundation-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ReadiumZIPFoundation-Info.plist"; sourceTree = "<group>"; };
 		CE841033F87CD085669EDD0E33B01654 /* OPFParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OPFParser.swift; path = Sources/Streamer/Parser/EPUB/OPFParser.swift; sourceTree = "<group>"; };
 		CEAC6152705C40F4E80F49AA3093A2E6 /* RSA.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RSA.swift; path = Sources/CryptoSwift/RSA/RSA.swift; sourceTree = "<group>"; };
-		CEE025284312DFDFCD0CC0B7CA7F446B /* prod-license.lcpl */ = {isa = PBXFileReference; includeInIndex = 1; name = "prod-license.lcpl"; path = "Sources/LCP/Resources/prod-license.lcpl"; sourceTree = "<group>"; };
+		CEE025284312DFDFCD0CC0B7CA7F446B /* prod-license.lcpl */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "prod-license.lcpl"; path = "Sources/LCP/Resources/prod-license.lcpl"; sourceTree = "<group>"; };
 		CEF382051A07587253FDC045D21CE28E /* ArrayExt.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ArrayExt.swift; path = Sources/ArrayExt.swift; sourceTree = "<group>"; };
 		CF6710C5FAD8160CC109AA99F36A3B42 /* LCPError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LCPError.swift; path = Sources/LCP/LCPError.swift; sourceTree = "<group>"; };
 		CF69D93FF58A649D7ECE15DEF8F3132E /* ReadiumAdapterGCDWebServer-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReadiumAdapterGCDWebServer-dummy.m"; sourceTree = "<group>"; };
@@ -1606,7 +1606,7 @@
 		D5500E8EF6CB4D0ED3787C8BD274DB01 /* Links.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Links.swift; path = Sources/LCP/License/Model/Components/Links.swift; sourceTree = "<group>"; };
 		D59B1A0C63C186C838FF36F72968B4A2 /* JSONFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JSONFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/JSONFormatSniffer.swift; sourceTree = "<group>"; };
 		D62ADE8BACC21E8BBCF5D0B68A4C3EBC /* BlockModeOptions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BlockModeOptions.swift; path = Sources/CryptoSwift/BlockMode/BlockModeOptions.swift; sourceTree = "<group>"; };
-		D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumFuzi; path = ReadiumFuzi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumFuzi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6796F6505A836623DDD32F8754C424E /* NavigationDocumentParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NavigationDocumentParser.swift; path = Sources/Streamer/Parser/EPUB/NavigationDocumentParser.swift; sourceTree = "<group>"; };
 		D68A23F6BE0C532B8FB3ACC02EA6A637 /* EditingAction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EditingAction.swift; path = Sources/Navigator/EditingAction.swift; sourceTree = "<group>"; };
 		D6B282F2EFCE5878A953FE697A803F08 /* EPUBDeobfuscator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EPUBDeobfuscator.swift; path = "Sources/Streamer/Parser/EPUB/Resource Transformers/EPUBDeobfuscator.swift"; sourceTree = "<group>"; };
@@ -1644,7 +1644,7 @@
 		DF01475943D4619B3001A8270BC53444 /* TailCachingResource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TailCachingResource.swift; path = Sources/Shared/Toolkit/Data/Resource/TailCachingResource.swift; sourceTree = "<group>"; };
 		DFE8FD118F3D339A8AD2E5A3AF45874A /* HttpStatusException.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HttpStatusException.swift; path = Sources/HttpStatusException.swift; sourceTree = "<group>"; };
 		E1928F184BFEBA84193A5EC143BE2EFA /* Language.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Language.swift; path = Sources/Shared/Toolkit/Language.swift; sourceTree = "<group>"; };
-		E1BBE2B555319CD5CD35D79EA6E20AE8 /* pwd2key.c */ = {isa = PBXFileReference; includeInIndex = 1; name = pwd2key.c; path = Vendor/Minizip/aes/pwd2key.c; sourceTree = "<group>"; };
+		E1BBE2B555319CD5CD35D79EA6E20AE8 /* pwd2key.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = pwd2key.c; path = Vendor/Minizip/aes/pwd2key.c; sourceTree = "<group>"; };
 		E1F5BC076C37BE4C89AD5105BB6A181A /* HtmlTreeBuilderState.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HtmlTreeBuilderState.swift; path = Sources/HtmlTreeBuilderState.swift; sourceTree = "<group>"; };
 		E260C2477BE57CC813FD0CDDF98B8CF2 /* Minizip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Minizip.release.xcconfig; sourceTree = "<group>"; };
 		E3573BB5ADBEC96F248D0F55B22E4E9E /* HTMLFontFamilyDeclaration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTMLFontFamilyDeclaration.swift; path = Sources/Navigator/EPUB/CSS/HTMLFontFamilyDeclaration.swift; sourceTree = "<group>"; };
@@ -1682,11 +1682,11 @@
 		EE9177221EC8F0B227219875EDC088E1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		EF05FCE1738D3C39E6A554F2081FE642 /* ReadiumOPDS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ReadiumOPDS.debug.xcconfig; sourceTree = "<group>"; };
 		EF2240BB2A0A3A6D6822E3E57FE096BC /* LCPLLicenseContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LCPLLicenseContainer.swift; path = Sources/LCP/License/Container/LCPLLicenseContainer.swift; sourceTree = "<group>"; };
-		EF4AB1A277B9D877D7215EF31E35A1FB /* hmac.c */ = {isa = PBXFileReference; includeInIndex = 1; name = hmac.c; path = Vendor/Minizip/aes/hmac.c; sourceTree = "<group>"; };
+		EF4AB1A277B9D877D7215EF31E35A1FB /* hmac.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = hmac.c; path = Vendor/Minizip/aes/hmac.c; sourceTree = "<group>"; };
 		EF7612E448A81FA762D473E0E8F9A7F3 /* ReadiumInternal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ReadiumInternal.debug.xcconfig; sourceTree = "<group>"; };
 		EF8FB9A0FB0C7650A1985725D7484218 /* Pods-BookHarbour-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BookHarbour-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EFA14B6B9CDE2231C10F2E43A1324AD6 /* MediaOverlayNode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MediaOverlayNode.swift; path = "Sources/Shared/Publication/Media Overlays/MediaOverlayNode.swift"; sourceTree = "<group>"; };
-		EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = ReadiumNavigator; path = ReadiumNavigator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReadiumNavigator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFB9FCB27BBCF48FF1F21C0A32794295 /* Elements.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Elements.swift; path = Sources/Elements.swift; sourceTree = "<group>"; };
 		F0219D81A9D963DEB28825DA89FE06A4 /* Format.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Format.swift; path = Sources/Shared/Toolkit/Format/Format.swift; sourceTree = "<group>"; };
 		F05FCD3F6664FA07A5AE103D0542889A /* CompositePublicationParser.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CompositePublicationParser.swift; path = Sources/Streamer/Parser/CompositePublicationParser.swift; sourceTree = "<group>"; };
@@ -1718,12 +1718,12 @@
 		F7C38973118AD5C89DC3E1EE684D079A /* HTTPProblemDetails.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTTPProblemDetails.swift; path = Sources/Shared/Toolkit/HTTP/HTTPProblemDetails.swift; sourceTree = "<group>"; };
 		F807E682EDD1A2F7A7D00774D6F64563 /* HTMLFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HTMLFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/HTMLFormatSniffer.swift; sourceTree = "<group>"; };
 		F810AFEECC9BDA4E2B9A0661B6F6B913 /* SwiftSoup-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftSoup-umbrella.h"; sourceTree = "<group>"; };
-		F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CryptoSwift; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CryptoSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F85625CBCEEFE34BEFB0332F17A8A59E /* OPDSFormatSniffer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OPDSFormatSniffer.swift; path = Sources/Shared/Toolkit/Format/Sniffers/OPDSFormatSniffer.swift; sourceTree = "<group>"; };
 		F87536A41B1BE9F8C1DF0A1FD3B46E06 /* OFB.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OFB.swift; path = Sources/CryptoSwift/BlockMode/OFB.swift; sourceTree = "<group>"; };
 		F9420C52427786553ED32A89514A4442 /* Collection.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Collection.swift; path = Sources/Internal/Extensions/Collection.swift; sourceTree = "<group>"; };
 		F996E1F6B8D3F05FC7193C99DBBE1E2D /* UserKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserKey.swift; path = Sources/LCP/License/Model/Components/LCP/UserKey.swift; sourceTree = "<group>"; };
-		F9D729F3A92F0855B9658DBD70D381BD /* entropy.c */ = {isa = PBXFileReference; includeInIndex = 1; name = entropy.c; path = Vendor/Minizip/aes/entropy.c; sourceTree = "<group>"; };
+		F9D729F3A92F0855B9658DBD70D381BD /* entropy.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = entropy.c; path = Vendor/Minizip/aes/entropy.c; sourceTree = "<group>"; };
 		FA52E6B89D89A8E28FE65796B5FCE5D5 /* Facet.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Facet.swift; path = Sources/Shared/OPDS/Facet.swift; sourceTree = "<group>"; };
 		FA79E391980CB3CDE9DB4982578C8220 /* DataCompression.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DataCompression.swift; path = Sources/Streamer/Toolkit/DataCompression.swift; sourceTree = "<group>"; };
 		FAC383435DA708DB1B5111B4A7F204E4 /* AES+Foundation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "AES+Foundation.swift"; path = "Sources/CryptoSwift/Foundation/AES+Foundation.swift"; sourceTree = "<group>"; };
@@ -1732,7 +1732,7 @@
 		FB18D5FC3B79213F18F50EBB5581033B /* ReadiumFuzi-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ReadiumFuzi-dummy.m"; sourceTree = "<group>"; };
 		FB3A699CCBF6C53C5DBD8C537C5A06FC /* Types.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Types.swift; path = Sources/Navigator/Preferences/Types.swift; sourceTree = "<group>"; };
 		FBA9433E20A89DADD24F124361788C6C /* XChaCha20+Foundation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "XChaCha20+Foundation.swift"; path = "Sources/CryptoSwift/Foundation/XChaCha20+Foundation.swift"; sourceTree = "<group>"; };
-		FBEABDE35114CDF9B234898EA40427AA /* aestab.c */ = {isa = PBXFileReference; includeInIndex = 1; name = aestab.c; path = Vendor/Minizip/aes/aestab.c; sourceTree = "<group>"; };
+		FBEABDE35114CDF9B234898EA40427AA /* aestab.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = aestab.c; path = Vendor/Minizip/aes/aestab.c; sourceTree = "<group>"; };
 		FC36BFB8BCA4707F2F113E0ACD58490B /* ReadiumInternal-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ReadiumInternal-umbrella.h"; sourceTree = "<group>"; };
 		FC5CBA0F29C223F5BE00D2ED3145AE84 /* Publication+OPDS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Publication+OPDS.swift"; path = "Sources/Shared/Publication/Extensions/OPDS/Publication+OPDS.swift"; sourceTree = "<group>"; };
 		FC9753F2EF8C5EAE6E6B5D602BAB657F /* AEAD.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AEAD.swift; path = Sources/CryptoSwift/AEAD/AEAD.swift; sourceTree = "<group>"; };
@@ -1919,7 +1919,6 @@
 				712FC2B8D9DF6236F586E2BDEF46AB2C /* ResourceResponse.swift */,
 				979875CCF3B2D435C9293C14A64EB60E /* Support Files */,
 			);
-			name = ReadiumAdapterGCDWebServer;
 			path = ReadiumAdapterGCDWebServer;
 			sourceTree = "<group>";
 		};
@@ -1934,26 +1933,26 @@
 		15FA6F1721531BDFFDEFCF2CAB6F96D8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift */,
+				F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift.framework */,
 				409A40F21065BFF2199E91A10A27F9DA /* CryptoSwift-CryptoSwift */,
-				797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit */,
-				B67616BD1271BED7CE5210FCD08AB004 /* Minizip */,
+				797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit.framework */,
+				B67616BD1271BED7CE5210FCD08AB004 /* Minizip.framework */,
 				26B72C0C12435CEC206E6692CC123E1E /* Pods-BookHarbour */,
-				7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer */,
-				D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi */,
-				389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer */,
-				744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal */,
-				57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP */,
+				7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer.framework */,
+				D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi.framework */,
+				389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer.framework */,
+				744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal.framework */,
+				57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP.framework */,
 				827965101D476DE6C1C87AEC275918E5 /* ReadiumLCP-ReadiumLCP */,
-				EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator */,
+				EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator.framework */,
 				77B0B2ADF9D04A1F993D408BC72798E0 /* ReadiumNavigator-ReadiumNavigator */,
-				31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS */,
-				350D824A9B02042871C56E908873F006 /* ReadiumShared */,
-				10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer */,
+				31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS.framework */,
+				350D824A9B02042871C56E908873F006 /* ReadiumShared.framework */,
+				10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer.framework */,
 				50872F7EFDA806F9CA80F0AF05A9C2F1 /* ReadiumStreamer-ReadiumStreamer */,
-				1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation */,
+				1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation.framework */,
 				69AAD8856A79448261DE7130E95179A2 /* ReadiumZIPFoundation-ZIPFoundation_Privacy */,
-				5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup */,
+				5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1983,7 +1982,6 @@
 				39CE3AE42D7D5D3905DBC5A220702701 /* URLHelper.swift */,
 				F28E89325A0F7228F1513E4F432EEF7F /* Support Files */,
 			);
-			name = ReadiumOPDS;
 			path = ReadiumOPDS;
 			sourceTree = "<group>";
 		};
@@ -2011,7 +2009,6 @@
 				CF965908F6EA57E43FD43A3567C91632 /* UTI.swift */,
 				E3EFB352AD815E3EB09ADE89EFD698D6 /* Support Files */,
 			);
-			name = ReadiumInternal;
 			path = ReadiumInternal;
 			sourceTree = "<group>";
 		};
@@ -2078,7 +2075,6 @@
 				47161B4BF651FF86029F204D71F70F6B /* XmlTreeBuilder.swift */,
 				B1998038DD36A95DE01050E3B7C32BDA /* Support Files */,
 			);
-			name = SwiftSoup;
 			path = SwiftSoup;
 			sourceTree = "<group>";
 		};
@@ -2096,7 +2092,6 @@
 				AD990D66D743F7E5F4F3F63E02C25A30 /* Core */,
 				AC8A2E3AE9AC781FEBDBFAE64F328DB6 /* Support Files */,
 			);
-			name = ReadiumGCDWebServer;
 			path = ReadiumGCDWebServer;
 			sourceTree = "<group>";
 		};
@@ -2290,7 +2285,6 @@
 				226B344ABF37377273A9CDFDA5725B3F /* ZIPFoundationContainer.swift */,
 				BC40F849AA7DB220C3B57F10F860C872 /* Support Files */,
 			);
-			name = ReadiumShared;
 			path = ReadiumShared;
 			sourceTree = "<group>";
 		};
@@ -2381,7 +2375,6 @@
 				DC4C24B34046C6ED6B12358FA1C2DF74 /* Resources */,
 				CEA92975DA0293C1326421CCFBE0047F /* Support Files */,
 			);
-			name = ReadiumLCP;
 			path = ReadiumLCP;
 			sourceTree = "<group>";
 		};
@@ -2422,7 +2415,6 @@
 				075A52479EA19B48FBC05DA0F87F92E5 /* Resources */,
 				F1F6F18BBB8AC556CAE53938E18AFB53 /* Support Files */,
 			);
-			name = ReadiumStreamer;
 			path = ReadiumStreamer;
 			sourceTree = "<group>";
 		};
@@ -2480,7 +2472,6 @@
 				739810384C32AF1B0945F6C5D40DC89E /* zip.h */,
 				77B14D809301DBF4833EA7E556316656 /* Support Files */,
 			);
-			name = Minizip;
 			path = Minizip;
 			sourceTree = "<group>";
 		};
@@ -2629,7 +2620,6 @@
 				F14AC70FC8AC654F12C98B3CC8239B89 /* Resources */,
 				77CEA501F1F598DA3F809265273A53E2 /* Support Files */,
 			);
-			name = ReadiumZIPFoundation;
 			path = ReadiumZIPFoundation;
 			sourceTree = "<group>";
 		};
@@ -2748,7 +2738,6 @@
 				769995A230C3022FA6C8B3C9665E4D6B /* Resources */,
 				7CC24D3FBAB7C3FD17DCFB40ADC48A4C /* Support Files */,
 			);
-			name = ReadiumNavigator;
 			path = ReadiumNavigator;
 			sourceTree = "<group>";
 		};
@@ -2906,7 +2895,6 @@
 				B5A0486F2BE9F462359E12EA1B78EA0F /* Resources */,
 				46848B882F7339856BBC732A6D2B17A7 /* Support Files */,
 			);
-			name = CryptoSwift;
 			path = CryptoSwift;
 			sourceTree = "<group>";
 		};
@@ -3010,7 +2998,6 @@
 				FBB095DA3EAD232CFCDEFD5B95B03A6C /* Support Files */,
 				2E3825BA669A09C58AEDE447744BA8AE /* UIKitExtension */,
 			);
-			name = DifferenceKit;
 			path = DifferenceKit;
 			sourceTree = "<group>";
 		};
@@ -3026,7 +3013,6 @@
 				0ADB5020D708125E60CA237F08C4EB0C /* Queryable.swift */,
 				1BE3BF26A31636723C75896D07FD8C59 /* Support Files */,
 			);
-			name = ReadiumFuzi;
 			path = ReadiumFuzi;
 			sourceTree = "<group>";
 		};
@@ -3219,7 +3205,7 @@
 			);
 			name = ReadiumFuzi;
 			productName = ReadiumFuzi;
-			productReference = D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi */;
+			productReference = D652EABFB343861C73B71A5979C48140 /* ReadiumFuzi.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		259EE880AD7C00E6A9D69CB7DF5CC461 /* ReadiumAdapterGCDWebServer */ = {
@@ -3240,7 +3226,7 @@
 			);
 			name = ReadiumAdapterGCDWebServer;
 			productName = ReadiumAdapterGCDWebServer;
-			productReference = 7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer */;
+			productReference = 7C68A7A0B0564B5EE9B36744E990E606 /* ReadiumAdapterGCDWebServer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		28BA2542AA4F1EE8E7F47CE6E5071F2A /* ReadiumLCP-ReadiumLCP */ = {
@@ -3280,7 +3266,7 @@
 			);
 			name = ReadiumStreamer;
 			productName = ReadiumStreamer;
-			productReference = 10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer */;
+			productReference = 10D5FECA0618079DB70F2AADBE2F9BB8 /* ReadiumStreamer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		556DE7D8FEC5C5019859EBF24DADD8BC /* ReadiumZIPFoundation */ = {
@@ -3299,7 +3285,7 @@
 			);
 			name = ReadiumZIPFoundation;
 			productName = ReadiumZIPFoundation;
-			productReference = 1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation */;
+			productReference = 1CE35D9F6F47ABC0DFB15A4870539CBA /* ReadiumZIPFoundation.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		8FC6E51285E4FD828A61BEFD2100CD64 /* DifferenceKit */ = {
@@ -3317,7 +3303,7 @@
 			);
 			name = DifferenceKit;
 			productName = DifferenceKit;
-			productReference = 797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit */;
+			productReference = 797B1BBC3E03CD39B8CB79D79BCFF843 /* DifferenceKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		9694840AD9B0D4B76F95AE4669C7686F /* ReadiumZIPFoundation-ZIPFoundation_Privacy */ = {
@@ -3353,7 +3339,7 @@
 			);
 			name = CryptoSwift;
 			productName = CryptoSwift;
-			productReference = F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift */;
+			productReference = F81274EDB681F11E7CB05F7DCA2BB33C /* CryptoSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		A200123BD364B63B690BE2C2CBC309B4 /* ReadiumNavigator */ = {
@@ -3376,7 +3362,7 @@
 			);
 			name = ReadiumNavigator;
 			productName = ReadiumNavigator;
-			productReference = EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator */;
+			productReference = EFA2089E7C0B21CFFC3592E97253FB2F /* ReadiumNavigator.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		A5FAE48CC25A45BFA050A1C40AA92DFA /* ReadiumShared */ = {
@@ -3399,7 +3385,7 @@
 			);
 			name = ReadiumShared;
 			productName = ReadiumShared;
-			productReference = 350D824A9B02042871C56E908873F006 /* ReadiumShared */;
+			productReference = 350D824A9B02042871C56E908873F006 /* ReadiumShared.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		AB75A62BBE6E654BB1E81ED3A3C9D6D6 /* ReadiumNavigator-ReadiumNavigator */ = {
@@ -3434,7 +3420,7 @@
 			);
 			name = ReadiumGCDWebServer;
 			productName = ReadiumGCDWebServer;
-			productReference = 389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer */;
+			productReference = 389981D0A8208C539AEC1915FC0C8319 /* ReadiumGCDWebServer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B560FF131D35D1F665273749D973A7E6 /* ReadiumInternal */ = {
@@ -3452,7 +3438,7 @@
 			);
 			name = ReadiumInternal;
 			productName = ReadiumInternal;
-			productReference = 744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal */;
+			productReference = 744F0A520D2EAACA547B090665D0D368 /* ReadiumInternal.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C37D0EAC2604B9A0561CA57B2BA7B183 /* Pods-BookHarbour */ = {
@@ -3502,7 +3488,7 @@
 			);
 			name = Minizip;
 			productName = Minizip;
-			productReference = B67616BD1271BED7CE5210FCD08AB004 /* Minizip */;
+			productReference = B67616BD1271BED7CE5210FCD08AB004 /* Minizip.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D4B674A46BD5B0759D889810E451610D /* ReadiumOPDS */ = {
@@ -3523,7 +3509,7 @@
 			);
 			name = ReadiumOPDS;
 			productName = ReadiumOPDS;
-			productReference = 31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS */;
+			productReference = 31C573607C1DED1273A2BE8A53F57805 /* ReadiumOPDS.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D89F48405DFAFEF441B4E758A15117A5 /* SwiftSoup */ = {
@@ -3541,7 +3527,7 @@
 			);
 			name = SwiftSoup;
 			productName = SwiftSoup;
-			productReference = 5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup */;
+			productReference = 5F38EF8DCE7D46A354D1D1BBAC952903 /* SwiftSoup.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EB2D4805363100358C924B383325E079 /* ReadiumLCP */ = {
@@ -3564,7 +3550,7 @@
 			);
 			name = ReadiumLCP;
 			productName = ReadiumLCP;
-			productReference = 57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP */;
+			productReference = 57914147F0CD54E5CE8CB05390E4A447 /* ReadiumLCP.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EBC10B6451F5FE5244D138B5176C2A02 /* CryptoSwift-CryptoSwift */ = {
@@ -3619,8 +3605,6 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 15FA6F1721531BDFFDEFCF2CAB6F96D8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -4833,7 +4817,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumOPDS/ReadiumOPDS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4872,7 +4856,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumInternal/ReadiumInternal-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4911,7 +4895,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/SwiftSoup/SwiftSoup-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4951,7 +4935,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumNavigator/ReadiumNavigator-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -4990,7 +4974,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumGCDWebServer/ReadiumGCDWebServer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5030,7 +5014,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumZIPFoundation/ReadiumZIPFoundation-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5087,7 +5071,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/CryptoSwift/CryptoSwift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5192,7 +5176,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/Minizip/Minizip-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5249,7 +5233,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumAdapterGCDWebServer/ReadiumAdapterGCDWebServer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5329,7 +5313,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/SwiftSoup/SwiftSoup-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5385,7 +5369,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumStreamer/ReadiumStreamer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5424,7 +5408,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/Minizip/Minizip-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5463,7 +5447,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumGCDWebServer/ReadiumGCDWebServer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5502,7 +5486,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumFuzi/ReadiumFuzi-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5541,7 +5525,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumAdapterGCDWebServer/ReadiumAdapterGCDWebServer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5596,7 +5580,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/DifferenceKit/DifferenceKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5703,7 +5687,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumShared/ReadiumShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5743,7 +5727,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumLCP/ReadiumLCP-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5783,7 +5767,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/CryptoSwift/CryptoSwift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5822,7 +5806,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumStreamer/ReadiumStreamer-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5861,7 +5845,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumLCP/ReadiumLCP-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -5979,7 +5963,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumShared/ReadiumShared-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6057,7 +6041,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumZIPFoundation/ReadiumZIPFoundation-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6096,7 +6080,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumFuzi/ReadiumFuzi-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6153,7 +6137,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumInternal/ReadiumInternal-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6193,7 +6177,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumNavigator/ReadiumNavigator-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6233,7 +6217,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/ReadiumOPDS/ReadiumOPDS-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -6272,7 +6256,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "Target Support Files/DifferenceKit/DifferenceKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
