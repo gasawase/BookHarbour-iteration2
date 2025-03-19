@@ -23,7 +23,8 @@
 		8EC391F52D84AAC80009A8DC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC391F42D84AAC80009A8DC /* NetworkManager.swift */; };
 		8EC391F72D84AB0A0009A8DC /* MatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC391F62D84AB0A0009A8DC /* MatchManager.swift */; };
 		8EC391F92D84AB270009A8DC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC391F82D84AB270009A8DC /* CoreDataManager.swift */; };
-		8EC391FB2D84AB480009A8DC /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC391FA2D84AB480009A8DC /* Utility.swift */; };
+		8EC391FB2D84AB480009A8DC /* UtilityClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC391FA2D84AB480009A8DC /* UtilityClass.swift */; };
+		8ECEA1DE2D8B1BC5009F56E1 /* NavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ECEA1DD2D8B1BC5009F56E1 /* NavigatorDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +47,8 @@
 		8EC391F42D84AAC80009A8DC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		8EC391F62D84AB0A0009A8DC /* MatchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchManager.swift; sourceTree = "<group>"; };
 		8EC391F82D84AB270009A8DC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		8EC391FA2D84AB480009A8DC /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		8EC391FA2D84AB480009A8DC /* UtilityClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityClass.swift; sourceTree = "<group>"; };
+		8ECEA1DD2D8B1BC5009F56E1 /* NavigatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigatorDelegate.swift; sourceTree = "<group>"; };
 		AD1B9CFFFD34E0396F6B0E21 /* Pods_BookHarbour.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookHarbour.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -100,6 +102,7 @@
 		8EADAC422D20CD5E00EFC670 /* BookHarbour */ = {
 			isa = PBXGroup;
 			children = (
+				8ECEA1DC2D8B1BB8009F56E1 /* Delegates */,
 				8E3D56F32D556F89008F2EFB /* Data */,
 				8E519A2A2D2CAAA800E48BE0 /* Info.plist */,
 				8EADAC5F2D221E0800EFC670 /* Controllers */,
@@ -170,10 +173,18 @@
 				8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */,
 				8EC391F42D84AAC80009A8DC /* NetworkManager.swift */,
 				8EC391F62D84AB0A0009A8DC /* MatchManager.swift */,
-				8EC391FA2D84AB480009A8DC /* Utility.swift */,
+				8EC391FA2D84AB480009A8DC /* UtilityClass.swift */,
 				8E9AE5392D8AE2C900DD931F /* ReaderController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		8ECEA1DC2D8B1BB8009F56E1 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				8ECEA1DD2D8B1BC5009F56E1 /* NavigatorDelegate.swift */,
+			);
+			path = Delegates;
 			sourceTree = "<group>";
 		};
 		E9E3213E5213F26393D49155 /* Pods */ = {
@@ -305,10 +316,11 @@
 				8E9AE53A2D8AE2C900DD931F /* ReaderController.swift in Sources */,
 				8EC391F72D84AB0A0009A8DC /* MatchManager.swift in Sources */,
 				8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */,
+				8ECEA1DE2D8B1BC5009F56E1 /* NavigatorDelegate.swift in Sources */,
 				8EADAC5E2D221C2C00EFC670 /* EpubPickerView.swift in Sources */,
 				8E3D56F62D556FA0008F2EFB /* CoreData.xcdatamodeld in Sources */,
 				8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */,
-				8EC391FB2D84AB480009A8DC /* Utility.swift in Sources */,
+				8EC391FB2D84AB480009A8DC /* UtilityClass.swift in Sources */,
 				8EADAC612D221E5500EFC670 /* EpubManager.swift in Sources */,
 				8E519A292D2496A200E48BE0 /* BookDetails.swift in Sources */,
 				8EC391F92D84AB270009A8DC /* CoreDataManager.swift in Sources */,

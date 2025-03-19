@@ -23,6 +23,7 @@ struct BookDetails : Identifiable, Hashable
     var _ISBN: String = ""
     var _coverPath: String = ""
     var _language: String = ""
+    var _locator: Data = Data()
 //    @Published var bookOPFPath : String = ""
 //    @Published var bookOPFURL : URL = URL(fileURLWithPath: "/path/to/file.txt")
 //    @Published var readingProgressSeconds : Int = 0

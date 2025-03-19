@@ -70,6 +70,9 @@ class EpubManager : ObservableObject
                             print("❌ Failed to create security-scoped bookmark for:", epubFile.absoluteURL)
                             return
                         }
+//                        let epubLocator = Locator(href: publication.readingOrder.first?.href,
+//                                                  mediaType: publication.readingOrder.first?.mediaType ?? MediaType.epub)
+                        
                         // add a book to the array
                         let book = BookDetails(
                             _bookTitle: cleanTitle(publication.metadata.title ?? "Unknown Title"),
@@ -79,7 +82,8 @@ class EpubManager : ObservableObject
                             _epubBookmark: bookmarkData,
                             _ISBN: validIsbnVal,
                             _coverPath: getCoverURL(manifestJSON: publication.manifest.json),
-                            _language: publication.metadata.language?.description ?? ""
+                            _language: publication.metadata.language?.description ?? "",
+                            _locator: defaultLocator(for: publication)
                         )
                         //print("manifest.resources.json \(publication.manifest.resources)")
                         print("Title: \(book._bookTitle) | ISBN: \(book._ISBN) | Author: \(book._bookAuthor) | Language: \(book._language)")
@@ -170,11 +174,33 @@ class EpubManager : ObservableObject
                 newAddBook.pageCount = bookInstance._pageCount
                 newAddBook.coverImgPath = bookInstance._coverPath
                 newAddBook.language = bookInstance._language
+                newAddBook.locator = bookInstance._locator
             }
             try DataController.shared.container.viewContext.save()
         } catch let error as NSError {
             print("Error saving to CoreData: \(error.localizedDescription)")
         }
     }
+    
+    func defaultLocator(for publication: Publication) -> Data {
+        let firstHref = publication.readingOrder.first?.href ?? ""
+
+        guard let validHref = AnyURL(string: firstHref) else {
+            fatalError("Invalid EPUB resource path: \(firstHref)")
+        }
+        
+        let newLocator = Locator(
+            href: validHref,  // Ensure `href` is a valid AnyURL
+            mediaType: publication.readingOrder.first?.mediaType ?? .epub,
+            title: publication.metadata.title,
+            locations: Locator.Locations(progression: 0.0, totalProgression: 0.0, position: 1),
+            text: Locator.Text() )
+        guard let encodedLocator = UtilityClass.encodeLocator(newLocator) else
+        {
+            return Data()
+        }
+        return encodedLocator
+    }
+
     
 }

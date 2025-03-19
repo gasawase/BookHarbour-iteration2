@@ -7,6 +7,7 @@
         <attribute name="epubBookmark" optional="YES" attributeType="Binary"/>
         <attribute name="isbn" attributeType="String"/>
         <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="locator" optional="YES" attributeType="Binary"/>
         <attribute name="pageCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="synopsis" optional="YES" attributeType="String"/>
         <attribute name="uuid" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

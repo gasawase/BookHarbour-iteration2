@@ -6,13 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
+import UIKit
 import ReadiumShared
 import ReadiumStreamer
+import ReadiumNavigator
+import ReadiumAdapterGCDWebServer
 
 class ReaderController : ObservableObject
 {
     var HTTPClient = DefaultHTTPClient()
     var assetRetriever = AssetRetriever(httpClient: DefaultHTTPClient())
+    var utilityClass = UtilityClass()
 
     public func convertBookmarkToURL(from bookmark: Data?) async -> Publication? {
         
@@ -88,7 +93,21 @@ class ReaderController : ObservableObject
 //            print("Book bookmark is invalid: \(book.epubBookmark)")
 //            return
 //        }
-        let ebookPublicationObj = await convertBookmarkToURL(from: book.epubBookmark)
+        guard let ebookPublicationObj = await convertBookmarkToURL(from: book.epubBookmark) else {return}
+        
+        if ebookPublicationObj.conforms(to: .epub)
+        {
+            guard let decodedLocator = utilityClass.decodeLocator(from: book.locator ?? Data()) else
+            {
+                print("Failed to decode Locator")
+                return
+            }
+            do {
+                let navigator = try await EPUBNavigatorViewController(publication: ebookPublicationObj, initialLocation: nil, httpServer: GCDHTTPServer(assetRetriever: assetRetriever))
+            } catch {
+                print("Failed to create a navigator")
+                return
+            }
+        }
     }
-
 }

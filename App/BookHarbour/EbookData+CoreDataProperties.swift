@@ -23,5 +23,7 @@ extension EbookData {
     @NSManaged public var isbn: Int16
     @NSManaged public var pageCount: Int16
     @NSManaged public var uuid: UUID?
+    @NSManaged public var locator: BinaryData?  // Stores the last reading position
+
 
 }
