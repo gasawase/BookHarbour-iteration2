@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -12,7 +12,7 @@ import ReadiumShared
 /// Serves `Publication`'s `Resource`s as an `AVURLAsset`.
 ///
 /// Useful for local resources or when you need to customize the way HTTP requests are sent.
-final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Loggable {
+final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Loggable, @unchecked Sendable {
     public enum AssetError: Error {
         /// Can't produce an URL to create an AVAsset for the given HREF.
         case invalidHREF(String)
@@ -51,7 +51,9 @@ final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Log
     private var resources: [AnyURL: (Link, Resource)] = [:]
 
     private func resource<T: URLConvertible>(forHREF href: T) -> (Link, Resource)? {
-        let href = href.anyURL
+        dispatchPrecondition(condition: .onQueue(queue))
+
+        let href = href.anyURL.normalized
         if let res = resources[equivalent: href] {
             return res
         }
@@ -75,7 +77,9 @@ final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Log
 
     /// Adds a new loading request.
     private func registerRequest<T: URLConvertible>(_ request: AVAssetResourceLoadingRequest, task: Task<Void, Never>, for href: T) {
-        let href = href.anyURL
+        dispatchPrecondition(condition: .onQueue(queue))
+
+        let href = href.anyURL.normalized
         var reqs: [CancellableRequest] = requests[href] ?? []
         reqs.append((request, task))
         requests[href] = reqs
@@ -83,6 +87,8 @@ final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Log
 
     /// Terminates and removes the given loading request, cancelling it if necessary.
     private func finishRequest(_ request: AVAssetResourceLoadingRequest) {
+        dispatchPrecondition(condition: .onQueue(queue))
+
         guard
             let href = request.request.url?.audioHREF,
             var reqs = requests[href],
@@ -95,9 +101,7 @@ final class PublicationMediaLoader: NSObject, AVAssetResourceLoaderDelegate, Log
         req.task.cancel()
 
         if reqs.isEmpty {
-            if let (_, res) = resources.removeValue(forKey: href) {
-                res.close()
-            }
+            resources.removeValue(forKey: href)
             requests.removeValue(forKey: href)
         } else {
             requests[href] = reqs
@@ -192,7 +196,7 @@ extension URL {
         // * readium:relative/file.mp3
         // * readiumfile:///directory/local-file.mp3
         // * readiumhttp(s)://domain.com/external-file.mp3
-        return AnyURL(string: url.string.removingPrefix(schemePrefix).removingPrefix(":"))
+        return AnyURL(string: url.string.removingPrefix(schemePrefix).removingPrefix(":"))?.normalized
     }
 }
 

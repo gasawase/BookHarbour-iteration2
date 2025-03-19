@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -29,7 +29,6 @@ public protocol Archive {
     var entries: [ArchiveEntry] { get }
     func entry(at path: ArchivePath) -> ArchiveEntry?
     func readEntry(at path: ArchivePath) -> ArchiveEntryReader?
-    func close()
 }
 
 @available(*, unavailable)
@@ -56,9 +55,6 @@ public protocol ArchiveEntryReader {
     /// When `range` is nil, the whole content is returned. Out-of-range indexes are clamped to the available length
     /// automatically.
     func read(range: Range<UInt64>?) -> ArchiveResult<Data>
-
-    /// Closes any pending resources for this entry.
-    func close()
 }
 
 @available(*, unavailable, renamed: "ArchiveOpener")

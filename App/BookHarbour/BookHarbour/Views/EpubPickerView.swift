@@ -3,7 +3,8 @@ import CoreData
 
 struct EpubPickerView: View {
     @ObservedObject var epubManager = EpubManager()
-    @StateObject var googleFetcher = GoogleFetchController()
+    //@StateObject var googleFetcher = GoogleFetchController()
+    @ObservedObject var readerController = ReaderController()
     
     @State private var selectedBook: EbookData? = nil
     @State private var fetchedBook: Book? = nil
@@ -30,7 +31,7 @@ struct EpubPickerView: View {
                     BookListView()
                 }
             }
-            .overlay { popupOverlay }
+            //.overlay { popupOverlay }
             .toolbar { toolbarContent }
             .fileImporter(isPresented: $isFilePickerPresented, allowedContentTypes: [.folder], allowsMultipleSelection: false, onCompletion: handleFileImport)
         }
@@ -43,24 +44,28 @@ private extension EpubPickerView {
     @ViewBuilder
     func BookListView() -> some View {
         List(booksFromCoreData) { book in
-            BookRow(book: book, onReplaceInfo: { fetchBookInfo(for: book) })
-                .padding(.vertical, 4)
+//            BookRow(book: book, onReplaceInfo: { fetchBookInfo(for: book) })
+//            BookRow(book: book, pressedRead: { openBookToRead(for: book) })
+            BookRow(book: book, pressedRead: {
+                await readerController.readBook(for: book)
+            })
+                //.padding(.vertical, 4)
         }
     }
     
-    @ViewBuilder
-    var popupOverlay: some View {
-        if showPopup, let selected = selectedBook {
-            BookUpdatePopup(
-                originalBook: selected,
-                fetchedBook: fetchedBook ?? Book(),
-                onConfirm: confirmBookUpdate,
-                onNext: fetchNextBook
-            )
-        } else if showNoResultsPopup {
-            NoResultsPopup(onDismiss: { showNoResultsPopup = false })
-        }
-    }
+//    @ViewBuilder
+//    var popupOverlay: some View {
+//        if showPopup, let selected = selectedBook {
+//            BookUpdatePopup(
+//                originalBook: selected,
+//                fetchedBook: fetchedBook ?? Book(),
+//                onConfirm: confirmBookUpdate,
+//                onNext: fetchNextBook
+//            )
+//        } else if showNoResultsPopup {
+//            NoResultsPopup(onDismiss: { showNoResultsPopup = false })
+//        }
+//    }
     
     @ToolbarContentBuilder
     var toolbarContent: some ToolbarContent {
@@ -79,49 +84,49 @@ private extension EpubPickerView {
 // MARK: - Actions
 
 private extension EpubPickerView {
-    func fetchBookInfo(for book: EbookData) {
-        currentMatchIndex = 0
-        googleFetcher.fetchBookInfo(for: book) { bookArr in
-            if !bookArr.isEmpty {
-                matchedResults = bookArr
-                fetchedBook = matchedResults.first
-                selectedBook = book
-                showPopup = true
-            } else {
-                showNoResultsPopup = true
-            }
-        }
-    }
+//    func fetchBookInfo(for book: EbookData) {
+//        currentMatchIndex = 0
+//        googleFetcher.fetchBookInfo(for: book) { bookArr in
+//            if !bookArr.isEmpty {
+//                matchedResults = bookArr
+//                fetchedBook = matchedResults.first
+//                selectedBook = book
+//                showPopup = true
+//            } else {
+//                showNoResultsPopup = true
+//            }
+//        }
+//    }
     
-    func fetchNextBook() {
-        if currentMatchIndex < matchedResults.count - 1 {
-            currentMatchIndex += 1
-            fetchedBook = matchedResults[currentMatchIndex]
-        } else {
-            attemptFetchingMoreResults()
-        }
-    }
+//    func fetchNextBook() {
+//        if currentMatchIndex < matchedResults.count - 1 {
+//            currentMatchIndex += 1
+//            fetchedBook = matchedResults[currentMatchIndex]
+//        } else {
+//            attemptFetchingMoreResults()
+//        }
+//    }
     
-    func attemptFetchingMoreResults() {
-        nextClickCount += 1
-        if nextClickCount >= 3 {
-            isFetchingMoreResults = true
-            nextClickCount = 0
-            googleFetcher.fetchBookInfo(for: selectedBook!) { newBooks in
-                isFetchingMoreResults = false
-                matchedResults = newBooks
-                currentMatchIndex = 0
-                fetchedBook = matchedResults.first ?? Book()
-                showPopup = !matchedResults.isEmpty
-            }
-        } else {
-            showNoResultsPopup = true
-            showPopup = false
-        }
-    }
+//    func attemptFetchingMoreResults() {
+//        nextClickCount += 1
+//        if nextClickCount >= 3 {
+//            isFetchingMoreResults = true
+//            nextClickCount = 0
+//            googleFetcher.fetchBookInfo(for: selectedBook!) { newBooks in
+//                isFetchingMoreResults = false
+//                matchedResults = newBooks
+//                currentMatchIndex = 0
+//                fetchedBook = matchedResults.first ?? Book()
+//                showPopup = !matchedResults.isEmpty
+//            }
+//        } else {
+//            showNoResultsPopup = true
+//            showPopup = false
+//        }
+//    }
     
     func confirmBookUpdate() {
-        googleFetcher.editBookWithGoogleInfo(selectedBook!, fetchedBook ?? Book())
+        //googleFetcher.editBookWithGoogleInfo(selectedBook!, fetchedBook ?? Book())
         matchedResults = []
         showPopup = false
     }
@@ -130,7 +135,7 @@ private extension EpubPickerView {
         dataController.clearAllTitles()
         epubManager.fileLocArr.removeAll()
         epubManager.bookArr.removeAll()
-        googleFetcher.storedBooks.removeAll()
+        //googleFetcher.storedBooks.removeAll()
     }
     
     func handleFileImport(result: Result<[URL], Error>) {
@@ -150,24 +155,35 @@ private extension EpubPickerView {
 
 struct BookRow: View {
     let book: EbookData
-    let onReplaceInfo: () -> Void
+    //let onReplaceInfo: () -> Void
+    let pressedRead: () async -> Void
     
     var body: some View {
         HStack(alignment: .top) {
-            Button(action: onReplaceInfo) {
-                Text("Replace Info from Google")
-                    .padding(8)
-                    .background(Color.green)
-            }
-            .buttonStyle(BorderlessButtonStyle())
+//            Button(action: onReplaceInfo) {
+//                Text("Replace Info from Google")
+//                    .padding(8)
+//                    .background(Color.green)
+//            }
+//            .buttonStyle(BorderlessButtonStyle())
             
             VStack(alignment: .leading) {
                 Text("📖 \(book.bookTitle ?? "Unknown Title")").font(.headline)
                 Text("✍️ \(book.author ?? "Unknown Author")").font(.subheadline)
                 Text("📝 Pages: \(book.pageCount)")
-                Text("🔍 ISBN: \(book.isbn ?? "")")
+                Text("🔍 ISBN: \(book.isbn ?? "No ISBN")")
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            
+            Button(action: {
+                Task{
+                    await pressedRead()
+                }
+            }) {
+                Text("Read")
+                    .padding(8)
+                    .background(Color.blue)
+            }
         }
     }
 }

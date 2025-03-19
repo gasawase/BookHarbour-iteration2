@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -27,7 +27,7 @@ final class LCPDFPositionsService: PositionsService, PDFPublicationService, Logg
 
     private func computePositionsByReadingOrder() async -> ReadResult<[[Locator]]> {
         // Calculates the page count of each resource from the reading order.
-        let resources = await readingOrder.asyncmap { link -> (Int, Link) in
+        let resources = await readingOrder.asyncMap { link -> (Int, Link) in
             let href = link.url()
             guard
                 let resource = container[href],

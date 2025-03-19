@@ -19,7 +19,7 @@ extension EbookData {
     @NSManaged public var author: String
     @NSManaged public var bookTitle: String
     @NSManaged public var coverImgPath: String?
-    @NSManaged public var epubPath: String?
+    @NSManaged public var epubBookmark: BinaryData?
     @NSManaged public var isbn: Int16
     @NSManaged public var pageCount: Int16
     @NSManaged public var uuid: UUID?

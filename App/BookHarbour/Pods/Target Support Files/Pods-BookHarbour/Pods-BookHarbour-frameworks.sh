@@ -178,32 +178,30 @@ code_sign_if_enabled() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Fuzi/Fuzi.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Minizip/Minizip.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumGCDWebServer/ReadiumGCDWebServer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumFuzi/ReadiumFuzi.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumInternal/ReadiumInternal.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumLCP/ReadiumLCP.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumNavigator/ReadiumNavigator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumOPDS/ReadiumOPDS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumShared/ReadiumShared.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumStreamer/ReadiumStreamer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumZIPFoundation/ReadiumZIPFoundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Fuzi/Fuzi.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Minizip/Minizip.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumGCDWebServer/ReadiumGCDWebServer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumFuzi/ReadiumFuzi.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumInternal/ReadiumInternal.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumLCP/ReadiumLCP.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumNavigator/ReadiumNavigator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumOPDS/ReadiumOPDS.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumShared/ReadiumShared.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ReadiumStreamer/ReadiumStreamer.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReadiumZIPFoundation/ReadiumZIPFoundation.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

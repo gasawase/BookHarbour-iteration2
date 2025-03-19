@@ -19,7 +19,7 @@ struct BookDetails : Identifiable, Hashable
     var _bookAuthor: String = ""
     //var _currentChapter: Int = 0
     var _pageCount: Int64 = 0
-    var _epubPath: String = ""
+    var _epubBookmark: Data = Data()
     var _ISBN: String = ""
     var _coverPath: String = ""
     var _language: String = ""
@@ -48,8 +48,8 @@ struct BookDetails : Identifiable, Hashable
         return _pageCount
     }
     
-    func getEpubPath() -> String {
-        return _epubPath
+    func getEpubBookmark() -> Data {
+        return _epubBookmark
     }
     
     func getISBN() -> String {
@@ -73,8 +73,8 @@ struct BookDetails : Identifiable, Hashable
         _pageCount = count
     }
     
-    mutating func setEpubPath(_ path: String) {
-        _epubPath = path
+    mutating func setEpubBookmark(_ data: Data) {
+        _epubBookmark = data
     }
     
     mutating func setISBN(_ isbn: String) {

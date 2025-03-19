@@ -1,12 +1,12 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
 
 import Foundation
 import ReadiumShared
-import ZIPFoundation
+import ReadiumZIPFoundation
 
 /// Access to a License Document stored in a ZIP archive.
 /// Meant to be subclassed to customize the pathInZIP property, eg. EPUBLicenseContainer.
@@ -20,23 +20,30 @@ class ZIPLicenseContainer: LicenseContainer {
     }
 
     func containsLicense() async throws -> Bool {
-        guard let archive = Archive(url: zip.url, accessMode: .read) else {
-            return false
+        do {
+            let archive = try await Archive(url: zip.url, accessMode: .read)
+            return try await archive.get(pathInZIP) != nil
+        } catch {
+            throw LCPError.licenseContainer(.openFailed(error))
         }
-        return archive[pathInZIP] != nil
     }
 
     func read() async throws -> Data {
-        guard let archive = Archive(url: zip.url, accessMode: .read) else {
-            throw LCPError.licenseContainer(.openFailed(nil))
-        }
-        guard let entry = archive[pathInZIP] else {
-            throw LCPError.licenseContainer(.fileNotFound(pathInZIP))
+        let archive: Archive
+        do {
+            archive = try await Archive(url: zip.url, accessMode: .read)
+        } catch {
+            throw LCPError.licenseContainer(.openFailed(error))
         }
 
         var data = Data()
+
         do {
-            _ = try archive.extract(entry) { part in
+            guard let entry = try await archive.get(pathInZIP) else {
+                throw LCPError.licenseContainer(.fileNotFound(pathInZIP))
+            }
+
+            _ = try await archive.extract(entry) { part in
                 data.append(part)
             }
         } catch {
@@ -47,20 +54,23 @@ class ZIPLicenseContainer: LicenseContainer {
     }
 
     func write(_ license: LicenseDocument) async throws {
-        guard let archive = Archive(url: zip.url, accessMode: .update) else {
-            throw LCPError.licenseContainer(.openFailed(nil))
+        let archive: Archive
+        do {
+            archive = try await Archive(url: zip.url, accessMode: .update)
+        } catch {
+            throw LCPError.licenseContainer(.openFailed(error))
         }
 
         do {
             // Removes the old License if it already exists in the archive, otherwise we get duplicated entries
-            if let oldLicense = archive[pathInZIP] {
-                try archive.remove(oldLicense)
+            if let oldLicense = try await archive.get(pathInZIP) {
+                try await archive.remove(oldLicense)
             }
 
             // Stores the License into the ZIP file
             let data = license.jsonData
-            try archive.addEntry(with: pathInZIP, type: .file, uncompressedSize: UInt32(data.count), provider: { position, size -> Data in
-                data[position ..< size]
+            try await archive.addEntry(with: pathInZIP, type: .file, uncompressedSize: Int64(data.count), provider: { position, size -> Data in
+                data[position ..< Int64(size)]
             })
         } catch {
             throw LCPError.licenseContainer(.writeFailed(path: pathInZIP))

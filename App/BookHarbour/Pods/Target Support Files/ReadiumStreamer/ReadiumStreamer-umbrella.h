@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "Zip.h"
 
 FOUNDATION_EXPORT double ReadiumStreamerVersionNumber;
 FOUNDATION_EXPORT const unsigned char ReadiumStreamerVersionString[];

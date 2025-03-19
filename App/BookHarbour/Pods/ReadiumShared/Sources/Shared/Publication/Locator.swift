@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -300,7 +300,11 @@ public struct Locator: Hashable, CustomStringConvertible, Loggable, Sendable {
                 let highlight = highlight,
                 !highlight.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
             else {
-                preconditionFailure("highlight is nil")
+                return Locator.Text(
+                    after: after.takeIf { !$0.isEmpty },
+                    before: before.takeIf { !$0.isEmpty },
+                    highlight: nil
+                )
             }
 
             let range = range

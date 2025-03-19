@@ -18,8 +18,8 @@ This toolkit is a modular project, which follows the [Readium Architecture](http
 
 | Readium   | iOS  | Swift compiler | Xcode |
 |-----------|------|----------------|-------|
-| `develop` | 13.0 | 5.10           | 15.4  |
-| 3.0.0     | 13.0 | 5.10           | 15.4  |
+| `develop` | 13.4 | 5.10           | 15.4  |
+| 3.0.0     | 13.4 | 5.10           | 15.4  |
 | 2.5.1     | 11.0 | 5.6.1          | 13.4  |
 | 2.5.0     | 10.0 | 5.6.1          | 13.4  |
 | 2.4.0     | 10.0 | 5.3.2          | 12.4  |
@@ -45,7 +45,7 @@ If you're stuck, find more information at [developer.apple.com](https://develope
 Add the following to your `Cartfile`:
 
 ```
-github "readium/swift-toolkit" ~> 3.0.0-beta.1
+github "readium/swift-toolkit" ~> 3.1.0
 ```
 
 Then, [follow the usual Carthage steps](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the Readium libraries to your project.
@@ -54,34 +54,32 @@ Note that Carthage will build all Readium modules and their dependencies, but yo
 
 Refer to the following table to know which dependencies are required for each Readium library.
 
-|                       |   `ReadiumShared`  |  `ReadiumStreamer` | `ReadiumNavigator` |    `ReadiumOPDS`   |    `ReadiumLCP`    | `ReadiumAdapterGCDWebServer` | `ReadiumAdapterLCPSQLite` |
-|-----------------------|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|------------------------------|---------------------------|
-| **`ReadiumShared`**   |                    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:           | :heavy_check_mark:        |
-| **`ReadiumInternal`** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
-| `CryptoSwift`         |                    | :heavy_check_mark: |                    |                    | :heavy_check_mark: |                              |                           |
-| `DifferenceKit`       |                    |                    | :heavy_check_mark: |                    |                    |                              |                           |
-| `Fuzi`                | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
-| `Minizip`             | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
-| `ReadiumGCDWebServer` |                    |                    |                    |                    |                    | :heavy_check_mark:           |                           |
-| `SQLite.swift`        |                    |                    |                    |                    |                    |                              | :heavy_check_mark:        |
-| `SwiftSoup`           | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
-| `ZIPFoundation`       |                    |                    |                    |                    | :heavy_check_mark: |                              |                           |
+|                        |   `ReadiumShared`  |  `ReadiumStreamer` | `ReadiumNavigator` |    `ReadiumOPDS`   |    `ReadiumLCP`    | `ReadiumAdapterGCDWebServer` | `ReadiumAdapterLCPSQLite` |
+|------------------------|:------------------:|:------------------:|:------------------:|:------------------:|:------------------:|------------------------------|---------------------------|
+| **`ReadiumShared`**    |                    | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:           | :heavy_check_mark:        |
+| **`ReadiumInternal`**  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
+| `CryptoSwift`          |                    | :heavy_check_mark: |                    |                    | :heavy_check_mark: |                              |                           |
+| `DifferenceKit`        |                    |                    | :heavy_check_mark: |                    |                    |                              |                           |
+| `ReadiumFuzi`          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
+| `ReadiumGCDWebServer`  |                    |                    |                    |                    |                    | :heavy_check_mark:           |                           |
+| `ReadiumZIPFoundation` | :heavy_check_mark: |                    |                    |                    | :heavy_check_mark: |                              |                           |
+| `Minizip`              | :heavy_check_mark: |                    |                    |                    |                    |                              |                           |
+| `SQLite.swift`         |                    |                    |                    |                    |                    |                              | :heavy_check_mark:        |
+| `SwiftSoup`            | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |                              |                           |
 
 ### CocoaPods
 
 Add the following `pod` statements to your `Podfile` for the Readium libraries you want to use:
 
 ```
-pod 'ReadiumShared', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumShared.podspec'
-pod 'ReadiumStreamer', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumStreamer.podspec'
-pod 'ReadiumNavigator', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumNavigator.podspec'
-pod 'ReadiumOPDS', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumOPDS.podspec'
-pod 'ReadiumLCP', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumLCP.podspec'
-pod 'ReadiumInternal', podspec: 'https://raw.githubusercontent.com/readium/swift-toolkit/3.0.0-beta.1/Support/CocoaPods/ReadiumInternal.podspec'
-pod 'Fuzi', podspec: 'https://raw.githubusercontent.com/readium/Fuzi/refs/heads/master/Fuzi.podspec'
+source 'https://github.com/readium/podspecs'
+source 'https://cdn.cocoapods.org/'
 
-# Required if you use ReadiumAdapterGCDWebServer.
-pod 'ReadiumGCDWebServer', podspec: 'https://raw.githubusercontent.com/readium/GCDWebServer/4.0.0/GCDWebServer.podspec'
+pod 'ReadiumShared', '~> 3.1.0'
+pod 'ReadiumStreamer', '~> 3.1.0'
+pod 'ReadiumNavigator', '~> 3.1.0'
+pod 'ReadiumOPDS', '~> 3.1.0'
+pod 'ReadiumLCP', '~> 3.1.0'
 ```
 
 Take a look at [CocoaPods's documentation](https://guides.cocoapods.org/using/using-cocoapods.html) for more information.

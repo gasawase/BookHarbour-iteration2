@@ -1,11 +1,12 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
 
 import CoreServices
 import Foundation
+import ReadiumInternal
 
 /// Shared model for a Readium Publication.
 public class Publication: Closeable, Loggable {
@@ -90,17 +91,10 @@ public class Publication: Closeable, Loggable {
 
     /// Returns the resource targeted by the given `href`.
     public func get<T: URLConvertible>(_ href: T) -> Resource? {
-        // Try first the original href and falls back to href without query and fragment.
-        container[href] ?? container[href.anyURL.removingQuery().removingFragment()]
-    }
-
-    /// Closes any opened resource associated with the `Publication`, including `services`.
-    public func close() {
-        container.close()
-
-        for service in services {
-            service.close()
-        }
+        services.first { $0.get(href) }
+            // Try first the original href and falls back to href without query and fragment.
+            ?? container[href]
+            ?? container[href.anyURL.removingQuery().removingFragment()]
     }
 
     /// Finds the first `Publication.Service` implementing the given service type.

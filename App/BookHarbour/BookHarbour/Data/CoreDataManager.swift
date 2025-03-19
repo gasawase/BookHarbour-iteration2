@@ -25,7 +25,7 @@ class CoreDataManager {
                 newBook.bookTitle = bookInstance._bookTitle
                 newBook.author = bookInstance._bookAuthor
                 newBook.isbn = bookInstance._ISBN
-                newBook.epubPath = bookInstance._epubPath
+                newBook.epubBookmark = bookInstance._epubBookmark
                 newBook.pageCount = bookInstance._pageCount
                 newBook.coverImgPath = bookInstance._coverPath
                 newBook.language = bookInstance._language

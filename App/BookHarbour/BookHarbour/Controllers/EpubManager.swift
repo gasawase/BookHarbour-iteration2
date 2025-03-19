@@ -43,6 +43,7 @@ class EpubManager : ObservableObject
                 pdfFactory: DefaultPDFDocumentFactory()
             )
         )
+        
 
         do {
             let files = try FileManager.default.contentsOfDirectory(at: folderURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles])
@@ -54,7 +55,6 @@ class EpubManager : ObservableObject
                     print("Failed to get absolute URL for \(epubFile)")
                     continue
                 }
-                
                 // Retrieve an `Asset` to access the file content
                 switch await assetRetriever.retrieve(url: absoluteURL) {
                 case .success(let asset):
@@ -62,12 +62,21 @@ class EpubManager : ObservableObject
                     switch await publicationOpener.open(asset: asset, allowUserInteraction: true, sender: senderView) {
                     case .success(let publication):
                         let validIsbnVal = isbnCleaner(publication: publication)
+                        guard let bookmarkData = try? epubFile.absoluteURL.bookmarkData(
+                            options: .withoutImplicitSecurityScope,
+                            includingResourceValuesForKeys: nil,
+                            relativeTo: nil
+                        ) else {
+                            print("❌ Failed to create security-scoped bookmark for:", epubFile.absoluteURL)
+                            return
+                        }
                         // add a book to the array
                         let book = BookDetails(
                             _bookTitle: cleanTitle(publication.metadata.title ?? "Unknown Title"),
                             _bookAuthor: cleanAuthorName(publication.metadata.authors.first?.name ?? "Unknown Author"),
                             _pageCount: Int64(publication.metadata.numberOfPages ?? 0),
-                            _epubPath: absoluteURL.string,
+                            //_epubPath: absoluteURL.string,
+                            _epubBookmark: bookmarkData,
                             _ISBN: validIsbnVal,
                             _coverPath: getCoverURL(manifestJSON: publication.manifest.json),
                             _language: publication.metadata.language?.description ?? ""
@@ -157,7 +166,7 @@ class EpubManager : ObservableObject
                 newAddBook.bookTitle = bookInstance._bookTitle.isEmpty ? "Unknown Title" : bookInstance._bookTitle
                 newAddBook.author = bookInstance._bookAuthor.isEmpty ? "Unknown Author" : bookInstance._bookAuthor
                 newAddBook.isbn = bookInstance._ISBN
-                newAddBook.epubPath = bookInstance._epubPath
+                newAddBook.epubBookmark = bookInstance._epubBookmark
                 newAddBook.pageCount = bookInstance._pageCount
                 newAddBook.coverImgPath = bookInstance._coverPath
                 newAddBook.language = bookInstance._language

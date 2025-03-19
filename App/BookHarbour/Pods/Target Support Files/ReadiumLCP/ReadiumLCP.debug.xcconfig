@@ -1,10 +1,10 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/ReadiumLCP
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift" "${PODS_CONFIGURATION_BUILD_DIR}/Fuzi" "${PODS_CONFIGURATION_BUILD_DIR}/Minizip" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumInternal" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumShared" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftSoup" "${PODS_CONFIGURATION_BUILD_DIR}/ZIPFoundation"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/CryptoSwift" "${PODS_CONFIGURATION_BUILD_DIR}/Minizip" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumFuzi" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumInternal" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumShared" "${PODS_CONFIGURATION_BUILD_DIR}/ReadiumZIPFoundation" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftSoup"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) $(SDKROOT)/usr/include/libxml2
 LIBRARY_SEARCH_PATHS = $(inherited) "${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
-OTHER_LDFLAGS = $(inherited) -framework "CoreServices" -framework "CryptoSwift" -framework "ReadiumInternal" -framework "ReadiumShared" -framework "ZIPFoundation"
+OTHER_LDFLAGS = $(inherited) -framework "CoreServices" -framework "CryptoSwift" -framework "ReadiumInternal" -framework "ReadiumShared" -framework "ReadiumZIPFoundation"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

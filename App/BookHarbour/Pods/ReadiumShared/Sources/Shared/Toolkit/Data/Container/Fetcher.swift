@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -22,9 +22,6 @@ public protocol Fetcher {
     /// A `Resource` is always returned, since for some cases we can't know if it exists before
     /// actually fetching it, such as HTTP. Therefore, errors are handled at the Resource level.
     func get(_ link: Link) -> Resource
-
-    /// Closes any opened file handles, removes temporary files, etc.
-    func close()
 }
 
 /// A `Fetcher` providing no resources at all.

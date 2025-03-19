@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -27,10 +27,14 @@ final class LCPDecryptor {
 
     init(license: LCPLicense?, encryptionData: [AnyURL: ReadiumShared.Encryption]) {
         self.license = license
-        self.encryptionData = encryptionData
+        self.encryptionData = encryptionData.reduce(into: [:]) { result, item in
+            result[item.key.normalized] = item.value
+        }
     }
 
     func decrypt(at href: AnyURL, resource: Resource) -> Resource {
+        let href = href.normalized
+
         // Checks if the resource is encrypted and whether the encryption
         // schemes of the resource and the DRM license are the same.
         guard let encryption = encryptionData[href], encryption.scheme == lcpScheme else {
@@ -44,18 +48,11 @@ final class LCPDecryptor {
             return FullLCPResource(resource, license: license, encryption: encryption).cached()
 
         } else {
-            // The ZIP library we currently use doesn't support random access in deflated entries, which causes really
-            // bad performances when reading a resource by chunks (e.g. reading a large PDF).
-            //
-            // A workaround is to cache the resource input stream to reuse it when being requested consecutive ranges.
-            // However this isn't enough for LCP, because when requesting a range from an LCP resource, we always read
-            // a bit more to align the data with the next AES block. This means that consecutive requests are not
-            // properly aligned and the cached input stream is discarded.
-            //
-            // To fix this issue, we use a `BufferedResource` around the ZIP resource which will keep in memory a few
-            // of the previously read bytes. They can then be used to complete the next requested range from the
-            // cached input stream's current offset.
-            //
+            // We use a buffered resource because when requesting a range from
+            // an LCP resource, we always read a bit more to align the data with
+            // the next AES block. This means that consecutive requests are not
+            // properly aligned and might throw off any optimization reusing
+            // a single input stream.
             // See https://github.com/readium/r2-shared-swift/issues/98
             // and https://github.com/readium/r2-shared-swift/pull/119
             return CBCLCPResource(resource.buffered(), license: license, encryption: encryption)
@@ -99,10 +96,6 @@ final class LCPDecryptor {
             self.resource = resource
             self.license = license
             self.encryption = encryption
-        }
-
-        func close() {
-            resource.close()
         }
 
         let sourceURL: AbsoluteURL? = nil
@@ -245,15 +238,5 @@ private extension ReadiumShared.Encryption {
 
     var isCbcEncrypted: Bool {
         algorithm == "http://www.w3.org/2001/04/xmlenc#aes256-cbc"
-    }
-}
-
-private extension UInt64 {
-    func ceilMultiple(of divisor: UInt64) -> UInt64 {
-        divisor * (self / divisor + ((self % divisor == 0) ? 0 : 1))
-    }
-
-    func floorMultiple(of divisor: UInt64) -> UInt64 {
-        divisor * (self / divisor)
     }
 }

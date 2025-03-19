@@ -12,6 +12,8 @@
 		8E3D56F82D55703B008F2EFB /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3D56F72D55703B008F2EFB /* DataController.swift */; };
 		8E3D57022D58ED27008F2EFB /* GoogleFetchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */; };
 		8E519A292D2496A200E48BE0 /* BookDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E519A282D2496A200E48BE0 /* BookDetails.swift */; };
+		8E9AE53A2D8AE2C900DD931F /* ReaderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AE5392D8AE2C900DD931F /* ReaderController.swift */; };
+		8E9AE53C2D8AF3B500DD931F /* EPUBReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E9AE53B2D8AF3B500DD931F /* EPUBReaderView.swift */; };
 		8EADAC442D20CD5E00EFC670 /* BookHarbourApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */; };
 		8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EADAC452D20CD5E00EFC670 /* MainView.swift */; };
 		8EADAC482D20CD6100EFC670 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EADAC472D20CD6100EFC670 /* Assets.xcassets */; };
@@ -32,6 +34,8 @@
 		8E3D57012D58ED27008F2EFB /* GoogleFetchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleFetchController.swift; sourceTree = "<group>"; };
 		8E519A282D2496A200E48BE0 /* BookDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetails.swift; sourceTree = "<group>"; };
 		8E519A2A2D2CAAA800E48BE0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8E9AE5392D8AE2C900DD931F /* ReaderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderController.swift; sourceTree = "<group>"; };
+		8E9AE53B2D8AF3B500DD931F /* EPUBReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EPUBReaderView.swift; sourceTree = "<group>"; };
 		8EADAC402D20CD5E00EFC670 /* BookHarbour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookHarbour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EADAC432D20CD5E00EFC670 /* BookHarbourApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHarbourApp.swift; sourceTree = "<group>"; };
 		8EADAC452D20CD5E00EFC670 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				8EADAC5D2D221C2C00EFC670 /* EpubPickerView.swift */,
+				8E9AE53B2D8AF3B500DD931F /* EPUBReaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 				8EC391F42D84AAC80009A8DC /* NetworkManager.swift */,
 				8EC391F62D84AB0A0009A8DC /* MatchManager.swift */,
 				8EC391FA2D84AB480009A8DC /* Utility.swift */,
+				8E9AE5392D8AE2C900DD931F /* ReaderController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 				8EC391F52D84AAC80009A8DC /* NetworkManager.swift in Sources */,
 				8E3D56F82D55703B008F2EFB /* DataController.swift in Sources */,
 				8E3D57022D58ED27008F2EFB /* GoogleFetchController.swift in Sources */,
+				8E9AE53A2D8AE2C900DD931F /* ReaderController.swift in Sources */,
 				8EC391F72D84AB0A0009A8DC /* MatchManager.swift in Sources */,
 				8EADAC462D20CD5E00EFC670 /* MainView.swift in Sources */,
 				8EADAC5E2D221C2C00EFC670 /* EpubPickerView.swift in Sources */,
@@ -305,6 +312,7 @@
 				8EADAC612D221E5500EFC670 /* EpubManager.swift in Sources */,
 				8E519A292D2496A200E48BE0 /* BookDetails.swift in Sources */,
 				8EC391F92D84AB270009A8DC /* CoreDataManager.swift in Sources */,
+				8E9AE53C2D8AF3B500DD931F /* EPUBReaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

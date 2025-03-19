@@ -1,14 +1,13 @@
 ${PODS_ROOT}/Target Support Files/Pods-BookHarbour/Pods-BookHarbour-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework
 ${BUILT_PRODUCTS_DIR}/DifferenceKit/DifferenceKit.framework
-${BUILT_PRODUCTS_DIR}/Fuzi/Fuzi.framework
 ${BUILT_PRODUCTS_DIR}/Minizip/Minizip.framework
-${BUILT_PRODUCTS_DIR}/ReadiumGCDWebServer/ReadiumGCDWebServer.framework
+${BUILT_PRODUCTS_DIR}/ReadiumFuzi/ReadiumFuzi.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumInternal/ReadiumInternal.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumLCP/ReadiumLCP.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumNavigator/ReadiumNavigator.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumOPDS/ReadiumOPDS.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumShared/ReadiumShared.framework
 ${BUILT_PRODUCTS_DIR}/ReadiumStreamer/ReadiumStreamer.framework
+${BUILT_PRODUCTS_DIR}/ReadiumZIPFoundation/ReadiumZIPFoundation.framework
 ${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework
-${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework

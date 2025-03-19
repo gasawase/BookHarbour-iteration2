@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -150,7 +150,7 @@ class EPUBSpreadView: UIView, Loggable, PageView {
     /// Evaluates the given JavaScript into the resource's HTML page.
     @discardableResult
     func evaluateScript(_ script: String, inHREF href: AnyURL? = nil) async -> Result<Any, Error> {
-        log(.debug, "Evaluate script: \(script)")
+        log(.trace, "Evaluate script: \(script)")
         return await withCheckedContinuation { continuation in
             webView.evaluateJavaScript(script) { res, error in
                 if let error = error {

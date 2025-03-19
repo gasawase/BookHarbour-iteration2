@@ -1,5 +1,5 @@
 //
-//  Copyright 2024 Readium Foundation. All rights reserved.
+//  Copyright 2025 Readium Foundation. All rights reserved.
 //  Use of this source code is governed by the BSD-style license
 //  available in the top-level LICENSE file of the project.
 //
@@ -68,6 +68,9 @@ open class EPUBNavigatorViewController: UIViewController,
         /// `UIViewController` wrapping the `EPUBNavigatorViewController`.
         public var editingActions: [EditingAction]
 
+        /// Disables horizontal page turning when scroll is enabled.
+        public var disablePageTurnsWhileScrolling: Bool
+
         /// Content insets used to add some vertical margins around reflowable EPUB publications.
         /// The insets can be configured for each size class to allow smaller margins on compact
         /// screens.
@@ -97,6 +100,7 @@ open class EPUBNavigatorViewController: UIViewController,
             preferences: EPUBPreferences = .empty,
             defaults: EPUBDefaults = EPUBDefaults(),
             editingActions: [EditingAction] = EditingAction.defaultActions,
+            disablePageTurnsWhileScrolling: Bool = false,
             contentInset: [UIUserInterfaceSizeClass: EPUBContentInsets] = [
                 .compact: (top: 20, bottom: 20),
                 .regular: (top: 44, bottom: 44),
@@ -111,6 +115,7 @@ open class EPUBNavigatorViewController: UIViewController,
             self.preferences = preferences
             self.defaults = defaults
             self.editingActions = editingActions
+            self.disablePageTurnsWhileScrolling = disablePageTurnsWhileScrolling
             self.contentInset = contentInset
             self.preloadPreviousPositionCount = preloadPreviousPositionCount
             self.preloadNextPositionCount = preloadNextPositionCount
@@ -341,9 +346,9 @@ open class EPUBNavigatorViewController: UIViewController,
             hasPositions: !positionsByReadingOrder.isEmpty
         )
 
-        paginationView.frame = view.bounds
-        paginationView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        view.addSubview(paginationView)
+        paginationView!.frame = view.bounds
+        paginationView!.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view.addSubview(paginationView!)
 
         applySettings()
 
@@ -476,7 +481,10 @@ open class EPUBNavigatorViewController: UIViewController,
 
     /// Goes to the next or previous page in the given scroll direction.
     private func go(to direction: EPUBSpreadView.Direction, options: NavigatorGoOptions) async -> Bool {
-        guard on(.move(direction)) else {
+        guard
+            let paginationView = paginationView,
+            on(.move(direction))
+        else {
             return false
         }
 
@@ -510,24 +518,34 @@ open class EPUBNavigatorViewController: UIViewController,
 
     // MARK: - Pagination and spreads
 
-    private var paginationView: PaginationView!
+    private var paginationView: PaginationView?
 
     private func makePaginationView(hasPositions: Bool) -> PaginationView {
         let view = PaginationView(
             frame: .zero,
             preloadPreviousPositionCount: hasPositions ? config.preloadPreviousPositionCount : 0,
-            preloadNextPositionCount: hasPositions ? config.preloadNextPositionCount : 0
+            preloadNextPositionCount: hasPositions ? config.preloadNextPositionCount : 0,
+            isScrollEnabled: isPaginationViewScrollingEnabled
         )
         view.delegate = self
         view.backgroundColor = .clear
         return view
     }
 
+    private func invalidatePaginationView() async {
+        guard let paginationView = paginationView else {
+            return
+        }
+
+        paginationView.isScrollEnabled = isPaginationViewScrollingEnabled
+        await reloadSpreads(force: true)
+    }
+
     private var spreads: [EPUBSpread] = []
 
     /// Index of the currently visible spread.
     private var currentSpreadIndex: Int {
-        paginationView.currentIndex
+        paginationView?.currentIndex ?? 0
     }
 
     // Reading order index of the left-most resource in the visible spread.
@@ -569,6 +587,7 @@ open class EPUBNavigatorViewController: UIViewController,
         let locator = locator ?? currentLocation
 
         guard
+            let paginationView = paginationView,
             // Already loaded with the expected amount of spreads?
             force || spreads.first?.spread != viewModel.spreadEnabled,
             on(.load(locator))
@@ -601,12 +620,16 @@ open class EPUBNavigatorViewController: UIViewController,
     }
 
     private func loadedSpreadViewForHREF<T: URLConvertible>(_ href: T) -> EPUBSpreadView? {
-        paginationView.loadedViews
+        paginationView?.loadedViews
             .compactMap { _, view in view as? EPUBSpreadView }
             .first { $0.spread.links.firstWithHREF(href) != nil }
     }
 
     // MARK: - Navigator
+
+    private var isPaginationViewScrollingEnabled: Bool {
+        !(config.disablePageTurnsWhileScrolling && settings.scroll)
+    }
 
     public var presentation: VisualNavigatorPresentation {
         VisualNavigatorPresentation(
@@ -630,7 +653,7 @@ open class EPUBNavigatorViewController: UIViewController,
             return pendingLocator
         }
 
-        guard let spreadView = paginationView.currentView as? EPUBSpreadView else {
+        guard let spreadView = paginationView?.currentView as? EPUBSpreadView else {
             return nil
         }
 
@@ -660,7 +683,7 @@ open class EPUBNavigatorViewController: UIViewController,
     }
 
     public func firstVisibleElementLocator() async -> Locator? {
-        guard let spreadView = paginationView.currentView as? EPUBSpreadView else {
+        guard let spreadView = paginationView?.currentView as? EPUBSpreadView else {
             return nil
         }
         return await spreadView.findFirstVisibleElementLocator()
@@ -695,6 +718,7 @@ open class EPUBNavigatorViewController: UIViewController,
         let locator = publication.normalizeLocator(locator)
 
         guard
+            let paginationView = paginationView,
             let spreadIndex = spreads.firstIndexWithHREF(locator.href),
             on(.jump(locator))
         else {
@@ -749,6 +773,10 @@ open class EPUBNavigatorViewController: UIViewController,
     }
 
     public func clearSelection() {
+        guard let paginationView = paginationView else {
+            return
+        }
+
         for (_, pageView) in paginationView.loadedViews {
             (pageView as? EPUBSpreadView)?.webView.clearSelection()
         }
@@ -768,6 +796,10 @@ open class EPUBNavigatorViewController: UIViewController,
     public func apply(decorations: [Decoration], in group: String) {
         Task {
             await initialized()
+
+            guard let paginationView = paginationView else {
+                return
+            }
 
             await withTaskGroup(of: Void.self) { tasks in
                 let source = self.decorations[group] ?? []
@@ -811,6 +843,10 @@ open class EPUBNavigatorViewController: UIViewController,
         Task {
             await initialized()
 
+            guard let paginationView = paginationView else {
+                return
+            }
+
             await withTaskGroup(of: Void.self) { tasks in
                 for (_, view) in paginationView.loadedViews {
                     tasks.addTask {
@@ -839,11 +875,12 @@ open class EPUBNavigatorViewController: UIViewController,
     /// Applies user settings that require native configuration instead of
     /// CSS properties.
     private func applySettings() {
-        guard isViewLoaded else {
+        guard state != .initializing, isViewLoaded else {
             return
         }
 
         view.backgroundColor = settings.effectiveBackgroundColor.uiColor
+        paginationView?.isScrollEnabled = isPaginationViewScrollingEnabled
     }
 
     // MARK: - User interactions
@@ -861,7 +898,7 @@ open class EPUBNavigatorViewController: UIViewController,
     /// Evaluates the given JavaScript on the currently visible HTML resource.
     @discardableResult
     public func evaluateJavaScript(_ script: String) async -> Result<Any, Error> {
-        guard let spreadView = paginationView.currentView as? EPUBSpreadView else {
+        guard let spreadView = paginationView?.currentView as? EPUBSpreadView else {
             return .failure(EPUBError.spreadNotLoaded)
         }
         return await spreadView.evaluateScript(script)
@@ -902,13 +939,17 @@ open class EPUBNavigatorViewController: UIViewController,
 extension EPUBNavigatorViewController: EPUBNavigatorViewModelDelegate {
     func epubNavigatorViewModelInvalidatePaginationView(_ viewModel: EPUBNavigatorViewModel) {
         Task {
-            await reloadSpreads(force: true)
+            await invalidatePaginationView()
         }
     }
 
     func epubNavigatorViewModel(_ viewModel: EPUBNavigatorViewModel, runScript script: String, in scope: EPUBScriptScope) {
         Task {
             await initialized()
+
+            guard let paginationView = paginationView else {
+                return
+            }
 
             switch scope {
             case .currentResource:
@@ -1147,7 +1188,7 @@ extension EPUBNavigatorViewController: EPUBSpreadViewDelegate {
     }
 
     func spreadViewPagesDidChange(_ spreadView: EPUBSpreadView) {
-        if paginationView.currentView == spreadView {
+        if paginationView?.currentView == spreadView {
             updateCurrentLocation()
         }
     }
