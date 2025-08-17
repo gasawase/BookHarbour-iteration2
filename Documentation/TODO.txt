@@ -9,5 +9,5 @@ Do later
 - variable heights of books
 - get image and cut down to spine size and cover size
 - refine differentiating between 3D and 2D objects (currently complicated validation process with lots of conditionals)
-
+- create a tool for adding specific book cover and spines (make this user run at first, automate later)
 
