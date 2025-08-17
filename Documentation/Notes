@@ -1,0 +1,5 @@
+## Document organization currently (08/17/25) ##
+BookPersistenceManager - holds the current bookshelf that is shown to the user
+BookshelfModel - holds shelves that a given bookshelf will have 
+ShelfModel - holds a list of books that a specific shelf will hold; keeps a list of those books that are saved in a given shelf
+BookModel - holds individual, distinct book information (Title, ISBN, Cover, PageCount)
