@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class BookshelfModel
 {
-    List<ShelfModel> bookList = new List<ShelfModel>();
+    List<ShelfModel> shelfList = new List<ShelfModel>();
 }

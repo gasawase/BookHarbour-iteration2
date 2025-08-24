@@ -726,6 +726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 382542968}
   - component: {fileID: 382542969}
+  - component: {fileID: 382542970}
   m_Layer: 2
   m_Name: Shelf3
   m_TagString: Untagged
@@ -769,6 +770,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.57232, y: 1.3880601, z: 1.9845475}
   m_Center: {x: 0.8379669, y: 0.19403005, z: -0.12524265}
+--- !u!114 &382542970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382542967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1 &393437141
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,6 +793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 393437142}
   - component: {fileID: 393437143}
+  - component: {fileID: 393437144}
   m_Layer: 2
   m_Name: Shelf4
   m_TagString: Untagged
@@ -822,6 +837,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5665522, y: 0.94761634, z: 1.9845475}
   m_Center: {x: 0.8352236, y: -0.02619183, z: -0.12524265}
+--- !u!114 &393437144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393437141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1 &398315888
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +860,7 @@ GameObject:
   m_Component:
   - component: {fileID: 398315889}
   - component: {fileID: 398315891}
+  - component: {fileID: 398315892}
   m_Layer: 2
   m_Name: Bookshelf
   m_TagString: Untagged
@@ -880,8 +909,28 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.4519227, y: 8.561892, z: 1.4241577}
-  m_Center: {x: 1.9557723, y: 2.745782, z: -0.18966132}
+  m_Size: {x: 3.1326973, y: 8.427481, z: 1.4241577}
+  m_Center: {x: 1.964173, y: 2.678577, z: -0.18966132}
+--- !u!114 &398315892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398315888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d3b71d630a86147bf53004883e1a2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfGOsList:
+  - {fileID: 1139281959}
+  - {fileID: 1230697779}
+  - {fileID: 382542967}
+  - {fileID: 393437141}
+  - {fileID: 1448844411}
+  - {fileID: 1511041798}
+  numOfShelves: 0
 --- !u!1001 &666965320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1585,6 +1634,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1139281960}
   - component: {fileID: 1139281961}
+  - component: {fileID: 1139281962}
   m_Layer: 2
   m_Name: Shelf1
   m_TagString: Untagged
@@ -1628,6 +1678,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5680575, y: 1.2154303, z: 1.9845475}
   m_Center: {x: 0.8337743, y: 0.10771513, z: -0.12524265}
+--- !u!114 &1139281962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1139281959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1 &1156006262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,6 +1954,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1230697780}
   - component: {fileID: 1230697781}
+  - component: {fileID: 1230697782}
   m_Layer: 2
   m_Name: Shelf2
   m_TagString: Untagged
@@ -1934,6 +1998,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5702085, y: 1.0207105, z: 1.9845475}
   m_Center: {x: 0.8278308, y: 0.010355234, z: -0.12524265}
+--- !u!114 &1230697782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230697779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1 &1308419353
 GameObject:
   m_ObjectHideFlags: 0
@@ -2033,6 +2110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1448844412}
   - component: {fileID: 1448844413}
+  - component: {fileID: 1448844414}
   m_Layer: 2
   m_Name: Shelf5
   m_TagString: Untagged
@@ -2076,6 +2154,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5722976, y: 1.2356821, z: 1.9845475}
   m_Center: {x: 0.83899, y: 0.117841065, z: -0.12524265}
+--- !u!114 &1448844414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448844411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1 &1467722170
 GameObject:
   m_ObjectHideFlags: 0
@@ -2146,6 +2237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1511041799}
   - component: {fileID: 1511041800}
+  - component: {fileID: 1511041801}
   m_Layer: 2
   m_Name: Shelf6
   m_TagString: Untagged
@@ -2189,6 +2281,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5770273, y: 1.4829906, z: 1.9845475}
   m_Center: {x: 0.8300166, y: 0.24149531, z: -0.12524265}
+--- !u!114 &1511041801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511041798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0ee06b4fb74032af0b6b83368abfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shelfDimensions: {x: 0, y: 0, z: 0}
 --- !u!1001 &1727410656
 PrefabInstance:
   m_ObjectHideFlags: 0

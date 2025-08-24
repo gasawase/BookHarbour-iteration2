@@ -176,10 +176,12 @@ public class DragController : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         
     }
 
-    public void SpawnSnapPoints(GameObject draggingObject)
+    public void GenerateSnapPoints(GameObject draggingObject)
     {
         // generates spawn points on drag start
-        //draggingObject.GetComponent<Renderer>()
+        // get all shelves' width // another option can get whatever shelf you're highlighting's width
+        // get shelf
+        
     }
     // Start is called before the first frame update
     void Start()
