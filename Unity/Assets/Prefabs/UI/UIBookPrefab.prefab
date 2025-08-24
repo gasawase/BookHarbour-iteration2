@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 734858463229295990}
   - component: {fileID: 2385891542849407816}
   - component: {fileID: 486871566219885343}
+  - component: {fileID: 8955851942710125369}
   - component: {fileID: 9070359523414316721}
   m_Layer: 5
   m_Name: UIBookPrefab
@@ -93,7 +94,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227828658748218568}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6bec8fe7add1664cbdcd82e433d74a7, type: 3}
   m_Name: 
@@ -108,10 +109,32 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   mouseDragSpeed: 0.1
+  panelRect: {fileID: 0}
+  edgeMargin: 8
+  worldPrefab: {fileID: 0}
+  worldGhostPrefab: {fileID: 0}
   placementMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  maxRayDistance: 1000
+  rayDistance: 1000
+  smoothTime: 0.05
+--- !u!114 &8955851942710125369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227828658748218568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c417faa32df84c34d81ba5c7d63ac880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BookTitle: 
+  PageCount: 
+  BookWidth: 
+  BookPrefab: {fileID: 4578736168878651493, guid: 195f8f61b2fc52a48bdc019d3ad5327e,
+    type: 3}
 --- !u!225 &9070359523414316721
 CanvasGroup:
   m_ObjectHideFlags: 0
