@@ -1,0 +1,9 @@
+﻿{
+  "books": [
+    {"uid": "1", "title": "1984", "pageCount": 368, "isbn13": 9780451524935},
+    {"uid": "2", "title": "Pride and Prejudice", "pageCount": 400, "isbn13": 9780141439518},
+    {"uid": "3", "title": "To Kill a Mockingbird", "pageCount": 323, "isbn13": 9780060935467},
+    {"uid": "4", "title": "Moby-Dick", "pageCount": 720, "isbn13": 9780140390841},
+    {"uid": "5", "title": "The Great Gatsby", "pageCount": 180, "isbn13": 9780143138747}
+    ]
+}

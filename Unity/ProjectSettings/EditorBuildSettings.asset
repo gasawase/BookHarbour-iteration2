@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainBookshelfViewScene.unity
     guid: d283297fc10734d41b9cb69d32c7b26d
   m_configObjects: {}
