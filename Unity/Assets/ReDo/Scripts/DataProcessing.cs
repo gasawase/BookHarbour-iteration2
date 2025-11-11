@@ -14,12 +14,14 @@ public class DataProcessing : MonoBehaviour
     [System.Serializable]
     public class BookList
     {
-        public Book[] books;
+        public List<Book> books;
     }
 
     public BookList myBookList = new BookList();
     public Dictionary<string, Book> bookDictionary = new Dictionary<string, Book>();
     [SerializeField] public int bookCount = 0;
+    public bool isFinishedLoadingBooks = false;
+    public event System.Action BooksFinishedLoadingAction;
     private void Start()
     {
         myBookList = JsonUtility.FromJson<BookList>(JSONfile.text);
@@ -28,5 +30,15 @@ public class DataProcessing : MonoBehaviour
             bookDictionary.Add(book.uid, book);
         }
         bookCount = bookDictionary.Count;
+        ToggleBooksFinishedLoading();
+    }
+    /// <summary>
+    /// method that toggles the boolean that states if the books are done loading or not
+    /// also calls the action BooksFinishedLoadingAction
+    /// </summary>
+    public void ToggleBooksFinishedLoading()
+    {
+        isFinishedLoadingBooks = !isFinishedLoadingBooks; // notify the UI that the books have loaded
+        BooksFinishedLoadingAction?.Invoke();
     }
 }
