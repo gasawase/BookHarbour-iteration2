@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971680641793837753}
   - component: {fileID: 8803764754079910435}
+  - component: {fileID: 2505440083406492956}
   m_Layer: 5
   m_Name: BookPrefabParent
   m_TagString: Untagged
@@ -52,6 +53,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIGameObject: {fileID: 5012320116513660490}
   GameObject3D: {fileID: 3982375649051461944}
+--- !u!114 &2505440083406492956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8595880004060034630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0db95785b97fde34ea037c7428c221f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &634670843260989789
 PrefabInstance:
   m_ObjectHideFlags: 0

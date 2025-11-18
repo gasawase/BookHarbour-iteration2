@@ -5,21 +5,20 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class UIBookSpawner : MonoBehaviour
+public class UIBookSpawner : UIHandler
 {
     public DataProcessing perstistentDataHolder;
 
     public Dictionary<string, Book> locBookDict;
 
     public GameObject bookPrefabsParent;
-    
-    [SerializeField] public GameObject bookDisplayContent;
+
 
     //private RectTransform bookDisplayContent;
     // Start is called before the first frame update
     void Start()
     {
-        perstistentDataHolder = GameObject.FindGameObjectsWithTag("BookManager").First().GetComponent<DataProcessing>();
+        perstistentDataHolder = GameObject.FindGameObjectsWithTag("GameManager").First().GetComponent<DataProcessing>();
         locBookDict = new Dictionary<string, Book>();
         bookPrefabsParent = (GameObject) Resources.Load("BookPrefabParent");
         //bookDisplayContent = bookDisplayViewport.GetComponentInChildren<RectTransform>() ?? bookDisplayViewport.AddComponent<RectTransform>();
@@ -43,6 +42,7 @@ public class UIBookSpawner : MonoBehaviour
         foreach (Book bookInstance in locBookDict.Values)
         {
             InstantiateBook(bookInstance);
+            
         }
         // TODO: change to instantiating asynchronously
     }
@@ -50,13 +50,16 @@ public class UIBookSpawner : MonoBehaviour
     void InstantiateBook(Book bookInstance)
     {
         UIBookData uiBookData = bookPrefabsParent.GetComponent<PrefabParentScript>().UIGameObject.GetComponent<UIBookData>();
+        //UIBookData uiBookData = bookPrefabsParent.GetComponent<PrefabParentScript>().GameObject3D.GetComponent<>
         TMP_Text title_txt = uiBookData.title_textbox;
         TMP_Text author_txt = uiBookData.author_textbox;
         // get title, cover, and author and set them
         title_txt.text = bookInstance.title;
+        uiBookData.bookTitle = bookInstance.title;
         author_txt.text = bookInstance.pageCount.ToString();
+        uiBookData.pageCount = bookInstance.pageCount.ToString();
         //uiBookData.panel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, title_txt.preferredWidth); // change the width of the panel to be consistent and for the extended titles to go to ellipses
-        Instantiate(bookPrefabsParent, bookDisplayContent.transform);
+        GameObject locBookGO = Instantiate(bookPrefabsParent, bookDisplayContent.transform); // the actual game object
         Debug.Log(bookInstance.title);
     }
     

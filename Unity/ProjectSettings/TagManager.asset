@@ -6,6 +6,8 @@ TagManager:
   tags:
   - BookManager
   - Draggable
+  - UI
+  - GameManager
   layers:
   - Default
   - TransparentFX

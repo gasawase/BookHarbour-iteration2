@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIHandler : MonoBehaviour
+public class BookObject3D : MonoBehaviour
 {
-    [SerializeField] public GameObject bookDisplayContent;
     // Start is called before the first frame update
     void Start()
     {

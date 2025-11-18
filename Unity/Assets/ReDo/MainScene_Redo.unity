@@ -219,7 +219,6 @@ GameObject:
   m_Component:
   - component: {fileID: 63704079}
   - component: {fileID: 63704080}
-  - component: {fileID: 63704081}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -255,21 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6234a44f46046c84dbee474e5de4e568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bookDisplayContent: {fileID: 1467722170}
   perstistentDataHolder: {fileID: 0}
   bookPrefabsParent: {fileID: 0}
-  bookDisplayContent: {fileID: 1467722170}
---- !u!114 &63704081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63704078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 608eaf493e432284799e71bd14125da6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &123375510
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,6 +508,7 @@ GameObject:
   - component: {fileID: 317810940}
   - component: {fileID: 317810939}
   - component: {fileID: 317810942}
+  - component: {fileID: 317810943}
   m_Layer: 0
   m_Name: Main Camera(originalOrtho)
   m_TagString: MainCamera
@@ -646,6 +634,22 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &317810943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317810938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 23
+  m_MaxRayIntersections: 0
 --- !u!1 &355737194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1354,9 +1358,10 @@ GameObject:
   m_Component:
   - component: {fileID: 867427675}
   - component: {fileID: 867427676}
+  - component: {fileID: 867427677}
   m_Layer: 0
   m_Name: PersistentHolder
-  m_TagString: BookManager
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1393,6 +1398,19 @@ MonoBehaviour:
     books: []
   bookCount: 0
   isFinishedLoadingBooks: 0
+--- !u!114 &867427677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867427673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 608eaf493e432284799e71bd14125da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bookDisplayContent: {fileID: 1467722170}
 --- !u!1 &976128069
 GameObject:
   m_ObjectHideFlags: 0

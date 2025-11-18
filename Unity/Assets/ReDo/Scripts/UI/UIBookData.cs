@@ -11,6 +11,8 @@ public class UIBookData : MonoBehaviour
     [SerializeField] public TMP_Text author_textbox;
     [SerializeField] public RectTransform panel;
     [SerializeField] public GameObject horizontalTitleAndImage_go;
+    public string bookTitle;
+    public string pageCount;
     //[SerializeField] public GameObject imageAndTitleOnly_go;
     // Start is called before the first frame update
     void Start()
