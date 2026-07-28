@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UIBookData : MonoBehaviour
 {
-    [SerializeField] public RawImage coverImg_rawImg;
+    [SerializeField] public Sprite coverImg_Sprite;
     [SerializeField] public TMP_Text title_textbox;
     [SerializeField] public TMP_Text author_textbox;
     [SerializeField] public RectTransform panel;
