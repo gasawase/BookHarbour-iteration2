@@ -1,4 +1,4 @@
-﻿using EpubParser.Models;
+﻿using Assets.Scripts.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
 
-namespace EpubParser.Services
+namespace Assets.Scripts.Services
 {
     public class EpubMetadataParserService
     {
@@ -49,6 +49,11 @@ namespace EpubParser.Services
                     _sqliteService.InsertBookIntoDatabase(meta);
                     results.Add(meta);
                     _progressReporter.ReportBookParsed(meta);
+                    
+                    if(meta.CoverBytesPendingCache != null)
+                    {
+                        _ = CacheAndReportCoverAsync(meta.bookID, meta.CoverBytesPendingCache, meta.CoverFileExtension);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -172,19 +177,61 @@ namespace EpubParser.Services
             {
                 // TODO: we need to figure out how to get the manifest working for the chapters eventually
                 var metaGuide = package?.Elements(opf + "guide") ?? package?.Elements("guide");
-                coverHref = metaGuide?.Elements(opf + "reference")
-                    .Concat(metaGuide?.Elements("reference") ?? Enumerable.Empty<XElement>())
-                    .FirstOrDefault(e => e.Attribute("type")?.Value?.Contains("cover", StringComparison.OrdinalIgnoreCase) == true)
-                    ?.Attribute("href")?.Value ?? string.Empty;
+                if (metaGuide != null)
+                {
+                    var references = metaGuide.Elements(opf + "reference")
+                        .Concat(metaGuide.Elements("reference"));
+
+                    foreach (var reference in references)
+                    {
+                        var type = reference.Attribute("type")?.Value;
+                        var mediaType = reference.Attribute("media-type")?.Value;
+
+                        bool isCover =
+                            type?.Contains("cover", StringComparison.OrdinalIgnoreCase) == true;
+
+                        bool isJpeg =
+                            mediaType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) == true ||
+                            mediaType?.EndsWith("jpeg", StringComparison.OrdinalIgnoreCase) == true;
+
+                        if (isCover && isJpeg)
+                        {
+                            coverHref = reference.Attribute("href")?.Value ?? string.Empty;
+                            break;
+                        }
+                    }
+                }
             }
             else
             {
                 var manifest = doc.Descendants(opf + "manifest").FirstOrDefault()
                     ?? doc.Descendants("manifest").FirstOrDefault();
-                coverHref = manifest?.Elements(opf + "item")
-                    .Concat(manifest?.Elements("item") ?? Enumerable.Empty<XElement>())
-                    .FirstOrDefault(e => e.Attribute("id")?.Value?.Contains("cover", StringComparison.OrdinalIgnoreCase) == true || e.Attribute("properties")?.Value?.Contains("cover-image") == true)
-                    ?.Attribute("href")?.Value ?? string.Empty;
+                if (manifest != null)
+                {
+                    var items = manifest.Elements(opf + "item")
+                        .Concat(manifest.Elements("item"));
+
+                    foreach (var item in items)
+                    {
+                        var id = item.Attribute("id")?.Value;
+                        var properties = item.Attribute("properties")?.Value;
+                        var mediaType = item.Attribute("media-type")?.Value;
+
+                        bool isCover =
+                            id?.Contains("cover", StringComparison.OrdinalIgnoreCase) == true ||
+                            properties?.Contains("cover-image", StringComparison.OrdinalIgnoreCase) == true;
+
+                        bool isJpeg =
+                            mediaType?.Equals("image/jpeg", StringComparison.OrdinalIgnoreCase) == true ||
+                            mediaType?.EndsWith("jpeg", StringComparison.OrdinalIgnoreCase) == true;
+
+                        if (isCover && isJpeg)
+                        {
+                            coverHref = item.Attribute("href")?.Value ?? string.Empty;
+                            break;
+                        }
+                    }
+                }
             }
 
             Guid bookGuid;
@@ -221,13 +268,6 @@ namespace EpubParser.Services
                 }
             }
 
-            if (coverBytes != null)
-            {
-                // fire-and-forget: caching/DB-update/reporting run independently,
-                // metadata parsing doesn't wait on them
-                _ = CacheAndReportCoverAsync(bookGuid, coverBytes, Path.GetExtension(coverHref));
-            }
-
             Debug.Log($"{Get(dc + "title")} | FilePath: {Directory.GetParent(epubFilePath)} | FileName: {Path.GetFileName(epubFilePath)} | resolvedCoverPath: {resolvedCoverPath} | path root: {Path.GetPathRoot(epubFilePath)}");
 
             return new EpubMetadataModel
@@ -256,14 +296,19 @@ namespace EpubParser.Services
                 RatingsCount = int.TryParse(Get(dc + "ratingsCount"), out int ratCount) ? ratCount : 0,
                 //Relation        = Get(dc + "relation"),
                 //Coverage        = Get(dc + "coverage"),
-
-                // Series info (Calibre-style)
-                Series = series,
-                SeriesIndex = seriesIndex,
+                CoverImageHref = resolvedCoverPath,
 
                 // Packaging info
                 EpubVersion = package?.Attribute("version")?.Value ?? string.Empty,
-                CoverImageHref = resolvedCoverPath,
+
+                // Transient variables
+                CoverBytesPendingCache = coverBytes,
+                CoverFileExtension = Path.GetExtension(coverHref),
+
+                // Series Info
+                SeriesMemberships = !string.IsNullOrEmpty(series)
+                    ? new List<BookSeriesEntry> { new BookSeriesEntry { SeriesName = series, Position = float.TryParse(seriesIndex, out float idx) ? idx : 0f } }
+                    : new List<BookSeriesEntry>(),
             };
         }
         private string LanguageCleaner(string dirtyLanguage)

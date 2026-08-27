@@ -1,5 +1,5 @@
 using UnityEngine;
-namespace EpubParser.Models
+namespace Assets.Scripts.Models
 {
     public class Enums
     {

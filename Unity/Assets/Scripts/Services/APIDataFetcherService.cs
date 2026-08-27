@@ -1,5 +1,5 @@
-using EpubParser.Extensions;
-using EpubParser.Models;
+using Assets.Scripts.Extensions;
+using Assets.Scripts.Models;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
-using static EpubParser.Models.Enums;
+using static Assets.Scripts.Models.Enums;
 
 
-namespace EpubParser.Services
+namespace Assets.Scripts.Services
 {
     public class APIDataFetcherService
     {
@@ -173,9 +173,9 @@ namespace EpubParser.Services
         }
 
         //TODO once you get all the basics set up
-        public async Task GetDataFromHardcover()
-        {
+        //public async Task GetDataFromHardcover()
+        //{
 
-        }
+        //}
     }
 }

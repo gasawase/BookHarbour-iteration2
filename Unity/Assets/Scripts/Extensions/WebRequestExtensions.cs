@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-namespace EpubParser.Extensions
+namespace Assets.Scripts.Extensions
 {
     public static class WebRequestExtensions
     {

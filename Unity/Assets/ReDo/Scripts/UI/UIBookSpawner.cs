@@ -21,16 +21,9 @@ public class UIBookSpawner : UIHandler
         perstistentDataHolder = GameObject.FindGameObjectsWithTag("GameManager").First().GetComponent<DataProcessing>();
         locBookDict = new Dictionary<string, Book>();
         bookPrefabsParent = (GameObject) Resources.Load("BookPrefabParent");
-        //bookDisplayContent = bookDisplayViewport.GetComponentInChildren<RectTransform>() ?? bookDisplayViewport.AddComponent<RectTransform>();
         // Event Subscriptions
         perstistentDataHolder.BooksFinishedLoadingAction += OnBooksFinishedLoading;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void OnBooksFinishedLoading()
@@ -50,7 +43,6 @@ public class UIBookSpawner : UIHandler
     void InstantiateBook(Book bookInstance)
     {
         UIBookData uiBookData = bookPrefabsParent.GetComponent<PrefabParentScript>().UIGameObject.GetComponent<UIBookData>();
-        //UIBookData uiBookData = bookPrefabsParent.GetComponent<PrefabParentScript>().GameObject3D.GetComponent<>
         TMP_Text title_txt = uiBookData.title_textbox;
         TMP_Text author_txt = uiBookData.author_textbox;
         // get title, cover, and author and set them
@@ -58,7 +50,6 @@ public class UIBookSpawner : UIHandler
         uiBookData.bookTitle = bookInstance.title;
         author_txt.text = bookInstance.pageCount.ToString();
         uiBookData.pageCount = bookInstance.pageCount.ToString();
-        //uiBookData.panel.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, title_txt.preferredWidth); // change the width of the panel to be consistent and for the extended titles to go to ellipses
         GameObject locBookGO = Instantiate(bookPrefabsParent, bookDisplayContent.transform); // the actual game object
         Debug.Log(bookInstance.title);
     }

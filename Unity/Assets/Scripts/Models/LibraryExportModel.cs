@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Unity.Collections;
 using Newtonsoft.Json;
 
-namespace EpubParser.Models
+namespace Assets.Scripts.Models
 {
     internal class LibraryExport
     {

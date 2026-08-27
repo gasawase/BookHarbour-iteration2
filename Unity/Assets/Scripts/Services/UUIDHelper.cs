@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EpubParser.Services
+namespace Assets.Scripts.Services
 {
     internal class UUIDHelper
     {

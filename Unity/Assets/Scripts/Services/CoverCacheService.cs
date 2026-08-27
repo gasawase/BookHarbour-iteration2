@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace EpubParser.Services
+namespace Assets.Scripts.Services
 {
     public class CoverCacheService
     {

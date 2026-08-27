@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace EpubParser.Models
+namespace Assets.Scripts.Models
 {
     public class GoogleBooksResponse
     {

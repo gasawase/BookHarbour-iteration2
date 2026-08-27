@@ -1,7 +1,7 @@
-﻿using EpubParser.Models;
+﻿using Assets.Scripts.Models;
 using System;
 
-namespace EpubParser.Services
+namespace Assets.Scripts.Services
 {
     public class ParseProgressReporter : IParseProgressReporter
     {

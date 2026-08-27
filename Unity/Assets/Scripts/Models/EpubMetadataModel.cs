@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 
-namespace EpubParser.Models
+namespace Assets.Scripts.Models
 {
     public class EpubMetadataModel
     {
@@ -85,7 +85,11 @@ namespace EpubParser.Models
 
         [JsonProperty("ratingsCount")]
         public int RatingsCount { get; set; } = 0;
-
         public string PageCountSource { get; set; } = string.Empty;
+        public List<BookSeriesEntry> SeriesMemberships { get; set; } = new();
+
+        // TRANSIENT //
+        public byte[] CoverBytesPendingCache {  get; set; }
+        public string CoverFileExtension {  get; set; }
     }
 }

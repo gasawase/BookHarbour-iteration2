@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace EpubParser.Models
+namespace Assets.Scripts.Models
 {
     public class ParseError
     {

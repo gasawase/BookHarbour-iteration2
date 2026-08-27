@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 734858463229295990}
+  - component: {fileID: 697569210829594401}
+  - component: {fileID: 3060881667865570916}
+  - component: {fileID: 3297434836991610335}
   m_Layer: 5
   m_Name: UIBookPrefab
   m_TagString: Draggable
@@ -36,6 +39,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &697569210829594401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227828658748218568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8422efa62e3fcca4699df2fc2c8340da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBookData
+  book_button: {fileID: 3606575811262787315}
+  title_textbox: {fileID: 5508375483568664462}
+  author_textbox: {fileID: 0}
+  panel: {fileID: 0}
+  horizontalTitleAndImage_go: {fileID: 0}
+  book3dPrefab: {fileID: 4578736168878651493, guid: 5ba0b7f7fef80cb4684e62fabffc6bb6,
+    type: 3}
+  bookTitle: 
+  pageCount: 
+--- !u!225 &3060881667865570916
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227828658748218568}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3297434836991610335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227828658748218568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e86262496af76894f958533b896b2946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Services.BookDragSource
+  canvasGroup: {fileID: 3060881667865570916}
 --- !u!1 &3543788876252580203
 GameObject:
   m_ObjectHideFlags: 0
@@ -72,7 +121,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.5, y: -75}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 145, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5836360442705477315
@@ -156,19 +205,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4863707911513391115}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: BookHarbour.UIBookScript, Assembly-CSharp
-        m_MethodName: CallDragControllerTestFunction
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &4393227483499724179
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,8 +240,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -115}
-  m_SizeDelta: {x: 0, y: -159.8938}
+  m_AnchoredPosition: {x: -1.0813, y: -5.699997}
+  m_SizeDelta: {x: -17.3001, y: -159.8938}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4888389291558631077
 CanvasRenderer:
@@ -268,18 +305,19 @@ MonoBehaviour:
   m_fontSizeMin: 0
   m_fontSizeMax: 0
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: -20.64
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 0
+  m_TextWrappingMode: 2
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 1
+  m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
