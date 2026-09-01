@@ -4,6 +4,22 @@ using UnityEngine;
 public class DebuggingScript : MonoBehaviour
 {
     [SerializeField] public Material debugMaterial;
+    [Header("Debug/Tuning")]
+    [SerializeField] public int debugPageCount = 200;
+    [SerializeField] public GameObject objectWithMeshHolder;
+    [SerializeField] public MeshRenderer meshRenderer;
+    [SerializeField] public Mesh mesh;
+    public const float pageCountScalar = 0.0005f;
+    public Vector3 originalLocalScale;
+    private bool originalScaleCached = false;
+    private const float minSpineSize = 0.4525f;
+    private const float maxSpineSize = 1.968f;
+    private bool hasCachedOriginalSize = false;
+    private float originalSizeX;
+    public const float sizeScalar = 0.0035f;
+    public const float sizeExponent = 0.56f;
+    public const int maxPageCountForSizing = 2000; // safety cap for bad metadata
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -87,5 +103,50 @@ public class DebuggingScript : MonoBehaviour
             }
         }
         spawnedMesh.colors = coloringVerts;
+    }
+
+    private void OnValidate()
+    {
+        if (objectWithMeshHolder == null) return;
+        if (meshRenderer == null) meshRenderer = objectWithMeshHolder.GetComponent<MeshRenderer>();
+        if (mesh == null) mesh = objectWithMeshHolder.GetComponent<MeshFilter>()?.sharedMesh;
+        if (mesh == null) return;
+        if (!originalScaleCached)
+        {
+            originalLocalScale = objectWithMeshHolder.transform.localScale;
+            originalScaleCached = true;
+        }
+        SetBookSize(debugPageCount);
+    }
+
+    public void SetBookSize(int pageCount)
+    {
+        if (!hasCachedOriginalSize)
+        {
+            Vector3 currentScale = objectWithMeshHolder.transform.localScale;
+            float currentSizeX = meshRenderer.bounds.size.x;
+
+            if (currentSizeX <= 0f || float.IsNaN(currentScale.x))
+            {
+                Debug.LogWarning("Refusing to cache invalid original size — reset the transform first.");
+                return;
+            }
+
+            originalLocalScale = currentScale;
+            originalSizeX = currentSizeX;
+            hasCachedOriginalSize = true;
+        }
+
+        int clampedPageCount = Mathf.Min(pageCount, maxPageCountForSizing);
+        float newSizeX = sizeScalar * Mathf.Pow(clampedPageCount, sizeExponent);
+        float scaleRatio = newSizeX / originalSizeX;
+
+        Vector3 scaleFactor = new Vector3(
+            originalLocalScale.x * scaleRatio,
+            originalLocalScale.y,
+            originalLocalScale.z
+        );
+        objectWithMeshHolder.transform.localScale = scaleFactor;
+        Debug.Log($"pageCount: {pageCount} newSizeX: {newSizeX} scaleRatio: {scaleRatio}");
     }
 }

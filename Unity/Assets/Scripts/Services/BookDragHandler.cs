@@ -29,8 +29,8 @@ namespace Assets.Scripts.Services
         [SerializeField] private float dragPlaneDepthOffset;
 
         private DragPlaneProjector projector;
-        private UIBookDragSource activeUISource;
-        private GameObject spawnedBook;
+        private UIBookDragSource bookUIObject;
+        private GameObject spawned3DBookObject;
         private bool isOffPanel;
         private bool insidePanel;
 
@@ -54,22 +54,22 @@ namespace Assets.Scripts.Services
 
         public void BeginDrag(UIBookDragSource source, Vector2 screenPoint)
         {
-            activeUISource = source;
-            UIBookData locUIBookData = activeUISource.GetComponent<UIBookData>();
+            bookUIObject = source;
+            UIBookData locUIBookData = bookUIObject.GetComponent<UIBookData>();
             isOffPanel = false;
             currentlyDraggedObjectUID = locUIBookData.bookId;
             Debug.Log($"Currently dragged object: {currentlyDraggedObjectUID}");
-            spawnedBook = Instantiate(locUIBookData.book3dPrefab);
-            spawnedBook.GetComponent<Object3DDragSource>().bookId = locUIBookData.bookId;
-            spawnedBook.GetComponent<BookObject3D>().Initialize(locUIBookData.bookId);
+            spawned3DBookObject = Instantiate(locUIBookData.book3dPrefab);
+            spawned3DBookObject.GetComponent<Object3DDragSource>().bookId = locUIBookData.bookId;
+            spawned3DBookObject.GetComponent<BookObject3D>().Initialize(locUIBookData.bookId);
             UpdateBookPosition(screenPoint);
 
         }
 
         public void BeginDrag3DObject(Object3DDragSource source, Vector2 screenPoint)
         {
-            activeUISource = null;
-            spawnedBook = source.gameObject;
+            bookUIObject = null;
+            spawned3DBookObject = source.gameObject;
             isOffPanel = false;
             UpdateBookPosition(screenPoint);
         }
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Services
         public void UpdateDrag(Vector2 screenPoint)
         {
 
-            if (spawnedBook == null)
+            if (spawned3DBookObject == null)
             {
                 return;
             }
@@ -89,16 +89,13 @@ namespace Assets.Scripts.Services
             //    return; // No grid button to mask/fade for a shelf-origin drag
             //}
 
-            insidePanel = RectTransformUtility.RectangleContainsScreenPoint(
-                panelRectTransform, screenPoint, uiCamera);
-
-            Debug.Log($"isOffPanel: {isOffPanel}");
-            Debug.Log($"isInsidePanel: {insidePanel}");
+            insidePanel = RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform, screenPoint, uiCamera);
 
             if (!insidePanel && !isOffPanel)
             {
                 isOffPanel = true;
                 SetActiveSourceVisible(false);
+                // currently have a problem where if you've already dragged the ui book off and thus it's destroyed, dragging the 3D book back in won't do anything because there's no UI book object to make visible
             }
             else if (insidePanel && isOffPanel)
             {
@@ -107,56 +104,83 @@ namespace Assets.Scripts.Services
             }
         }
 
+// DRAG/DROP STATE RULES
+//
+// 1a) GRID → PANEL (same place):
+//     - Destroy/despawn 3D object.
+//     - Do NOT change DB/location.
+//     - UI Book remains as-is (UI should look like nothing happened).
+//
+// 1b) GRID → SHELF:
+//     - Destroy/despawn UI Book.
+//     - Remove book from PersistenceManager's "available UI books" dictionary.
+//     - Update book's DB/location to the shelf.
+//     - 3D shelf object becomes the book's representation/data holder (at minimum bookId).
+//
+// 1c) GRID → INVALID/OTHER:
+//     - Same behavior as 1a.
+//     - Destroy/despawn 3D object.
+//     - Do NOT change DB/location.
+//     - UI Book remains as-is.
+//
+// 2a) SHELF → SHELF (different/new shelf location):
+//     - Update DB/location to the new shelf location.
+//     - Otherwise, nothing changes.
+//
+// 2b) SHELF → PANEL:
+//     - Destroy/despawn 3D shelf object.
+//     - Clear/null the book's shelf location in the DB.
+//     - Re-create/show the UI Book in the panel.
+//     - Add the book back to PersistenceManager's "available UI books" dictionary.
+//     - UI Book may not return to its exact original position because books are no longer sorted.
+//
+// 2c) SHELF → INVALID/OTHER:
+//     - Same behavior as 2b.
+//     - Destroy/despawn 3D shelf object.
+//     - Clear/null the shelf location.
+//     - Re-create/show the UI Book.
+//     - Add it back to the "available UI books" dictionary.
         public void EndDrag(Vector2 screenPoint)
         {
-            if (spawnedBook == null)
+            if (spawned3DBookObject == null)
             {
                 return;
             }
+            string bookId = spawned3DBookObject.GetComponent<Object3DDragSource>().bookId;
+            Collider locCollider = spawned3DBookObject.GetComponent<ShelfOverlapDetector>().shelfCollider;
 
-            Collider locCollider = spawnedBook.GetComponent<ShelfOverlapDetector>().shelfCollider;
-            string bookId = spawnedBook.GetComponent<Object3DDragSource>().bookId;
-
-            if (locCollider == null) // failed drop
-            {
-                if (activeUISource != null)
-                {
-                    // Grid-origin drag that failed: this was a temporary spawn,
-                    // so discard it and restore the grid button.
-                    SetActiveSourceVisible(true);
-                    Destroy(spawnedBook); // TODO: will change when you move to pooling objects
-                }
-                // Shelf-origin drag that failed: spawnedBook is the real placed
-                // book, not a temp spawn - leave it where it is, nothing to destroy.
-            }
-            else if (locCollider != null)
+            if (locCollider != null) // 1b, 2a, 
             {
                 Debug.Log($"BookID: '{bookId}'");
                 Debug.Log($"ShelfID: '{locCollider.GetComponent<ShelfModel>().shelfId}'");
-
-                PersistanceManager.Instance.sqliteService.UpdateBookLocation(
-                    bookId, locCollider.GetComponent<ShelfModel>().shelfId, null, DateTime.Now);
-
-                if (activeUISource != null)
+                if (bookUIObject != null) // 1b
                 {
-                    // Grid-origin drag placed successfully: remove the grid button,
-                    // spawnedBook is now the book's permanent shelf representation.
-                    Destroy(activeUISource.gameObject);
+                    Destroy(bookUIObject.gameObject);
+                    PersistanceManager.Instance.RemoveBookEntryFromUIBookDataDict(bookId);
                 }
-                // Shelf-origin drag placed successfully: spawnedBook was already
-                // the real object, just moved and re-recorded - nothing to destroy.
+                // 2a would be another else statement but nothing else happens other than updating the location so wee don't need another explicit else statement here
+                PersistanceManager.Instance.sqliteService.UpdateBookLocation(bookId, locCollider.GetComponent<ShelfModel>().shelfId, null, DateTime.Now);
             }
-
-            // TODO: snap-to-shelf-position logic goes here once
-            // ShelfLayoutService exists. For now the book stays where dropped.
-
-            activeUISource = null;
-            spawnedBook = null;
+            else // 1a, 1c, 2b, 2c
+            {
+                if (bookUIObject != null) // 1a
+                {
+                    SetActiveSourceVisible(true);
+                }
+                else // 2b
+                {
+                    PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(bookId);
+                    PersistanceManager.Instance.RestoreBookToPanel(bookId);
+                }
+                Destroy(spawned3DBookObject); // TODO: will change when you move to pooling objects 
+            }
+            bookUIObject = null;
+            spawned3DBookObject = null;
         }
 
         private void UpdateBookPosition(Vector2 screenPoint)
         {
-            if (spawnedBook == null)
+            if (spawned3DBookObject == null)
             {
                 return;
             }
@@ -165,15 +189,15 @@ namespace Assets.Scripts.Services
 
             if (projector.TryProject(screenPoint, dragPlane, out Vector3 worldPoint))
             {
-                spawnedBook.transform.position = worldPoint;
+                spawned3DBookObject.transform.position = worldPoint;
             }
         }
 
         private void SetActiveSourceVisible(bool visible)
         {
-            if (activeUISource != null && activeUISource.CanvasGroup != null)
+            if (bookUIObject != null && bookUIObject.CanvasGroup != null)
             {
-                CanvasGroup canvasGroup = activeUISource.CanvasGroup;
+                CanvasGroup canvasGroup = bookUIObject.CanvasGroup;
                 canvasGroup.alpha = visible ? 1f : 0f;
                 canvasGroup.blocksRaycasts = visible;
             }

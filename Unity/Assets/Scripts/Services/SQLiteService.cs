@@ -69,6 +69,26 @@ namespace Assets.Scripts.Services
                 connection.Execute(bookSeriesSql);
             }
         }
+
+        public EpubMetadataModel SelectLiteBookInfo(string bookUID)
+        {
+            EpubMetadataModel bookModel = new EpubMetadataModel();
+            string sql = "SELECT `BookID`, `ISBN`, `Title`, `PageCount`, `CoverImageHref`, `FilePath` FROM `books` WHERE `BookID` = ? ";
+            try
+            {
+                using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
+                {
+
+                    bookModel = connection.Query<EpubMetadataModel>(sql, bookUID).First();
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                Debug.LogException(ex);
+            }
+
+            return bookModel;
+        }
         public void InsertBookIntoDatabase(EpubMetadataModel bookModel)
         {
             using (var connection = new SQLiteConnection(_filePath)) // so this connection only lives for the duration of this using
@@ -158,6 +178,15 @@ namespace Assets.Scripts.Services
             using ( var connection = new SQLiteConnection(_filePath))
             {
                 connection.Execute(sql, bookId, shelfId, slotIndex, FormatDates(datePlaced.ToString()));
+            }
+        }
+
+        public void DeleteBookFromLocation(string bookId)
+        {
+            string sql = "DELETE FROM shelf_positions WHERE BookID = ?";
+            using (var connection = new SQLiteConnection(_filePath))
+            {
+                connection.Execute(sql, bookId);
             }
         }
 

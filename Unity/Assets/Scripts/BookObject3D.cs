@@ -39,6 +39,13 @@ public class BookObject3D : MonoBehaviour
     public const float maxSpineValue = 0.30f;
     public const int sampleStep = 4;
     public const int bucketSize = 10;
+    private const float minSpineSize = 0.4525f;
+    private const float maxSpineSize = 1.968f;
+    private bool hasCachedOriginalSize = false;
+    private float originalSizeX;
+    public const float sizeScalar = 0.0035f;
+    public const float sizeExponent = 0.56f;
+    public const int maxPageCountForSizing = 2000; // safety cap for bad metadata
     [SerializeField] public GameObject objectWithMeshHolder;
     [Header("Image Quality")]
     [SerializeField] public int texelsPerUnit = 512;
@@ -53,15 +60,20 @@ public class BookObject3D : MonoBehaviour
     internal EpubMetadataModel bookInfo;
     internal int pageCount;
     internal int[][] faceIndexGroups;
+    internal Vector3 originalLocalScale;
+    internal Vector3 originalSize;
 
     public void Initialize(string bookUID)
     {
+
         this.bookUID = bookUID;
-        this.bookInfo = SelectBookInfo(this.bookUID);
+        this.bookInfo = PersistanceManager.Instance.sqliteService.SelectLiteBookInfo(this.bookUID);
         this.pageCount = GetPageCount(bookInfo);
         meshRenderer = objectWithMeshHolder.GetComponent<MeshRenderer>();
         meshFilter = objectWithMeshHolder.gameObject.GetComponent<MeshFilter>();
         mesh = objectWithMeshHolder.GetComponent<MeshFilter>().mesh;
+        originalSize = mesh.bounds.size;
+        originalLocalScale = objectWithMeshHolder.transform.localScale;
 
         mesh.subMeshCount = 2; // so we know that we have 2 separate sets of triangles: 1 for the pages, 1 for the book wrap
 
@@ -93,30 +105,43 @@ public class BookObject3D : MonoBehaviour
         mesh.SetTriangles(pageEdgesGroupTriangles, 1);
         mesh.RecalculateBounds();
 
+        SetBookSize(this.pageCount);
+
         FullBookWrapRegion fbwRegions = BuildRegions();
 
         RemapWrapUVs(mesh, faceIndexGroups, ref fbwRegions);
         SetBookCover(bookInfo, mesh, meshRenderer, fbwRegions.coverRegion);
     }
 
-    private EpubMetadataModel SelectBookInfo(string bookUID)
+    public void SetBookSize(int pageCount)
     {
-        EpubMetadataModel bookModel = new EpubMetadataModel();
-        string sql = "SELECT `BookID`, `ISBN`, `Title`, `PageCount`, `CoverImageHref`, `FilePath` FROM `books` WHERE `BookID` = ? ";
-        try
+        if (!hasCachedOriginalSize)
         {
-            using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
+            Vector3 currentScale = objectWithMeshHolder.transform.localScale;
+            float currentSizeX = meshRenderer.bounds.size.x;
+
+            if (currentSizeX <= 0f || float.IsNaN(currentScale.x))
             {
-
-                bookModel = connection.Query<EpubMetadataModel>(sql, bookUID).First();
+                Debug.LogWarning("Refusing to cache invalid original size — reset the transform first.");
+                return;
             }
-        }
-        catch (SQLiteException ex)
-        {
-            Debug.LogException(ex);
+
+            originalLocalScale = currentScale;
+            originalSizeX = currentSizeX;
+            hasCachedOriginalSize = true;
         }
 
-        return bookModel;
+        int clampedPageCount = Mathf.Min(pageCount, maxPageCountForSizing);
+        float newSizeX = sizeScalar * Mathf.Pow(clampedPageCount, sizeExponent);
+        float scaleRatio = newSizeX / originalSizeX;
+
+        Vector3 scaleFactor = new Vector3(
+            originalLocalScale.x * scaleRatio,
+            originalLocalScale.y,
+            originalLocalScale.z
+        );
+        objectWithMeshHolder.transform.localScale = scaleFactor;
+        Debug.Log($"pageCount: {pageCount} newSizeX: {newSizeX} scaleRatio: {scaleRatio}");
     }
 
     private void RemapWrapUVs(Mesh mesh, int[][] faceIndexGroups, ref FullBookWrapRegion fullBookWrapRegion)

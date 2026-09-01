@@ -19,7 +19,7 @@ namespace Assets.Scripts.Services
         private void OnTriggerExit(Collider other)
         {
             Debug.Log("Exited Trigger");
-            if (shelfCollider == null)
+            if (other == shelfCollider)
             {
                 shelfCollider = null;
             }

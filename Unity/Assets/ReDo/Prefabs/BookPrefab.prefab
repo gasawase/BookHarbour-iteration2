@@ -99,6 +99,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DebuggingScript
   debugMaterial: {fileID: 2100000, guid: 2c1d1a78f61b88a4c97d256b4698fcf8, type: 2}
+  debugPageCount: 200
+  objectWithMeshHolder: {fileID: 0}
+  meshRenderer: {fileID: 0}
+  mesh: {fileID: 0}
+  originalLocalScale: {x: 0, y: 0, z: 0}
 --- !u!114 &969317106784196220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,9 +117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectWithMeshHolder: {fileID: 8709493879407141965}
-  pageCountScalar: 0.0005
-  minSpineValue: 0.05
-  maxSpineValue: 0.3
   texelsPerUnit: 512
 --- !u!114 &654697056922831724
 MonoBehaviour:
