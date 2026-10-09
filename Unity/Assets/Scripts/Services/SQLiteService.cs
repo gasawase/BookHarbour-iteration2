@@ -3,23 +3,24 @@ using Newtonsoft.Json;
 using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Security.Policy;
-using Unity.VisualScripting;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.Rendering.VirtualTexturing;
 using static Assets.Scripts.Models.Enums;
-using static Unity.VisualScripting.AnnotationUtility;
-using static UnityEngine.Audio.ControlContext;
 
 namespace Assets.Scripts.Services
 {
     public class SQLiteService
     {
+        private class BookIdRow
+        {
+            public string BookID { get; set; }
+        }
+
+        private class ShelfIDRow
+        {
+            public string ShelfID { get; set; }
+        }
         private readonly string _filePath;
         public SQLiteService(string filePath)
         {
@@ -70,6 +71,55 @@ namespace Assets.Scripts.Services
             }
         }
 
+        public string SelectShelfByObjectID(string objectID)
+        {
+            string sql = "SELECT `ShelfID`, `BookID` FROM `shelf_positions` WHERE `BookID` = ?";
+            string shelfID = "";
+            try
+            {
+                using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
+                {
+                    List<ShelfIDRow> shelfRows = connection.Query<ShelfIDRow>(sql, objectID);
+                    if (shelfRows.Count == 0)
+                    {
+                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "shelves", objectID, "shelf"));
+                        return null;
+                    }
+                    shelfID = shelfRows.FirstOrDefault().ShelfID;
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                Debug.LogException(ex);
+            }
+            return shelfID;
+        }
+        public List<string> SelectBookIdsFromShelf(string shelfId)
+        {
+            List<string> bookIdsOInShelf = new List<string>();
+            string sql = "SELECT `ShelfID`, `BookID` FROM `shelf_positions` WHERE `ShelfID` = ?";
+
+            try
+            {
+                using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
+                {
+
+                    List<BookIdRow> bookRows = connection.Query<BookIdRow>(sql, shelfId);
+                    if (bookRows.Count == 0)
+                    {
+                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "bookIDs", "the shelf", shelfId));
+                        return null;
+                    }
+                    bookIdsOInShelf = bookRows.Select(r => r.BookID).ToList();
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                Debug.LogException(ex);
+            }
+
+            return bookIdsOInShelf;
+        }
         public EpubMetadataModel SelectLiteBookInfo(string bookUID)
         {
             EpubMetadataModel bookModel = new EpubMetadataModel();
@@ -78,8 +128,13 @@ namespace Assets.Scripts.Services
             {
                 using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
                 {
-
-                    bookModel = connection.Query<EpubMetadataModel>(sql, bookUID).First();
+                    List<EpubMetadataModel> results = connection.Query<EpubMetadataModel>(sql, bookUID);
+                    if (results.Count == 0)
+                    {
+                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, bookModel.Type, bookUID, " database."));
+                        return null;
+                    }
+                    bookModel = results.FirstOrDefault();
                 }
             }
             catch (SQLiteException ex)
@@ -153,7 +208,6 @@ namespace Assets.Scripts.Services
 
                 // see if we have an entry already in the database by the guid from the title, the guid from the isbn, or from the title
                 connection.Execute(sql, bookModel.PageCount, bookModel.ISBN, guidFromTitle.ToString(), guidFromISBN.ToString());
-                //var affectedRows = connection.QueryFirst(sql, new { TitleGuid = guidFromTitle.ToString(), ISBNGuid = guidFromISBN.ToString() });
             }
         }
 
@@ -175,7 +229,7 @@ namespace Assets.Scripts.Services
                 "ON CONFLICT(BookID) DO UPDATE SET " +
                     "ShelfID = excluded.ShelfID, SlotIndex = excluded.SlotIndex, DatePlaced = excluded.DatePlaced;";
             Debug.Log(sql);
-            using ( var connection = new SQLiteConnection(_filePath))
+            using (var connection = new SQLiteConnection(_filePath))
             {
                 connection.Execute(sql, bookId, shelfId, slotIndex, FormatDates(datePlaced.ToString()));
             }
@@ -192,7 +246,7 @@ namespace Assets.Scripts.Services
 
         public string FormatDates(string oldDateAsString)
         {
-            if(string.IsNullOrWhiteSpace(oldDateAsString))
+            if (string.IsNullOrWhiteSpace(oldDateAsString))
             {
                 throw new ArgumentException("Date string cannot be null or empty.", nameof(oldDateAsString));
             }
@@ -219,5 +273,9 @@ namespace Assets.Scripts.Services
 
             throw new FormatException($"Unrecognized date format: '{oldDateAsString}'");
         }
+
+        #region ERROR CONSTANTS
+        public const string ERRORSELECTSTATEMENTRETURNEDNORESULTS = "No {0} results found for {1} on {2}.";
+        #endregion
     }
 }

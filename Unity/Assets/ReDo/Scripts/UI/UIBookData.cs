@@ -13,6 +13,6 @@ public class UIBookData : MonoBehaviour
     [SerializeField] public GameObject horizontalTitleAndImage_go;
     [SerializeField] public GameObject book3dPrefab;
     [SerializeField] public string bookId;
-    public string bookTitle;
-    public string pageCount;
+    public string bookTitle = "Unknown Title";
+    public string pageCount = "300";
 }

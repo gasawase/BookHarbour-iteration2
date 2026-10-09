@@ -56,8 +56,7 @@ MonoBehaviour:
   author_textbox: {fileID: 0}
   panel: {fileID: 0}
   horizontalTitleAndImage_go: {fileID: 0}
-  book3dPrefab: {fileID: 4578736168878651493, guid: 5ba0b7f7fef80cb4684e62fabffc6bb6,
-    type: 3}
+  book3dPrefab: {fileID: 7777981356221205114, guid: cb81eaec30a211e4f950d1c3911b4d9c, type: 3}
   bookId: 
   bookTitle: 
   pageCount: 

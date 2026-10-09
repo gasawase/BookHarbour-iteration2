@@ -1,14 +1,9 @@
 using Assets.Scripts.Models;
-using Assets.Scripts.Services;
-using SQLite;
-using SQLitePCL;
+using Assets.Scripts.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public struct UVRect
 {
@@ -32,23 +27,25 @@ struct FullBookWrapRegion
         this.coverRegion = coverRegion;
     }
 }
-public class BookObject3D : MonoBehaviour
+public class BookObject3D : MonoBehaviour, IShelfPlaceable
 {
     public const float pageCountScalar = 0.0005f;
     public const float minSpineValue = 0.05f;
     public const float maxSpineValue = 0.30f;
     public const int sampleStep = 4;
+    public const float spineWidthPortion = 0.25f;
     public const int bucketSize = 10;
-    private const float minSpineSize = 0.4525f;
-    private const float maxSpineSize = 1.968f;
     private bool hasCachedOriginalSize = false;
     private float originalSizeX;
     public const float sizeScalar = 0.0035f;
     public const float sizeExponent = 0.56f;
     public const int maxPageCountForSizing = 2000; // safety cap for bad metadata
-    [SerializeField] public GameObject objectWithMeshHolder;
+
+    [SerializeField]
+    public GameObject objectWithMeshHolder;
     [Header("Image Quality")]
-    [SerializeField] public int texelsPerUnit = 512;
+    [SerializeField]
+    public int texelsPerUnit = 512;
     internal MeshRenderer meshRenderer;
     internal MeshFilter meshFilter;
     internal string bookUID;
@@ -58,22 +55,27 @@ public class BookObject3D : MonoBehaviour
     internal Mesh mesh;
 
     internal EpubMetadataModel bookInfo;
-    internal int pageCount;
+    internal int pageCount = 300;
     internal int[][] faceIndexGroups;
     internal Vector3 originalLocalScale;
     internal Vector3 originalSize;
-
-    public void Initialize(string bookUID)
+    internal float realWorldWidth;
+    internal float realWorldHeight;
+    internal string defaultTitle = "Unknown Title";
+    public void InitializeCube(string bookUID)
     {
-
         this.bookUID = bookUID;
         this.bookInfo = PersistanceManager.Instance.sqliteService.SelectLiteBookInfo(this.bookUID);
-        this.pageCount = GetPageCount(bookInfo);
+        if (bookInfo != null)
+        {
+            this.pageCount = GetPageCount(bookInfo);
+        }
         meshRenderer = objectWithMeshHolder.GetComponent<MeshRenderer>();
         meshFilter = objectWithMeshHolder.gameObject.GetComponent<MeshFilter>();
         mesh = objectWithMeshHolder.GetComponent<MeshFilter>().mesh;
         originalSize = mesh.bounds.size;
         originalLocalScale = objectWithMeshHolder.transform.localScale;
+
 
         mesh.subMeshCount = 2; // so we know that we have 2 separate sets of triangles: 1 for the pages, 1 for the book wrap
 
@@ -89,14 +91,14 @@ public class BookObject3D : MonoBehaviour
         };
 
         faceIndexGroups = new int[][] // the specific verticies for each face
-{
+        {
                 new int[] { 0,1,2,3}, // +Z 0
                 new int[] { 4,5,8,9}, // +Y 1
                 new int[] { 6,7,10,11}, // -Z 2 
                 new int[] { 12,13,14,15}, // -Y 3
                 new int[] { 16,17,18,19}, // -X 4 
                 new int[] { 20,21,22,23} // +X 5
-};
+        };
 
         int[] wrapGroupTriangles = faceTriangleGroups[5].Concat(faceTriangleGroups[2]).Concat(faceTriangleGroups[4]).ToArray();
         int[] pageEdgesGroupTriangles = faceTriangleGroups[0].Concat(faceTriangleGroups[1]).Concat(faceTriangleGroups[3]).ToArray();
@@ -106,13 +108,73 @@ public class BookObject3D : MonoBehaviour
         mesh.RecalculateBounds();
 
         SetBookSize(this.pageCount);
-
+        realWorldHeight = originalSize.y * objectWithMeshHolder.transform.localScale.y;
+        // so that we can set the book to rest on the bottom of the shelf since the pivot point of the cube is in the center
+        Vector3 halfRealWorldHeightForPlacement = new Vector3(objectWithMeshHolder.transform.localPosition.x, realWorldHeight / 2.0f);
+        objectWithMeshHolder.transform.localPosition = halfRealWorldHeightForPlacement;
         FullBookWrapRegion fbwRegions = BuildRegions();
 
         RemapWrapUVs(mesh, faceIndexGroups, ref fbwRegions);
-        SetBookCover(bookInfo, mesh, meshRenderer, fbwRegions.coverRegion);
+        if (bookInfo != null)
+        {
+            SetBookCover(bookInfo, mesh, meshRenderer, fbwRegions.coverRegion);
+        }
     }
 
+    public void Initialize(string bookUID)
+    {
+        this.bookUID = bookUID;
+        this.bookInfo = PersistanceManager.Instance.sqliteService.SelectLiteBookInfo(this.bookUID);
+        if (bookInfo != null)
+        {
+            this.pageCount = GetPageCount(bookInfo);
+        }
+        meshRenderer = objectWithMeshHolder.GetComponent<MeshRenderer>();
+        meshFilter = objectWithMeshHolder.gameObject.GetComponent<MeshFilter>();
+        mesh = objectWithMeshHolder.GetComponent<MeshFilter>().mesh;
+        originalSize = mesh.bounds.size;
+        originalLocalScale = objectWithMeshHolder.transform.localScale;
+
+        mesh.RecalculateBounds();
+
+        SetBookSize(this.pageCount);
+        realWorldHeight = originalSize.y * objectWithMeshHolder.transform.localScale.y;
+        // so that we can set the book to rest on the bottom of the shelf since the pivot point of the cube is in the center
+        Vector3 halfRealWorldHeightForPlacement = new Vector3(objectWithMeshHolder.transform.localPosition.x, realWorldHeight / 2.0f);
+        //objectWithMeshHolder.transform.localPosition = halfRealWorldHeightForPlacement;
+        FullBookWrapRegion fbwRegions = BuildRegions();
+
+        if (bookInfo != null)
+        {
+            SetBookCover(bookInfo, mesh, meshRenderer, fbwRegions.coverRegion);
+        }
+    }
+
+    #region IShelfPlaceable functions
+    public string GetObjectUID()
+    {
+        return this.bookUID;
+    }
+
+    public float GetPlacementWidth()
+    {
+        return this.realWorldWidth;
+    }
+
+    public float GetPlacementHeight()
+    {
+        return this.realWorldHeight;
+    }
+
+    public GameObject GetObjectGameObject()
+    {
+        return this.gameObject;
+    }
+    public void SetPlacementPosition(Vector3 incomingNewObjectPosition)
+    {
+        this.transform.position = incomingNewObjectPosition;
+    }
+    #endregion
     public void SetBookSize(int pageCount)
     {
         if (!hasCachedOriginalSize)
@@ -133,6 +195,7 @@ public class BookObject3D : MonoBehaviour
 
         int clampedPageCount = Mathf.Min(pageCount, maxPageCountForSizing);
         float newSizeX = sizeScalar * Mathf.Pow(clampedPageCount, sizeExponent);
+        realWorldWidth = newSizeX;
         float scaleRatio = newSizeX / originalSizeX;
 
         Vector3 scaleFactor = new Vector3(
@@ -199,8 +262,10 @@ public class BookObject3D : MonoBehaviour
 
     private FullBookWrapRegion BuildRegions()
     {
-        spineWidthFraction = ComputeSpineFraction(this.pageCount);
+        spineWidthFraction = 0.10f; // TODO: fix this so that the dynamic spine width works with new fbx
+        // spineWidthFraction = ComputeSpineFraction(this.pageCount); // TODO: fix this so that the dynamic spine width works with new fbx
         backWidthFraction = frontWidthFraction = (1.0f - spineWidthFraction) / 2.0f;
+        Debug.Log($"back width: {backWidthFraction} | front width: {frontWidthFraction} | spine width: {spineWidthFraction}");
 
         UVRect backRegion = new UVRect(umin: 0.0f, umax: backWidthFraction, vmin: 0.0f, vmax: 1.0f);
         UVRect spineRegion = new UVRect(umin: backRegion.uMax, umax: backRegion.uMax + spineWidthFraction, vmin: 0.0f, vmax: 1.0f);
@@ -221,7 +286,7 @@ public class BookObject3D : MonoBehaviour
                 return null;
             }
 
-                Debug.Log($"Successfully loaded cover: {tex.width}x{tex.height}");
+            Debug.Log($"Successfully loaded cover: {tex.width}x{tex.height}");
 
             return tex;
         }
@@ -299,9 +364,21 @@ public class BookObject3D : MonoBehaviour
     public Color GetDominantColor(Texture2D coverTexture, int sampleStep, int bucketSize) // currently finding a problem where there are some images that the most common color isn't picked...
     {
         Dictionary<Color, int> buckets = new Dictionary<Color, int>();
+        float coverWidthToSample;
+        if (spineWidthPortion > 0)
+        {
+            coverWidthToSample = coverTexture.width * spineWidthPortion;
+        }
+        else
+        {
+            coverWidthToSample = coverTexture.width;
+        }
         for (int y = 0; y < coverTexture.height; y += sampleStep)
         {
-            for (int x = 0; x < coverTexture.width; x += sampleStep)
+            // TODO: add another sampleStep for the cover width specifically so you can get more of the average of the color that is closer to the spine rather than the overall
+            // average color; might result in a more accurate spine color
+
+            for (int x = 0; x < coverWidthToSample; x += sampleStep)
             {
                 Color pixel = coverTexture.GetPixel(x, y);
                 Color bucketedColor = GeneralizePixelsToColorBuckets(pixel, bucketSize);

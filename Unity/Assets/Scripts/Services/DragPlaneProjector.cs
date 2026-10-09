@@ -24,7 +24,7 @@ namespace Assets.Scripts.Services
         /// </summary>
         public Plane BuildPlane(Transform reference, float depthOffset)
         {
-            Vector3 planeNormal = reference.right;
+            Vector3 planeNormal = reference.forward;
             Vector3 pointOnPlane = reference.position + reference.right * depthOffset;
             return new Plane(planeNormal, pointOnPlane);
         }

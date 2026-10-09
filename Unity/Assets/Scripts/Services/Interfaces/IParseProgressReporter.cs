@@ -10,7 +10,7 @@ namespace Assets.Scripts.Services
     public interface IParseProgressReporter
     {
         void ReportBookParsed(EpubMetadataModel book);
-        void ReportCoverCached(string bookId, string cachedCoverPath);
+        void ReportCoverCached(string bookId, string cachedCoverPath, UIBookData uiBookData = null);
         void ReportError(ParseError error);
     }
 }

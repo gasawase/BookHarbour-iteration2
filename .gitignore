@@ -134,3 +134,9 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa.meta
 /Unity/[Aa]ssets/[Ss]treamingAssets/aa/*
+# Third-party paid assets (Synty) - not redistributable.
+# Scenes/prefabs reference these by GUID (stored in the asset .meta files that
+# ship inside the Synty .unitypackage), so collaborators just need to import the
+# same Synty packs into Assets/Synty/ and all references will resolve.
+/Unity/[Aa]ssets/Synty/
+/Unity/[Aa]ssets/Synty.meta

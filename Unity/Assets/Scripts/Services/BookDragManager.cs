@@ -1,0 +1,308 @@
+﻿using Assets.Scripts.Models;
+using Assets.Scripts.Services.Interfaces;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.EventSystems;
+/// <summary>
+/// Owns book-drag state and logic for the whole scene. Intended to be
+/// attached as a sibling component on the same GameObject as
+/// PersistenceManager, so it rides along with that object's
+/// DontDestroyOnLoad call rather than managing its own persistence.
+///
+/// BookDragSource components on individual book buttons forward pointer
+/// events here rather than holding any drag logic themselves.
+/// </summary>
+namespace Assets.Scripts.Services
+{
+    public class BookDragManager : MonoBehaviour
+    {
+        public static BookDragManager Instance { get; private set; }
+
+        [Header("Panel / masking")]
+        [SerializeField] private RectTransform panelRectTransform;
+        [SerializeField] private Camera uiCamera; // Leave null for Screen Space - Overlay
+
+        [Header("3D projection")]
+        [SerializeField] private Camera worldCamera;
+        [SerializeField] private float dragPlaneDepthOffset;
+
+        private DragPlaneProjector projector;
+        private BookshelfModel bookshelfInFocus;
+        private Plane dragPlane;
+        private bool hasDragPlane;
+        private UIBookDragSource bookUIObject;
+        private GameObject draggedObject;
+        private bool isOffPanel;
+        private bool insidePanel;
+        private List<BookshelfModel> BookshelvesInScene => PersistanceManager.Instance.shelvesInScene;
+
+        private string bookID;
+        private Vector3 startingPos;
+
+        [SerializeField] public string currentlyDraggedObjectUID;
+
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+                return;
+            }
+
+            Instance = this;
+            if (!worldCamera.GetComponent<PhysicsRaycaster>())
+            {
+                worldCamera.AddComponent<PhysicsRaycaster>();
+            }
+            projector = new DragPlaneProjector(worldCamera);
+        }
+        public void BeginDrag(UIBookDragSource source, Vector2 screenPoint)
+        {
+            bookUIObject = source;
+            UIBookData locUIBookData = bookUIObject.GetComponent<UIBookData>();
+            isOffPanel = false;
+            currentlyDraggedObjectUID = locUIBookData.bookId;
+            Debug.Log($"Currently dragged object: {currentlyDraggedObjectUID}");
+            draggedObject = SpawningService.Instance.SpawnBook(currentlyDraggedObjectUID);
+            startingPos = draggedObject.transform.position;
+            TryBuildDragPlane();
+            Debug.Log($"DragPlane normal: {dragPlane.normal} | BookshelfInFocus.Transform.Forward {bookshelfInFocus.transform.forward}");
+            Debug.Log($"dragPlaneDepthOffset: {dragPlaneDepthOffset}");
+            UpdateBookPosition(screenPoint);
+
+        }
+
+        public void BeginDrag3DObject(Object3DDragSource source, Vector2 screenPoint)
+        {
+            bookUIObject = null;
+            draggedObject = source.gameObject;
+            startingPos = draggedObject.transform.position;
+            isOffPanel = false;
+            TryBuildDragPlane();
+
+            UpdateBookPosition(screenPoint);
+        }
+
+        public void UpdateDrag(Vector2 screenPoint)
+        {
+            if (draggedObject == null)
+            {
+                return;
+            }
+
+            UpdateBookPosition(screenPoint);
+            // get collider and the shelfid of the collider 
+            Collider locCollider = null;
+            if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector shelfOverlapDetector))
+            {
+                locCollider = shelfOverlapDetector.shelfCollider;
+            }
+
+            insidePanel = RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform, screenPoint, uiCamera);
+
+            if (!insidePanel && !isOffPanel)
+            {
+                isOffPanel = true;
+                SetActiveSourceVisible(false);
+                // currently have a problem where if you've already dragged the ui book off and thus it's destroyed, dragging the 3D book back in won't do anything because there's no UI book object to make visible
+            }
+            else if (insidePanel && isOffPanel)
+            {
+                isOffPanel = false;
+                SetActiveSourceVisible(true);
+            }
+        }
+
+// DRAG/DROP STATE RULES
+//
+// 1a) PANEL → PANEL (same place):
+//     - Destroy/despawn 3D object.
+//     - Do NOT change DB/location.
+//     - UI Book remains as-is (UI should look like nothing happened).
+//
+// 1b) PANEL → SHELF:
+//     - Destroy/despawn UI Book.
+//     - Remove book from PersistenceManager's "available UI books" dictionary.
+//     - Update book's DB/location to the shelf.
+//     - 3D shelf object becomes the book's representation/data holder (at minimum bookId).
+//
+// 1c) PANEL → INVALID/OTHER:
+//     - Same behavior as 1a.
+//     - Destroy/despawn 3D object.
+//     - Do NOT change DB/location.
+//     - UI Book remains as-is.
+//
+// 2a) SHELF → SHELF (different/new shelf location):
+//     - Update DB/location to the new shelf location.
+//     - Otherwise, nothing changes.
+//
+// 2b) SHELF → PANEL:
+//     - Destroy/despawn 3D shelf object.
+//     - Clear/null the book's shelf location in the DB.
+//     - Re-create/show the UI Book in the panel.
+//     - Add the book back to PersistenceManager's "available UI books" dictionary.
+//     - UI Book may not return to its exact original position because books are no longer sorted.
+//
+// 2c) SHELF → INVALID/OTHER:
+//     - Same behavior as 2b.
+//     - Destroy/despawn 3D shelf object.
+//     - Clear/null the shelf location.
+//     - Re-create/show the UI Book.
+//     - Add it back to the "available UI books" dictionary.
+        public void EndDrag(Vector2 screenPoint)
+        {
+            if (draggedObject == null)
+            {
+                return;
+            }
+            if (draggedObject.TryGetComponent<Object3DDragSource>(out Object3DDragSource object3DDragSource))
+            {
+                bookID = object3DDragSource.bookId;
+            }
+            Collider locCollider = null;
+            if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector shelfOverlapDetector))
+            {
+                locCollider = shelfOverlapDetector.shelfCollider;
+            }
+            if (locCollider != null) // 1b, 2a, PANEL → SHELF | SHELF → SHELF
+            {
+                Debug.Log($"BookID: '{bookID}'");
+                Debug.Log($"ShelfID: '{locCollider.GetComponent<ShelfModel>().shelfId}'");
+                if (bookUIObject != null) // 1b PANEL → SHELF
+                {
+                    Destroy(bookUIObject.gameObject);
+                    PersistanceManager.Instance.RemoveBookEntryFromUIBookDataDict(bookID);
+                }
+                // 2a SHELF → SHELF 
+                // would be another else statement but nothing else happens other than updating the location so we don't need another explicit else statement here
+                if (locCollider.TryGetComponent<ShelfModel>(out ShelfModel shelfModel) && draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable shelfPlaceableInterface))
+                {
+                    //int index = PersistanceManager.Instance.shelfLayoutService.FindInsertionIndex(shelfModel.shelfId, shelfPlaceableInterface, draggedObject.transform.position);
+                    //PersistanceManager.Instance.shelfLayoutService.CommitPlacement(shelfModel.shelfId, shelfPlaceableInterface, index);
+
+                }
+                else
+                {
+                    draggedObject.transform.position = startingPos;
+                }
+            }
+            else // 1a, 1c, 2b, 2c PANEL → PANEL | PANEL → INVALID/OTHER | SHELF → PANEL | SHELF → INVALID/OTHER
+            {
+                if (bookUIObject != null) // 1a PANEL → PANEL
+                {
+                    SetActiveSourceVisible(true);
+                }
+                else // 2b SHELF → PANEL
+                {
+                    try
+                    {
+                        PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(bookID);
+                        PersistanceManager.Instance.RestoreBookToPanel(bookID);
+                    }
+                    catch
+                    {
+                        // add book back to panel? or should we try to roll back what we just did?
+                        SetActiveSourceVisible(true);
+                    }
+
+                }
+                Destroy(draggedObject); // TODO: will change when you move to pooling objects 
+            }
+            bookUIObject = null;
+            draggedObject = null;
+            hasDragPlane = false;
+        }
+
+        private void UpdateBookPosition(Vector2 screenPoint)
+        {
+            if (draggedObject == null || !hasDragPlane)
+            {
+                return;
+            }
+            if (projector.TryProject(screenPoint, dragPlane, out Vector3 worldPoint))
+            {
+                draggedObject.transform.position = worldPoint;
+            }
+            //    if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector draggedObjectShelfOverlapDetector) 
+            //        && draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable draggedObjectShelfPlaceableInterface) 
+            //        && !draggedObjectShelfOverlapDetector.currentShelfID.IsNullOrWhiteSpace())
+            //    {
+            //        //PersistanceManager.Instance.shelfLayoutService.PreviewInsertion(draggedObjectShelfOverlapDetector.currentShelfID, draggedObjectShelfPlaceableInterface, draggedObject.transform.position);
+            //    }
+        }
+
+        public void SetFocusedBookshelf(BookshelfModel bookshelf)
+        {
+            if (bookshelf == null || draggedObject != null)
+            {
+                return; // we're dragging something but not focusing on a shelf
+            }
+            bookshelfInFocus = bookshelf;
+        }
+
+        private bool TryBuildDragPlane()
+        {
+            if (bookshelfInFocus == null)
+            {
+                List<BookshelfModel> shelves = BookshelvesInScene;
+
+                if (shelves == null || shelves.Count == 0)
+                {
+                    hasDragPlane = false;
+                    return false;
+                }
+                bookshelfInFocus = shelves[0];
+            }
+
+            dragPlane = projector.BuildPlane(bookshelfInFocus.transform, dragPlaneDepthOffset);
+            //Plane dragPlane = projector.BuildPlane(shelfReference, dragPlaneDepthOffset);
+            //if (projector.TryProject(screenPoint, dragPlane, out Vector3 worldPoint))
+            //{
+            //    draggedObject.transform.position = worldPoint;
+            //}
+            //dragPlane = projector.BuildPlane(bookshelfInFocus.transform, dragPlaneDepthOffset);
+            hasDragPlane = true;
+            return true;
+        }
+
+        public BookshelfModel FindShelfNearestScreenCenter()
+        {
+            List<BookshelfModel> shelves = BookshelvesInScene;
+            BookshelfModel bestBookshelfFocusMatch = null;
+            float bestScore = float.MaxValue;
+            if (shelves != null)
+            {
+                for (int i = 0; i < shelves.Count; i++)
+                {
+                    Vector3 viewportPoint = worldCamera.WorldToViewportPoint(shelves[i].transform.position);
+                    if (viewportPoint.z <= 0f) // there's a bookshelf behind the camera
+                    {
+                        continue;
+                    }
+
+                    float focusScore = (new Vector2(viewportPoint.x, viewportPoint.y) - new Vector2(0.5f, 0.5f)).sqrMagnitude;
+                    if (focusScore < bestScore)
+                    {
+                        bestScore = focusScore;
+                        bestBookshelfFocusMatch = shelves[i];
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+            return bestBookshelfFocusMatch;
+        }
+        public void SetActiveSourceVisible(bool visible)
+        {
+            if (bookUIObject != null && bookUIObject.CanvasGroup != null)
+            {
+                CanvasGroup canvasGroup = bookUIObject.CanvasGroup;
+                canvasGroup.alpha = visible ? 1f : 0f;
+                canvasGroup.blocksRaycasts = visible;
+            }
+        }
+    }
+}
