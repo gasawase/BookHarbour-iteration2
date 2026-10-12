@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using static Assets.Scripts.Models.Enums;
@@ -22,9 +21,6 @@ namespace Assets.Scripts.Services
         public APIDataFetcherService(SQLiteService sqliteService)
         {
             _sqliteService = sqliteService;
-
-            //_apiKey = Environment.GetEnvironmentVariable("GOOGLE_BOOKS_API_KEY");
-            _apiKey = "AIzaSyAQDZEjw0Ly015iekdLMq44DlyvSDyK_YI";
 
         } // enabling the HTTP service
 

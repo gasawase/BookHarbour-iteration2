@@ -140,3 +140,5 @@ crashlytics-build.properties
 # same Synty packs into Assets/Synty/ and all references will resolve.
 /Unity/[Aa]ssets/Synty/
 /Unity/[Aa]ssets/Synty.meta
+/Unity/[Aa]ssets/[Rr]esources/[Ss]ecrets/
+/Unity/[Aa]ssets/[Rr]esources/[Ss]ecrets.meta
