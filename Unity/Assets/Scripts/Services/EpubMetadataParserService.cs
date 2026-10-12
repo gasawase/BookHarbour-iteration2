@@ -44,13 +44,24 @@ namespace Assets.Scripts.Services
                 try
                 {
                     EpubMetadataModel meta = usesCalibre ? ParseOpf(file, usesCalibre) : ParseEpub(file, usesCalibre);
+                    EpubMetadataModel known = _sqliteService.SelectLiteBookInfo(meta.bookID.ToString());
+                    if (known != null)
+                    {
+                        _progressReporter.ReportBookParsed(known);
+                        if (known.CoverImageHref != "")
+                        {
+                            _progressReporter.ReportCoverCached(meta.bookID.ToString(), known.CoverImageHref);
+                            results.Add(known);
+                            continue;
+                        }
+                    }
                     bool hasISBN = !String.IsNullOrEmpty(meta.ISBN);
                     await _apidataFetcherService.GetDataFromGoogle(meta, hasISBN);
                     _sqliteService.InsertBookIntoDatabase(meta);
                     results.Add(meta);
                     _progressReporter.ReportBookParsed(meta);
-                    
-                    if(meta.CoverBytesPendingCache != null)
+
+                    if (meta.CoverBytesPendingCache != null)
                     {
                         _ = CacheAndReportCoverAsync(meta.bookID, meta.CoverBytesPendingCache, meta.CoverFileExtension);
                     }

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Models;
 using Assets.Scripts.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -37,7 +38,6 @@ namespace Assets.Scripts.Services
         private bool insidePanel;
         private List<BookshelfModel> BookshelvesInScene => PersistanceManager.Instance.shelvesInScene;
 
-        private string bookID;
         private Vector3 startingPos;
 
         [SerializeField] public string currentlyDraggedObjectUID;
@@ -49,7 +49,11 @@ namespace Assets.Scripts.Services
                 Destroy(this);
                 return;
             }
-
+            if (PersistanceManager.Instance == null)
+            {
+                Debug.LogError($"{name}: PersistanceManager not initialized. Check execution order.");
+                return;
+            }
             Instance = this;
             if (!worldCamera.GetComponent<PhysicsRaycaster>())
             {
@@ -114,101 +118,103 @@ namespace Assets.Scripts.Services
             }
         }
 
-// DRAG/DROP STATE RULES
-//
-// 1a) PANEL → PANEL (same place):
-//     - Destroy/despawn 3D object.
-//     - Do NOT change DB/location.
-//     - UI Book remains as-is (UI should look like nothing happened).
-//
-// 1b) PANEL → SHELF:
-//     - Destroy/despawn UI Book.
-//     - Remove book from PersistenceManager's "available UI books" dictionary.
-//     - Update book's DB/location to the shelf.
-//     - 3D shelf object becomes the book's representation/data holder (at minimum bookId).
-//
-// 1c) PANEL → INVALID/OTHER:
-//     - Same behavior as 1a.
-//     - Destroy/despawn 3D object.
-//     - Do NOT change DB/location.
-//     - UI Book remains as-is.
-//
-// 2a) SHELF → SHELF (different/new shelf location):
-//     - Update DB/location to the new shelf location.
-//     - Otherwise, nothing changes.
-//
-// 2b) SHELF → PANEL:
-//     - Destroy/despawn 3D shelf object.
-//     - Clear/null the book's shelf location in the DB.
-//     - Re-create/show the UI Book in the panel.
-//     - Add the book back to PersistenceManager's "available UI books" dictionary.
-//     - UI Book may not return to its exact original position because books are no longer sorted.
-//
-// 2c) SHELF → INVALID/OTHER:
-//     - Same behavior as 2b.
-//     - Destroy/despawn 3D shelf object.
-//     - Clear/null the shelf location.
-//     - Re-create/show the UI Book.
-//     - Add it back to the "available UI books" dictionary.
+        // DRAG/DROP STATE RULES
+        //
+        // 1a) PANEL → PANEL (same place):
+        //     - Destroy/despawn 3D object.
+        //     - Do NOT change DB/location.
+        //     - UI Book remains as-is (UI should look like nothing happened).
+        //
+        // 1b) PANEL → SHELF:
+        //     - Destroy/despawn UI Book.
+        //     - Remove book from PersistenceManager's "available UI books" dictionary.
+        //     - Update book's DB/location to the shelf.
+        //     - 3D shelf object becomes the book's representation/data holder (at minimum bookId).
+        //
+        // 1c) PANEL → INVALID/OTHER:
+        //     - Same behavior as 1a.
+        //     - Destroy/despawn 3D object.
+        //     - Do NOT change DB/location.
+        //     - UI Book remains as-is.
+        //
+        // 2a) SHELF → SHELF (different/new shelf location):
+        //     - Update DB/location to the new shelf location.
+        //     - Otherwise, nothing changes.
+        //
+        // 2b) SHELF → PANEL:
+        //     - Destroy/despawn 3D shelf object.
+        //     - Clear/null the book's shelf location in the DB.
+        //     - Re-create/show the UI Book in the panel.
+        //     - Add the book back to PersistenceManager's "available UI books" dictionary.
+        //     - UI Book may not return to its exact original position because books are no longer sorted.
+        //
+        // 2c) SHELF → INVALID/OTHER:
+        //     - Same behavior as 2b.
+        //     - Destroy/despawn 3D shelf object.
+        //     - Clear/null the shelf location.
+        //     - Re-create/show the UI Book.
+        //     - Add it back to the "available UI books" dictionary.
+
         public void EndDrag(Vector2 screenPoint)
         {
-            if (draggedObject == null)
+            if (draggedObject == null) { return; }
+
+            ShelfLayoutService layoutService = PersistanceManager.Instance.shelfLayoutService;
+            bool cameFromPanel = bookUIObject != null;
+            draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeable);
+            string draggedBookID = placeable?.GetObjectUID();
+
+            // which of the shelves on the focused bookshelf is under the cursor and where on the selected shelf does the book fit
+            ShelfModel targetShelf = bookshelfInFocus != null ? bookshelfInFocus.FindShelfUnder(draggedObject.transform.position) : null;
+            float? snapOffset = null;
+            if (targetShelf != null && placeable != null)
             {
-                return;
+                float desiredLeft = targetShelf.layoutInfo.ToU(draggedObject.transform.position) - placeable.GetPlacementWidth() / 2;
+                snapOffset = layoutService.FindSnapOffset(targetShelf.shelfId, placeable, desiredLeft);
             }
-            if (draggedObject.TryGetComponent<Object3DDragSource>(out Object3DDragSource object3DDragSource))
+
+            if (snapOffset.HasValue) // 1b PANEL → SHELF | 2a SHELF → SHELF
             {
-                bookID = object3DDragSource.bookId;
-            }
-            Collider locCollider = null;
-            if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector shelfOverlapDetector))
-            {
-                locCollider = shelfOverlapDetector.shelfCollider;
-            }
-            if (locCollider != null) // 1b, 2a, PANEL → SHELF | SHELF → SHELF
-            {
-                Debug.Log($"BookID: '{bookID}'");
-                Debug.Log($"ShelfID: '{locCollider.GetComponent<ShelfModel>().shelfId}'");
-                if (bookUIObject != null) // 1b PANEL → SHELF
+                if (cameFromPanel)
                 {
                     Destroy(bookUIObject.gameObject);
-                    PersistanceManager.Instance.RemoveBookEntryFromUIBookDataDict(bookID);
+                    PersistanceManager.Instance.RemoveBookEntryFromUIBookDataDict(draggedBookID);
                 }
-                // 2a SHELF → SHELF 
-                // would be another else statement but nothing else happens other than updating the location so we don't need another explicit else statement here
-                if (locCollider.TryGetComponent<ShelfModel>(out ShelfModel shelfModel) && draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable shelfPlaceableInterface))
-                {
-                    //int index = PersistanceManager.Instance.shelfLayoutService.FindInsertionIndex(shelfModel.shelfId, shelfPlaceableInterface, draggedObject.transform.position);
-                    //PersistanceManager.Instance.shelfLayoutService.CommitPlacement(shelfModel.shelfId, shelfPlaceableInterface, index);
-
-                }
-                else
-                {
-                    draggedObject.transform.position = startingPos;
-                }
+                layoutService.PlaceItem(targetShelf.shelfId, placeable, snapOffset.Value);
             }
-            else // 1a, 1c, 2b, 2c PANEL → PANEL | PANEL → INVALID/OTHER | SHELF → PANEL | SHELF → INVALID/OTHER
+            else if (cameFromPanel) // 1a PANEL → PANEL | 1c PANEL → INVALID | panel → full shelf
             {
-                if (bookUIObject != null) // 1a PANEL → PANEL
-                {
-                    SetActiveSourceVisible(true);
-                }
-                else // 2b SHELF → PANEL
-                {
-                    try
-                    {
-                        PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(bookID);
-                        PersistanceManager.Instance.RestoreBookToPanel(bookID);
-                    }
-                    catch
-                    {
-                        // add book back to panel? or should we try to roll back what we just did?
-                        SetActiveSourceVisible(true);
-                    }
-
-                }
-                Destroy(draggedObject); // TODO: will change when you move to pooling objects 
+                SetActiveSourceVisible(true);
+                Destroy(draggedObject); // TODO: will change when you move to pooling objects
             }
+            else if (targetShelf != null) // SHELF → FULL SHELF; PUT BACK
+            {
+                draggedObject.transform.position = startingPos;
+            }
+            else // 2b SHELF → PANEL | 2c SHELF → INVALID
+            {
+                ReturnBookFromShelfToPanel(draggedBookID);
+                Destroy(draggedObject); // TODO: will change when you move to pooling objects
+            }
+            ResetDragState();
+        }
+
+        private void ReturnBookFromShelfToPanel(string bookID)
+        {
+            PersistanceManager.Instance.shelfLayoutService.RemoveItemFromShelves(bookID);
+            try
+            {
+                PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(bookID);
+                PersistanceManager.Instance.RestoreBookToPanel(bookID);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex); // TODO: rollback — the book is off the shelf but may not be back in the panel
+            }
+        }
+
+        private void ResetDragState()
+        {
             bookUIObject = null;
             draggedObject = null;
             hasDragPlane = false;
@@ -239,6 +245,13 @@ namespace Assets.Scripts.Services
                 return; // we're dragging something but not focusing on a shelf
             }
             bookshelfInFocus = bookshelf;
+        }
+
+        public void ClearFocusedBookshelf()
+        {
+            if (draggedObject != null) { return; } // prevents clearing the bookshelf if we're trying to drag it onto this bookshelf
+            BookshelfModel bookshelf = bookshelfInFocus ?? FindShelfNearestScreenCenter();
+            PersistanceManager.Instance.ClearBookshelf(bookshelf);
         }
 
         private bool TryBuildDragPlane()

@@ -150,6 +150,15 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
         }
     }
 
+    private void Awake()
+    {
+        if (PersistanceManager.Instance == null)
+        {
+            Debug.LogError($"{name}: PersistanceManager not initialized. Check execution order.");
+            return;
+        }
+    }
+
     #region IShelfPlaceable functions
     public string GetObjectUID()
     {

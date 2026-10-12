@@ -261,9 +261,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.0782009, y: 0.3973375, z: 0.2736783}
   m_Center: {x: -0.00022667646, y: 0.19797656, z: 0.030889004}
@@ -1002,9 +1002,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.0782009, y: 0.3973375, z: 0.2736783}
   m_Center: {x: -0.00022667646, y: 0.19797656, z: 0.030889004}
@@ -4154,6 +4154,56 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &395360763
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 395360764}
+  - component: {fileID: 395360765}
+  m_Layer: 0
+  m_Name: Light Probe Group
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &395360764
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395360763}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 424023956}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!220 &395360765
+LightProbeGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395360763}
+  m_Enabled: 1
+  m_SourcePositions:
+  - {x: 3.6494393, y: 1.8264526, z: 0.8010308}
+  - {x: 3.6494393, y: 1.8264526, z: -3.9785366}
+  - {x: 3.6494393, y: -0.7297101, z: 0.8010308}
+  - {x: 3.6494393, y: -0.7297101, z: -3.9785366}
+  - {x: -1.2095444, y: 1.8264526, z: 0.8010308}
+  - {x: -1.2095444, y: 1.8264526, z: -3.9785366}
+  - {x: -1.2095444, y: -0.7297101, z: 0.8010308}
+  - {x: -1.2095444, y: -0.7297101, z: -3.9785366}
+  m_Dering: 1
 --- !u!1001 &400405207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4290,6 +4340,7 @@ Transform:
   - {fileID: 36715939}
   - {fileID: 716775462}
   - {fileID: 1819867891}
+  - {fileID: 395360764}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &475501510
@@ -4414,9 +4465,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.0782009, y: 0.3973375, z: 0.2736783}
   m_Center: {x: -0.00022667646, y: 0.19797656, z: 0.030889004}
@@ -4547,9 +4598,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.0782009, y: 0.3973375, z: 0.2736783}
   m_Center: {x: -0.00022667646, y: 0.19797656, z: 0.030889004}
@@ -10185,9 +10236,9 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1.0782009, y: 0.3973375, z: 0.2736783}
   m_Center: {x: -0.00022667646, y: 0.19797656, z: 0.030889004}
@@ -12408,9 +12459,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 905019898}
-        m_TargetAssemblyTypeName: PersistanceManager, Assembly-CSharp
-        m_MethodName: ResetAllObjectsOnShelves
+      - m_Target: {fileID: 905019900}
+        m_TargetAssemblyTypeName: Assets.Scripts.Services.BookDragManager, Assembly-CSharp
+        m_MethodName: ClearFocusedBookshelf
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14605,9 +14656,9 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 43910735523693446, guid: a07e57162b6b28d48a7e1318c452e378, type: 2}
 --- !u!114 &64640699554744543
@@ -14623,11 +14674,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Models.BookshelfModel
   shelves:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 496957219}
+  - {fileID: 146270895}
+  - {fileID: 20670600}
+  - {fileID: 500755181}
+  - {fileID: 1232833474}
 --- !u!1 &417851832216572495
 GameObject:
   m_ObjectHideFlags: 0

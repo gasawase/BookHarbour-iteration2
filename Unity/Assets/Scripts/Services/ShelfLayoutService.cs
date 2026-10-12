@@ -36,29 +36,20 @@ namespace Assets.Scripts.Services
                 Debug.LogWarning($"Shelf {shelfID} has already been registered. Skipping...");
                 return;
             }
-            List<string> savedBookIds = sqliteService.SelectBookIdsFromShelf(shelfID); // ordered by SlotIndex
             List<PlacedItem> newList = new List<PlacedItem>();
+            objectsOnShelvesByShelfID[shelfID] = newList;
 
-            // TODO: Need to figure out what to do when savedBookIds is empty AND for when objectsOnShelvesByShelfID is empty
-
-            if (savedBookIds != null && savedBookIds.Any()) // if it's valid and not empty
+            foreach ((string bookID, float offset) in sqliteService.SelectBookIdsFromShelf(shelfID))
             {
-                foreach (string bookID in savedBookIds)
+                GameObject spawnedObject = bookSpawnerService.SpawnBook(bookID);
+                if (spawnedObject != null && spawnedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeableObject))
                 {
-                    GameObject spawnedObject = bookSpawnerService.SpawnBook(bookID);
-                    if (spawnedObject != null && spawnedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeableObject))
-                    {
-                        newList.Add(new PlacedItem { item = placeableObject, offsetAlongAxis = 0f }); // real offset comes from DB once that column exists — placeholder for now
-                    }
+                    newList.Add(new PlacedItem { item = placeableObject, offsetAlongAxis = offset });
+                    var center = offset + placeableObject.GetPlacementWidth() / 2;
+                    placeableObject.SetPlacementPosition(layoutInfo.ToWorldPosition(center));
                 }
             }
-            if (savedBookIds == null)
-            {
-                savedBookIds = new List<string>();
-            }
-            this.objectsOnShelvesByShelfID[shelfID] = newList;
             shelfLayoutInfoDict[shelfID] = layoutInfo;
-            //ApplyLayout(shelfID);
         }
 
         public Dictionary<string, Vector3> CalculateLayoutFor(string shelfID)
@@ -82,7 +73,7 @@ namespace Assets.Scripts.Services
             return positions;
         }
 
-        public void FindFreeSpans(string shelfID)
+        public List<(float, float)> FindFreeSpans(string shelfID, string excludeUID)
         {
             List<PlacedItem> placedItemList = new List<PlacedItem>();
             ShelfLayoutInfo shelfLayoutInfo = null;
@@ -92,18 +83,85 @@ namespace Assets.Scripts.Services
             if (!TryGetShelfPlaceableAndLayoutInfo(shelfID, out placedItemList, out shelfLayoutInfo))
             {
                 Debug.LogWarning($"Shelf '{shelfID}' not registered. Skipping...");
-                return;
+                return new List<(float, float)> { };
             }
-            // sorting
+            List<PlacedItem> orderedItems = placedItemList
+                .Where(x => x.item.GetObjectUID() != excludeUID)
+                .OrderBy(x => x.offsetAlongAxis)
+                .ToList();
 
+            List<(float, float)> spans = new List<(float, float)>();
+            float cursor = 0f;
+            foreach (PlacedItem item in orderedItems)
+            {
+                float itemLeft = item.offsetAlongAxis;
+                float itemRight = itemLeft + item.item.GetPlacementWidth();
+                if (itemLeft > cursor)
+                {
+                    spans.Add((cursor, itemLeft)); // leading gap
+                }
+                cursor = Mathf.Max(cursor, itemRight);
+            }
+
+            if (cursor < shelfLayoutInfo.shelfWidth)
+            {
+                spans.Add((cursor, shelfLayoutInfo.shelfWidth)); // trailing gap
+            }
+            return spans;
         }
 
-        public void FindSnapOffset(string shelfID, GameObject draggedObject, float desiredOffset)
+        public float? FindSnapOffset(string shelfID, IShelfPlaceable placeableItem, float desiredLeft) // null = doesn't fit anywhere and should go back to list
         {
             // where does this actually land
             // Takes wherever the user dropped it, checks whether that spot would overlap any existing item, and
             // only nudges the position if it does — sliding it to the nearest free edge rather than forcing it into any predetermined slot
             // If there's no collision, the item lands exactly where you released it
+
+            float itemWidth = placeableItem.GetPlacementWidth();
+            float? bestLoc = null;
+
+            foreach ((float start, float end) in FindFreeSpans(shelfID, placeableItem.GetObjectUID()))
+            {
+                float minLeft = start + PersistanceManager.ITEMPADDING;
+                float maxLeft = end - PersistanceManager.ITEMPADDING - itemWidth;
+                if (maxLeft < minLeft) { continue; } // not enough room for this book
+
+                float left = Mathf.Clamp(desiredLeft, minLeft, maxLeft);
+                if ((left - minLeft) < PersistanceManager.MAGNET) { left = minLeft; } // snap to left neighbor
+                else if ((maxLeft - left) < PersistanceManager.MAGNET) { left = maxLeft; } // snap to right neighbor
+
+                if (bestLoc == null || Mathf.Abs(left - desiredLeft) < Mathf.Abs(bestLoc.Value - desiredLeft))
+                {
+                    bestLoc = left;
+                }
+            }
+            return bestLoc;
+        }
+
+        public void RemoveItemFromShelves(string itemID)
+        {
+            foreach (List<PlacedItem> itemList in objectsOnShelvesByShelfID.Values)
+            {
+                itemList.RemoveAll(p => p.item.GetObjectUID() == itemID);
+            }
+        }
+
+        public void PlaceItem(string shelfID, IShelfPlaceable placeableItem, float leftOffset)
+        {
+            RemoveItemFromShelves(placeableItem.GetObjectUID()); // in case it was on another shelf
+            List<PlacedItem> itemsOnThisShelf = new List<PlacedItem>();
+            ShelfLayoutInfo shelfLayoutInfo = null;
+            if (!TryGetShelfPlaceableAndLayoutInfo(shelfID, out itemsOnThisShelf, out shelfLayoutInfo))
+            {
+                Debug.LogWarning($"Shelf '{shelfID}' not registered. Skipping...");
+                return;
+            }
+            itemsOnThisShelf.Add(new PlacedItem { item = placeableItem, offsetAlongAxis = leftOffset });
+            itemsOnThisShelf.Sort((a, b) => a.offsetAlongAxis.CompareTo(b.offsetAlongAxis));
+
+            float itemCenter = leftOffset + placeableItem.GetPlacementWidth() / 2;
+            placeableItem.SetPlacementPosition(shelfLayoutInfo.ToWorldPosition(itemCenter));
+            sqliteService.UpdateBookLocation(placeableItem.GetObjectUID(), shelfID, leftOffset, DateTime.Now);
         }
 
         /// <summary>
@@ -266,20 +324,7 @@ namespace Assets.Scripts.Services
         //    SaveShelfOrder(shelfID);
         //}
 
-        public void SaveShelfOrder(string shelfID)
-        {
-            if (!TryGetShelfPlacedItem(shelfID, out List<PlacedItem> objectsOnShelf))
-            {
-                Debug.LogWarning($"Shelf '{shelfID}' not registered. Skipping...");
-                return;
-            }
-            for (int i = 0; i < objectsOnShelf.Count; i++)
-            {
-                sqliteService.UpdateBookLocation(objectsOnShelf[i].item.GetObjectUID(), shelfID, i, DateTime.Now);
-            }
-        }
-
-        public void ResetObjectsOnShelf(string shelfID)
+        public void ClearShelf(string shelfID)
         {
             if (!TryGetShelfPlacedItem(shelfID, out List<PlacedItem> objectsOnShelf))
             {
@@ -292,24 +337,22 @@ namespace Assets.Scripts.Services
                 Debug.Log($"No objects on shelf {shelfID}. Do nothing...");
                 return;
             }
-            List<PlacedItem> copyOfObjectsOnShelf = objectsOnShelf;
-            foreach (PlacedItem placedItem in copyOfObjectsOnShelf)
+            List<PlacedItem> snapshotOfObjects = new List<PlacedItem>(objectsOnShelf);
+            foreach (PlacedItem item in snapshotOfObjects)
             {
+                string itemID = item.item.GetObjectUID();
                 try
                 {
-                    PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(placedItem.item.GetObjectUID());
-                    PersistanceManager.Instance.RestoreBookToPanel(placedItem.item.GetObjectUID());
-                    UnityEngine.Object.Destroy(placedItem.item.GetObjectGameObject());
-
-                    objectsOnShelf.Remove(placedItem);
+                    PersistanceManager.Instance.RestoreBookToPanel(itemID);
+                    PersistanceManager.Instance.sqliteService.DeleteBookFromLocation(itemID);
+                    objectsOnShelf.Remove(item);
+                    UnityEngine.Object.Destroy(item.item.GetObjectGameObject());
                 }
                 catch (Exception ex)
                 {
                     Debug.LogException(ex);
-                    Debug.LogWarning($"Failed to reset '{placedItem.item.GetObjectUID()}' — left as-is on shelf '{shelfID}'.");
                 }
             }
-            SaveShelfOrder(shelfID);
         }
 
         public bool TryGetShelfPlacedItem(string shelfID, out List<PlacedItem> objectsOnShelf)

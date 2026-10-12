@@ -15,6 +15,7 @@ namespace Assets.Scripts.Services
         private class BookIdRow
         {
             public string BookID { get; set; }
+            public float OffsetAlongAxis { get; set; }
         }
 
         private class ShelfIDRow
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Services
                     "DateFinished DATE, TotalMinutesRead int, CurrentCFI TEXT, " +
                     "CONSTRAINT fk_UserBookData_Books FOREIGN KEY (BookID) REFERENCES books(BookID));";
                 string shelvesSql = "CREATE TABLE IF NOT EXISTS shelves (ShelfID TEXT PRIMARY KEY, Name TEXT, ShelfType TEXT, DateCreated DATE, SortOrder int);"; // shelf_type: distinguishes user-curated shelves from system-generated ones so you don't let the user manually reorder a genre shelf
-                string shelfPositionsSql = "CREATE TABLE IF NOT EXISTS shelf_positions (ShelfID TEXT, BookID TEXT UNIQUE, SlotIndex int, DatePlaced DATE, " +
+                string shelfPositionsSql = "CREATE TABLE IF NOT EXISTS shelf_positions (ShelfID TEXT, BookID TEXT UNIQUE, OffsetAlongAxis REAL, DatePlaced DATE, " +
                     "PRIMARY KEY (BookID, ShelfID), CONSTRAINT fk_ShelfPositions_Shelves FOREIGN KEY (ShelfID) REFERENCES shelves(ShelfID), CONSTRAINT fk_ShelfPositions_Books FOREIGN KEY (BookID) REFERENCES books(BookID));";
                 string tagsSql = "CREATE TABLE IF NOT EXISTS tags (TagID TEXT PRIMARY KEY, Name TEXT UNIQUE, Color TEXT);";
                 string bookTagsSql = "CREATE TABLE IF NOT EXISTS book_tags (BookID TEXT, TagID TEXT, " +
@@ -94,10 +95,10 @@ namespace Assets.Scripts.Services
             }
             return shelfID;
         }
-        public List<string> SelectBookIdsFromShelf(string shelfId)
+        public List<(string bookID, float offset)> SelectBookIdsFromShelf(string shelfId)
         {
-            List<string> bookIdsOInShelf = new List<string>();
-            string sql = "SELECT `ShelfID`, `BookID` FROM `shelf_positions` WHERE `ShelfID` = ?";
+            List<(string bookID, float offset)> booksAndOffset = new List<(string bookID, float offset)>();
+            string sql = "SELECT `ShelfID`, `BookID`, `OffsetAlongAxis` FROM `shelf_positions` WHERE `ShelfID` = ? ORDER BY `OffsetAlongAxis`";
 
             try
             {
@@ -108,9 +109,12 @@ namespace Assets.Scripts.Services
                     if (bookRows.Count == 0)
                     {
                         Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "bookIDs", "the shelf", shelfId));
-                        return null;
+                        return booksAndOffset;
                     }
-                    bookIdsOInShelf = bookRows.Select(r => r.BookID).ToList();
+                    foreach (BookIdRow bookRow in bookRows)
+                    {
+                        booksAndOffset.Add((bookRow.BookID, bookRow.OffsetAlongAxis));
+                    }
                 }
             }
             catch (SQLiteException ex)
@@ -118,7 +122,7 @@ namespace Assets.Scripts.Services
                 Debug.LogException(ex);
             }
 
-            return bookIdsOInShelf;
+            return booksAndOffset;
         }
         public EpubMetadataModel SelectLiteBookInfo(string bookUID)
         {
@@ -132,7 +136,7 @@ namespace Assets.Scripts.Services
                     if (results.Count == 0)
                     {
                         Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, bookModel.Type, bookUID, " database."));
-                        return null;
+                        return bookModel;
                     }
                     bookModel = results.FirstOrDefault();
                 }
@@ -221,17 +225,17 @@ namespace Assets.Scripts.Services
             }
         }
 
-        public void UpdateBookLocation(string bookId, string shelfId, int? slotIndex, DateTime datePlaced)
+        public void UpdateBookLocation(string bookId, string shelfId, float offsetAlongAxis, DateTime datePlaced)
         {
-            Debug.Log($"bookId = {bookId}, shelfId = {shelfId}, slotIndex = {slotIndex}, datePlaced = {FormatDates(datePlaced.ToString())}");
-            string sql = "INSERT INTO shelf_positions (BookID, ShelfID, SlotIndex, DatePlaced)" +
+            Debug.Log($"bookId = {bookId}, shelfId = {shelfId}, offsetAlongAxis = {offsetAlongAxis}, datePlaced = {FormatDates(datePlaced.ToString())}");
+            string sql = "INSERT INTO shelf_positions (BookID, ShelfID, OffsetAlongAxis, DatePlaced)" +
                 "VALUES (?, ?, ?, ?) " +
                 "ON CONFLICT(BookID) DO UPDATE SET " +
-                    "ShelfID = excluded.ShelfID, SlotIndex = excluded.SlotIndex, DatePlaced = excluded.DatePlaced;";
+                    "ShelfID = excluded.ShelfID, OffsetAlongAxis = excluded.OffsetAlongAxis, DatePlaced = excluded.DatePlaced;";
             Debug.Log(sql);
             using (var connection = new SQLiteConnection(_filePath))
             {
-                connection.Execute(sql, bookId, shelfId, slotIndex, FormatDates(datePlaced.ToString()));
+                connection.Execute(sql, bookId, shelfId, offsetAlongAxis, FormatDates(datePlaced.ToString()));
             }
         }
 

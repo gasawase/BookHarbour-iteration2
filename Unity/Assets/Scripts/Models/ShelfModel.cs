@@ -25,7 +25,7 @@ namespace Assets.Scripts.Models
 
             BoxCollider boundingBox = GetComponent<BoxCollider>();
             Vector3 alongAxisLocal = Vector3.left;
-            Vector3 localAxis = transform.TransformDirection(alongAxisLocal).normalized; // same as transform.forward.normalized
+            Vector3 localAxis = transform.TransformDirection(alongAxisLocal).normalized; // same as -transform.right.normalized
             Vector3 realSize = Vector3.Scale(boundingBox.size, transform.lossyScale);
             shelfWidth = Mathf.Abs(Vector3.Dot(realSize, alongAxisLocal));
             Vector3 centerWorld = transform.TransformPoint(boundingBox.center); // collider's center
@@ -67,7 +67,7 @@ namespace Assets.Scripts.Models
             PersistanceManager.Instance.sqliteService.InsertShelfIntoDatabase(this);
             if (layoutInfo != null && shelfId != null)
             {
-                //PersistanceManager.Instance.shelfLayoutService.RegisterShelf(this.shelfId, layoutInfo);
+                PersistanceManager.Instance.shelfLayoutService.RegisterShelf(this.shelfId, layoutInfo);
             }
         }
 

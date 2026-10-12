@@ -1,10 +1,8 @@
 using Assets.Scripts.Models;
 using Assets.Scripts.Services;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -27,6 +25,11 @@ public class PersistanceManager : MonoBehaviour
     public List<BookshelfModel> shelvesInScene;
     public event Action PersistenceManagerReady;
 
+    #region CONSTANTS
+    public const float ITEMPADDING = 0f;
+    public const float MAGNET = 0.015f; // how close to its neighbor does it have to be before it snaps flush next to it, example is 1.5cm
+    #endregion
+
     List<EpubMetadataModel> books;
 
     [SerializeField]
@@ -42,18 +45,14 @@ public class PersistanceManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        if (PersistanceManager.Instance == null)
-        {
-            Debug.LogError($"{name}: PersistanceManager not initialized. Check execution order.");
-            return;
-        }
+        Instance = this;
         DontDestroyOnLoad(gameObject);
         InitializeScene();
         OnSceneLoaded();
         PersistenceManagerReady?.Invoke();
     }
 
-    public void InitializeScene() 
+    public void InitializeScene()
     {
         _dbPath = Path.Combine(Application.persistentDataPath, DATABASENAME);
         sqliteService = new SQLiteService(_dbPath);
@@ -67,7 +66,7 @@ public class PersistanceManager : MonoBehaviour
         bookIDToUIBookDataDict = new Dictionary<string, UIBookData>();
         shelvesInScene = new List<BookshelfModel>();
     }
-    
+
     public void OnSceneLoaded() // should be called once the scene is loaded; the end of this method should result in the user being shown the scenes
     {
 
@@ -76,7 +75,7 @@ public class PersistanceManager : MonoBehaviour
     public async void ParseBooks()
     {
         ProgressReporter progressReporter = new ProgressReporter();
-        progressReporter.BookParsed += InstantiateUIBook;
+        progressReporter.BookParsed += OnBookParsed;
         progressReporter.CoverCached += SetButtonImage;
         // later: progressReporter.BookParsed += progressUI.UpdateProgress;
         books = await new EpubMetadataParserService(sqliteService, apiFetcher, progressReporter, coverCacheService)
@@ -85,35 +84,34 @@ public class PersistanceManager : MonoBehaviour
 
     // TEMP AND MOVE TO DEDICATED UI HANDLER LATER
 
-    void InstantiateUIBook(EpubMetadataModel bookModel)
+    public void OnBookParsed(EpubMetadataModel bookModel)
     {
-        GameObject locBookGO = Instantiate(UIBookObject, UIBookPanel.transform);
-        if (locBookGO.TryGetComponent<UIBookData>(out UIBookData outUIBookData))
-        {
-            uiBookData = outUIBookData;
-        }
-        if (bookIDToUIBookDataDict.TryAdd(bookModel.bookID.ToString(), uiBookData))
-        {
-            uiBookData.bookId = bookModel.bookID.ToString();
+        string bookID = bookModel.bookID.ToString();
+        if (bookIDToUIBookDataDict.ContainsKey(bookID)) { return; } // already on the panel?
+        if (!string.IsNullOrEmpty(sqliteService.SelectShelfByObjectID(bookModel.bookID.ToString()))) { return; }
+        InstantiateUIBook(bookModel);
+    }
 
-            Debug.Log($"{bookModel.Title} spawned");
-        }
-        else
-        {
-            Debug.Log($"Could not add {bookModel.Title} to internal dictionary of books!");
-        }
+    public UIBookData InstantiateUIBook(EpubMetadataModel bookModel)
+    {
+        string bookID = bookModel?.bookID.ToString();
+        if (bookIDToUIBookDataDict.TryGetValue(bookID, out UIBookData existing)) { return existing; }
+
+        GameObject locBookGO = Instantiate(UIBookObject, UIBookPanel.transform);
+        uiBookData = locBookGO.GetComponent<UIBookData>();
+        uiBookData.bookId = bookID;
+        bookIDToUIBookDataDict.Add(bookID, uiBookData);
+        return uiBookData;
     }
 
     public void RestoreBookToPanel(string bookId)
     {
         EpubMetadataModel bookInfo = new EpubMetadataModel();
-        if (sqliteService.SelectLiteBookInfo(bookId) == null)
-        {
-            throw new System.Exception("Book info not found");
-        }
+        if (bookIDToUIBookDataDict.ContainsKey(bookId)) { return; }
         bookInfo = sqliteService.SelectLiteBookInfo(bookId);
-        InstantiateUIBook(bookInfo);
-        SetButtonImage(bookId, bookInfo.CoverImageHref, uiBookData);
+        if (bookInfo == null) { throw new System.Exception("Book info not found"); }
+        UIBookData createdUIBook = InstantiateUIBook(bookInfo);
+        SetButtonImage(bookId, bookInfo.CoverImageHref, createdUIBook);
     }
 
     public void RemoveBookEntryFromUIBookDataDict(string bookId)
@@ -131,7 +129,7 @@ public class PersistanceManager : MonoBehaviour
         }
         catch
         {
-            
+
         }
     }
     void SetButtonImage(string bookId, string cachedCoverPath, UIBookData uiBookData)
@@ -140,11 +138,6 @@ public class PersistanceManager : MonoBehaviour
         {
             uiBookDataFound.book_button.image.sprite = LoadImageAsSprite(cachedCoverPath, bookId);
 
-        }
-        else
-        {
-            TMP_Text title_txt = uiBookData.title_textbox;
-            title_txt.text = uiBookData.bookTitle;
         }
     }
 
@@ -182,10 +175,21 @@ public class PersistanceManager : MonoBehaviour
     {
         foreach (BookshelfModel bookshelf in shelvesInScene)
         {
-            foreach (ShelfModel shelf in bookshelf.shelves)
-            {
-                shelfLayoutService.ResetObjectsOnShelf(shelf.shelfId);
-            }
+            ClearBookshelf(bookshelf);
+        }
+    }
+
+    public void ClearBookshelf(BookshelfModel bookshelf)
+    {
+        if (bookshelf == null)
+        {
+            Debug.LogWarning($"Bookshelf not registered. Skipping...");
+            return;
+        }
+
+        foreach (ShelfModel shelf in bookshelf.shelves)
+        {
+            if (shelf != null) { shelfLayoutService.ClearShelf(shelf.shelfId); }
         }
     }
 
