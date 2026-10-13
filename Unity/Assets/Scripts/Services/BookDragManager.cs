@@ -20,6 +20,10 @@ namespace Assets.Scripts.Services
     {
         public static BookDragManager Instance { get; private set; }
 
+        [SerializeField] public string currentlyDraggedObjectUID;
+        [Header("Ghost")]
+        [SerializeField] GameObject ghostPrefab;
+
         [Header("Panel / masking")]
         [SerializeField] private RectTransform panelRectTransform;
         [SerializeField] private Camera uiCamera; // Leave null for Screen Space - Overlay
@@ -37,10 +41,10 @@ namespace Assets.Scripts.Services
         private bool isOffPanel;
         private bool insidePanel;
         private List<BookshelfModel> BookshelvesInScene => PersistanceManager.Instance.shelvesInScene;
-
         private Vector3 startingPos;
-
-        [SerializeField] public string currentlyDraggedObjectUID;
+        private GameObject ghostRoot;
+        private Transform ghostVisual;
+        private MeshFilter ghostFilter;
 
         private void Awake()
         {
@@ -60,8 +64,13 @@ namespace Assets.Scripts.Services
                 worldCamera.AddComponent<PhysicsRaycaster>();
             }
             projector = new DragPlaneProjector(worldCamera);
+
+            ghostRoot = Instantiate(ghostPrefab);
+            ghostVisual = ghostRoot.transform.GetChild(0);
+            ghostFilter = ghostVisual.GetComponent<MeshFilter>();
+            ghostRoot.SetActive(false);
         }
-        public void BeginDrag(UIBookDragSource source, Vector2 screenPoint)
+        public void BeginDragUIObject(UIBookDragSource source, Vector2 screenPoint)
         {
             bookUIObject = source;
             UIBookData locUIBookData = bookUIObject.GetComponent<UIBookData>();
@@ -69,6 +78,7 @@ namespace Assets.Scripts.Services
             currentlyDraggedObjectUID = locUIBookData.bookId;
             Debug.Log($"Currently dragged object: {currentlyDraggedObjectUID}");
             draggedObject = SpawningService.Instance.SpawnBook(currentlyDraggedObjectUID);
+            PrepareGhost();
             startingPos = draggedObject.transform.position;
             TryBuildDragPlane();
             Debug.Log($"DragPlane normal: {dragPlane.normal} | BookshelfInFocus.Transform.Forward {bookshelfInFocus.transform.forward}");
@@ -81,6 +91,7 @@ namespace Assets.Scripts.Services
         {
             bookUIObject = null;
             draggedObject = source.gameObject;
+            PrepareGhost();
             startingPos = draggedObject.transform.position;
             isOffPanel = false;
             TryBuildDragPlane();
@@ -96,12 +107,9 @@ namespace Assets.Scripts.Services
             }
 
             UpdateBookPosition(screenPoint);
+            if (TryFindDropTarget(out ShelfModel shelf, out float offset)) { ShowGhost(shelf, draggedObject.GetComponent<IShelfPlaceable>(), offset); }
+            else { HideGhost(); }
             // get collider and the shelfid of the collider 
-            Collider locCollider = null;
-            if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector shelfOverlapDetector))
-            {
-                locCollider = shelfOverlapDetector.shelfCollider;
-            }
 
             insidePanel = RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform, screenPoint, uiCamera);
 
@@ -158,29 +166,20 @@ namespace Assets.Scripts.Services
         public void EndDrag(Vector2 screenPoint)
         {
             if (draggedObject == null) { return; }
-
+            bool canPlace = TryFindDropTarget(out ShelfModel targetShelf, out float snapOffset);
             ShelfLayoutService layoutService = PersistanceManager.Instance.shelfLayoutService;
             bool cameFromPanel = bookUIObject != null;
             draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeable);
             string draggedBookID = placeable?.GetObjectUID();
 
-            // which of the shelves on the focused bookshelf is under the cursor and where on the selected shelf does the book fit
-            ShelfModel targetShelf = bookshelfInFocus != null ? bookshelfInFocus.FindShelfUnder(draggedObject.transform.position) : null;
-            float? snapOffset = null;
-            if (targetShelf != null && placeable != null)
-            {
-                float desiredLeft = targetShelf.layoutInfo.ToU(draggedObject.transform.position) - placeable.GetPlacementWidth() / 2;
-                snapOffset = layoutService.FindSnapOffset(targetShelf.shelfId, placeable, desiredLeft);
-            }
-
-            if (snapOffset.HasValue) // 1b PANEL → SHELF | 2a SHELF → SHELF
+            if (canPlace) // 1b PANEL → SHELF | 2a SHELF → SHELF
             {
                 if (cameFromPanel)
                 {
                     Destroy(bookUIObject.gameObject);
                     PersistanceManager.Instance.RemoveBookEntryFromUIBookDataDict(draggedBookID);
                 }
-                layoutService.PlaceItem(targetShelf.shelfId, placeable, snapOffset.Value);
+                layoutService.PlaceItem(targetShelf.shelfId, placeable, snapOffset);
             }
             else if (cameFromPanel) // 1a PANEL → PANEL | 1c PANEL → INVALID | panel → full shelf
             {
@@ -215,6 +214,7 @@ namespace Assets.Scripts.Services
 
         private void ResetDragState()
         {
+            HideGhost();
             bookUIObject = null;
             draggedObject = null;
             hasDragPlane = false;
@@ -230,14 +230,9 @@ namespace Assets.Scripts.Services
             {
                 draggedObject.transform.position = worldPoint;
             }
-            //    if (draggedObject.TryGetComponent<ShelfOverlapDetector>(out ShelfOverlapDetector draggedObjectShelfOverlapDetector) 
-            //        && draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable draggedObjectShelfPlaceableInterface) 
-            //        && !draggedObjectShelfOverlapDetector.currentShelfID.IsNullOrWhiteSpace())
-            //    {
-            //        //PersistanceManager.Instance.shelfLayoutService.PreviewInsertion(draggedObjectShelfOverlapDetector.currentShelfID, draggedObjectShelfPlaceableInterface, draggedObject.transform.position);
-            //    }
         }
 
+        #region Focused Bookshelf
         public void SetFocusedBookshelf(BookshelfModel bookshelf)
         {
             if (bookshelf == null || draggedObject != null)
@@ -252,31 +247,6 @@ namespace Assets.Scripts.Services
             if (draggedObject != null) { return; } // prevents clearing the bookshelf if we're trying to drag it onto this bookshelf
             BookshelfModel bookshelf = bookshelfInFocus ?? FindShelfNearestScreenCenter();
             PersistanceManager.Instance.ClearBookshelf(bookshelf);
-        }
-
-        private bool TryBuildDragPlane()
-        {
-            if (bookshelfInFocus == null)
-            {
-                List<BookshelfModel> shelves = BookshelvesInScene;
-
-                if (shelves == null || shelves.Count == 0)
-                {
-                    hasDragPlane = false;
-                    return false;
-                }
-                bookshelfInFocus = shelves[0];
-            }
-
-            dragPlane = projector.BuildPlane(bookshelfInFocus.transform, dragPlaneDepthOffset);
-            //Plane dragPlane = projector.BuildPlane(shelfReference, dragPlaneDepthOffset);
-            //if (projector.TryProject(screenPoint, dragPlane, out Vector3 worldPoint))
-            //{
-            //    draggedObject.transform.position = worldPoint;
-            //}
-            //dragPlane = projector.BuildPlane(bookshelfInFocus.transform, dragPlaneDepthOffset);
-            hasDragPlane = true;
-            return true;
         }
 
         public BookshelfModel FindShelfNearestScreenCenter()
@@ -308,6 +278,27 @@ namespace Assets.Scripts.Services
             }
             return bestBookshelfFocusMatch;
         }
+        #endregion
+
+        private bool TryBuildDragPlane()
+        {
+            if (bookshelfInFocus == null)
+            {
+                List<BookshelfModel> shelves = BookshelvesInScene;
+
+                if (shelves == null || shelves.Count == 0)
+                {
+                    hasDragPlane = false;
+                    return false;
+                }
+                bookshelfInFocus = shelves[0];
+            }
+
+            dragPlane = projector.BuildPlane(bookshelfInFocus.transform, dragPlaneDepthOffset);
+            hasDragPlane = true;
+            return true;
+        }
+
         public void SetActiveSourceVisible(bool visible)
         {
             if (bookUIObject != null && bookUIObject.CanvasGroup != null)
@@ -317,5 +308,46 @@ namespace Assets.Scripts.Services
                 canvasGroup.blocksRaycasts = visible;
             }
         }
+
+        public bool TryFindDropTarget(out ShelfModel shelf, out float offset)
+        {
+            shelf = null; offset = 0f;
+            if (!draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable shelfPlaceable)) { return false; }
+            if (bookshelfInFocus == null) { return false; }
+
+            shelf = bookshelfInFocus.FindShelfUnder(draggedObject.transform.position);
+            if (shelf == null) { return false; }
+
+            float desiredLeft = shelf.layoutInfo.ToU(draggedObject.transform.position) - shelfPlaceable.GetPlacementWidth() / 2; // get the center
+            float? snapOffset = PersistanceManager.Instance.shelfLayoutService.FindSnapOffset(shelf.shelfId, shelfPlaceable, desiredLeft);
+
+            if (!snapOffset.HasValue) { return false; } // the shelf we're trying to get into is full
+
+            offset = snapOffset.Value;
+            return true;
+        }
+
+        #region Ghost
+        public void PrepareGhost()
+        {
+            MeshFilter sourceFilter = draggedObject.GetComponentInChildren<MeshFilter>();
+            ghostFilter.sharedMesh = sourceFilter.sharedMesh;
+            ghostVisual.localPosition = sourceFilter.transform.localPosition;
+            ghostVisual.localRotation = sourceFilter.transform.localRotation;
+            ghostVisual.localScale = sourceFilter.transform.localScale;
+        }
+        public void ShowGhost(ShelfModel shelf, IShelfPlaceable placeable, float? offset)
+        {
+            float? center = offset + placeable.GetPlacementWidth() / 2;
+            if (!center.HasValue) { Debug.LogWarning($"{placeable.GetObjectUID()} threw an error when calculating the width."); return; }
+            ghostRoot.transform.position = shelf.layoutInfo.ToWorldPosition(center.Value);
+            ghostRoot.transform.rotation = draggedObject.transform.rotation;
+            ghostRoot.SetActive(true);
+        }
+        public void HideGhost()
+        {
+            ghostRoot.SetActive(false);
+        }
+        #endregion
     }
 }
