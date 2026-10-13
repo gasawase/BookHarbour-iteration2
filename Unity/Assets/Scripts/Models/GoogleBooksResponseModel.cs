@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Assets.Scripts.Models
 {
@@ -35,6 +35,10 @@ namespace Assets.Scripts.Models
 
         [JsonProperty("ratingsCount")]
         public int RatingsCount { get; set; }
+        [JsonProperty("title")]
+        public string Title { get; set; }
+        [JsonProperty("authors")]
+        public List<string> Authors { get; set; }
     }
 
     public class GoogleBooksIndustryIdentifier

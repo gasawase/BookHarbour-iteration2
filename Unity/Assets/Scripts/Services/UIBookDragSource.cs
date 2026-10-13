@@ -1,10 +1,4 @@
-﻿using Assets.Scripts.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Services
@@ -23,7 +17,7 @@ namespace Assets.Scripts.Services
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            BookDragManager.Instance.BeginDrag(this, eventData.position);
+            BookDragManager.Instance.BeginDragUIObject(this, eventData.position);
         }
 
         public void OnDrag(PointerEventData eventData)

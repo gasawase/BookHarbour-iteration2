@@ -100,6 +100,7 @@ public class PersistanceManager : MonoBehaviour
         GameObject locBookGO = Instantiate(UIBookObject, UIBookPanel.transform);
         uiBookData = locBookGO.GetComponent<UIBookData>();
         uiBookData.bookId = bookID;
+        uiBookData.pageCount = bookModel.PageCount;
         bookIDToUIBookDataDict.Add(bookID, uiBookData);
         return uiBookData;
     }

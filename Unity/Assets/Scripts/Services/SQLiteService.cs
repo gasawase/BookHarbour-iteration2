@@ -108,7 +108,7 @@ namespace Assets.Scripts.Services
                     List<BookIdRow> bookRows = connection.Query<BookIdRow>(sql, shelfId);
                     if (bookRows.Count == 0)
                     {
-                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "bookIDs", "the shelf", shelfId));
+                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "bookID", "the shelf", shelfId));
                         return booksAndOffset;
                     }
                     foreach (BookIdRow bookRow in bookRows)
@@ -135,8 +135,7 @@ namespace Assets.Scripts.Services
                     List<EpubMetadataModel> results = connection.Query<EpubMetadataModel>(sql, bookUID);
                     if (results.Count == 0)
                     {
-                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, bookModel.Type, bookUID, " database."));
-                        return bookModel;
+                        return null;
                     }
                     bookModel = results.FirstOrDefault();
                 }
@@ -144,6 +143,7 @@ namespace Assets.Scripts.Services
             catch (SQLiteException ex)
             {
                 Debug.LogException(ex);
+                return null;
             }
 
             return bookModel;

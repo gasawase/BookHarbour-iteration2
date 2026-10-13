@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Extensions;
+using Assets.Scripts.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UnityEngine;
+using static Assets.Scripts.Models.Enums;
 
 namespace Assets.Scripts.Services
 {
@@ -48,15 +50,15 @@ namespace Assets.Scripts.Services
                     if (known != null)
                     {
                         _progressReporter.ReportBookParsed(known);
-                        if (known.CoverImageHref != "")
+                        if (!known.CoverImageHref.IsNullOrWhiteSpace())
                         {
                             _progressReporter.ReportCoverCached(meta.bookID.ToString(), known.CoverImageHref);
-                            results.Add(known);
-                            continue;
                         }
+                        results.Add(known);
+                        continue;
                     }
-                    bool hasISBN = !String.IsNullOrEmpty(meta.ISBN);
-                    await _apidataFetcherService.GetDataFromGoogle(meta, hasISBN);
+                    eSearchMode searchMode = !String.IsNullOrEmpty(meta.ISBN) ? eSearchMode.ISBN : eSearchMode.TitleAndAuthor;
+                    await _apidataFetcherService.GetDataFromGoogle(meta, searchMode);
                     _sqliteService.InsertBookIntoDatabase(meta);
                     results.Add(meta);
                     _progressReporter.ReportBookParsed(meta);

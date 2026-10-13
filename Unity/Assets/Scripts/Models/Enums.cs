@@ -1,4 +1,3 @@
-using UnityEngine;
 namespace Assets.Scripts.Models
 {
     public class Enums
@@ -25,11 +24,20 @@ namespace Assets.Scripts.Models
             Genre,
             PageCount
         }
-        public enum AnnotationType
+        public enum eAnnotationType
         {
             None,
             Note,
             Bookmark
+        }
+
+        public enum eSearchMode
+        {
+            None,
+            ISBN,
+            TitleAndAuthor,
+            TitleOnly,
+            AuthorOnly
         }
     }
 }
