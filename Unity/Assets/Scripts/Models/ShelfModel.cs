@@ -13,6 +13,7 @@ namespace Assets.Scripts.Models
 
         public float shelfWidth;
         public float shelfBottom;
+        public float shelfHeight;
 
         public ShelfLayoutInfo layoutInfo;
 
@@ -21,7 +22,6 @@ namespace Assets.Scripts.Models
             shelfId = this.gameObject.name;
             shelfName = this.gameObject.name;
             shelfType = eShelfType.Manual.ToString();
-            //PersistanceManager.Instance.shelvesInScene.Add(this); // this is getting called before the PersistanceManager is awake 
 
             BoxCollider boundingBox = GetComponent<BoxCollider>();
             Vector3 alongAxisLocal = Vector3.left;
@@ -31,6 +31,7 @@ namespace Assets.Scripts.Models
             Vector3 centerWorld = transform.TransformPoint(boundingBox.center); // collider's center
             Vector3 origin = centerWorld - localAxis * (shelfWidth / 2);
             shelfBottom = centerWorld.y - (boundingBox.size.y * transform.lossyScale.y) / 2;
+            shelfHeight = Mathf.Abs(Vector3.Dot(realSize, Vector3.up));
 
             layoutInfo = new ShelfLayoutInfo()
             {
@@ -38,18 +39,8 @@ namespace Assets.Scripts.Models
                 localAxis = localAxis,
                 shelfWidth = shelfWidth,
                 shelfBottom = shelfBottom,
+                shelfHeight = shelfHeight
             };
-            //shelfWidth = this.gameObject.GetComponent<BoxCollider>().bounds.size.x;
-            //shelfBottom = this.gameObject.GetComponent<BoxCollider>().bounds.center.y - this.gameObject.GetComponent<BoxCollider>().bounds.extents.y;
-            //Vector3 leftEdgeOrigin = shelfCenter - (this.transform.forward * (shelfWidth / 2f));
-
-            //layoutInfo = new ShelfLayoutInfo()
-            //{
-            //    origin = leftEdgeOrigin,
-            //    localAxis = this.transform.forward,
-            //    shelfWidth = this.gameObject.GetComponent<BoxCollider>().bounds.size.x,
-            //    shelfBottom = shelfBottom
-            //};
 
             if (Int32.TryParse(shelfId.Substring(shelfId.LastIndexOf("_") + 1), out int numValue))
             {

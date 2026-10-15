@@ -1,9 +1,11 @@
 using Assets.Scripts.Models;
+using Assets.Scripts.Services;
 using Assets.Scripts.Services.Interfaces;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using static Assets.Scripts.Models.Enums;
 
 public struct UVRect
 {
@@ -46,6 +48,14 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
     [Header("Image Quality")]
     [SerializeField]
     public int texelsPerUnit = 512;
+    [Header("Settings/Selection")]
+    [SerializeField]
+    GameObject objectsActionCanvas;
+    internal Vector3 actionCanvasOriginalPosition;
+    [SerializeField]
+    GameObject outlineGameObject;
+    [SerializeField]
+    public float outlineThickness = 0.003f;
     internal MeshRenderer meshRenderer;
     internal MeshFilter meshFilter;
     internal string bookUID;
@@ -62,6 +72,10 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
     internal float realWorldWidth;
     internal float realWorldHeight;
     internal string defaultTitle = "Unknown Title";
+    internal eOrientation orientation = eOrientation.Upright;
+    internal Quaternion originalRotation; // the default rotation in default orientation
+    internal Vector3 originalPosition; // default position in default orientation
+    internal Vector3 originalCenter;
     public void InitializeCube(string bookUID)
     {
         this.bookUID = bookUID;
@@ -75,7 +89,6 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
         mesh = objectWithMeshHolder.GetComponent<MeshFilter>().mesh;
         originalSize = mesh.bounds.size;
         originalLocalScale = objectWithMeshHolder.transform.localScale;
-
 
         mesh.subMeshCount = 2; // so we know that we have 2 separate sets of triangles: 1 for the pages, 1 for the book wrap
 
@@ -134,20 +147,27 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
         mesh = objectWithMeshHolder.GetComponent<MeshFilter>().mesh;
         originalSize = mesh.bounds.size;
         originalLocalScale = objectWithMeshHolder.transform.localScale;
-
-        mesh.RecalculateBounds();
+        originalCenter = mesh.bounds.center;
+        actionCanvasOriginalPosition = objectsActionCanvas.transform.localPosition;
 
         SetBookSize(this.pageCount);
+        originalRotation = objectWithMeshHolder.transform.localRotation;
+        originalPosition = objectWithMeshHolder.transform.localPosition;
         realWorldHeight = originalSize.y * objectWithMeshHolder.transform.localScale.y;
         // so that we can set the book to rest on the bottom of the shelf since the pivot point of the cube is in the center
-        Vector3 halfRealWorldHeightForPlacement = new Vector3(objectWithMeshHolder.transform.localPosition.x, realWorldHeight / 2.0f);
-        //objectWithMeshHolder.transform.localPosition = halfRealWorldHeightForPlacement;
+        Vector3 halfRealWorldHeightForPlacement = new Vector3(originalPosition.x, realWorldHeight / 2.0f);
         FullBookWrapRegion fbwRegions = BuildRegions();
 
         if (bookInfo != null)
         {
             SetBookCover(bookInfo, mesh, meshRenderer, fbwRegions.coverRegion);
         }
+
+        #region OUTLINE MANAGEMENT
+
+        SetUpSelectionVisuals();
+        SetSelected(false);
+        #endregion
     }
 
     private void Awake()
@@ -160,6 +180,13 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
     }
 
     #region IShelfPlaceable functions
+    public eOrientation Orientation
+    {
+        get
+        {
+            return orientation;
+        }
+    }
     public string GetObjectUID()
     {
         return this.bookUID;
@@ -167,14 +194,29 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
 
     public float GetPlacementWidth()
     {
-        return this.realWorldWidth;
+        switch (orientation)
+        {
+            case eOrientation.LyingFlat:
+                return this.realWorldHeight;
+            case eOrientation.Upright:
+                return this.realWorldWidth;
+            default:
+                return this.realWorldWidth;
+        }
     }
 
     public float GetPlacementHeight()
     {
-        return this.realWorldHeight;
+        switch (orientation)
+        {
+            case eOrientation.LyingFlat:
+                return this.realWorldWidth;
+            case eOrientation.Upright:
+                return this.realWorldHeight;
+            default:
+                return this.realWorldHeight;
+        }
     }
-
     public GameObject GetObjectGameObject()
     {
         return this.gameObject;
@@ -182,6 +224,37 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
     public void SetPlacementPosition(Vector3 incomingNewObjectPosition)
     {
         this.transform.position = incomingNewObjectPosition;
+    }
+    public void SetOrientation(eOrientation newOrientation)
+    {
+        orientation = newOrientation;
+        Transform objectWithMeshHolderTransform = objectWithMeshHolder.transform;
+
+        // start from the upright position by default every time so repeated rotations can't make it drift
+        objectWithMeshHolderTransform.localPosition = originalPosition;
+        objectWithMeshHolderTransform.localRotation = originalRotation;
+        if (orientation == eOrientation.LyingFlat)
+        {
+            objectWithMeshHolderTransform.localRotation = originalRotation * Quaternion.Euler(0, 0, 90); // turn it 90 on it's own depth axis
+
+        }
+        // change the bottom center of the object
+        Bounds worldSpaceBox = meshRenderer.bounds;
+        Vector3 bottomCenter = new Vector3(worldSpaceBox.center.x, worldSpaceBox.min.y, worldSpaceBox.center.z);
+        objectWithMeshHolderTransform.position += transform.position - bottomCenter;
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        objectsActionCanvas.SetActive(isSelected);
+        outlineGameObject.SetActive(isSelected);
+        if (isSelected)
+        {
+            objectsActionCanvas.transform.localPosition = new Vector3(actionCanvasOriginalPosition.x, actionCanvasOriginalPosition.y - (realWorldHeight - GetPlacementHeight()), actionCanvasOriginalPosition.z);
+            //float yValue = this.GetPlacementHeight() + 0.3844f;
+            //float xValue = objectsActionCanvas.transform.localPosition.x + 0.0037f;
+            //objectsActionCanvas.transform.localPosition = new Vector3(xValue, yValue);
+        }
     }
     #endregion
     public void SetBookSize(int pageCount)
@@ -268,7 +341,7 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
         float rawPage = pageCount * pageCountScalar;
         return Mathf.Clamp(rawPage, minSpineValue, maxSpineValue);
     }
-
+    #region Book Cover
     private FullBookWrapRegion BuildRegions()
     {
         spineWidthFraction = 0.10f; // TODO: fix this so that the dynamic spine width works with new fbx
@@ -417,5 +490,30 @@ public class BookObject3D : MonoBehaviour, IShelfPlaceable
         var g = Mathf.Floor(pixel.g * 255 / bucketSize) * bucketSize / 255;
         var b = Mathf.Floor(pixel.b * 255 / bucketSize) * bucketSize / 255;
         return new Color(r, g, b);
+    }
+    #endregion
+
+    public void ChangeBookOrientation()
+    {
+        if (BookDragManager.Instance != null)
+        {
+            BookDragManager.Instance.RotateSelected(this);
+            SetSelected(true);
+        }
+    }
+
+    public void SetUpSelectionVisuals()
+    {
+        Canvas objectActionCanvas = objectsActionCanvas.GetComponent<Canvas>();
+        objectActionCanvas.worldCamera = Camera.main;
+        MeshFilter outlineMeshFilter = outlineGameObject.GetComponent<MeshFilter>();
+        outlineMeshFilter.sharedMesh = mesh;
+        Vector3 objectNewLocalScale = objectWithMeshHolder.transform.localScale;
+
+        Vector3 realScale = Vector3.Scale(originalSize, objectNewLocalScale);
+        Vector3 outlineLocalScale = new Vector3(((realScale.x + (2 * outlineThickness)) / realScale.x), ((realScale.y + (2 * outlineThickness)) / realScale.y), ((realScale.z + (2 * outlineThickness)) / realScale.z));
+        Vector3 outlineLocalPosition = new Vector3((originalCenter.x * (1 - outlineLocalScale.x)), (originalCenter.y * (1 - outlineLocalScale.y)), (originalCenter.z * (1 - outlineLocalScale.z)));
+        outlineGameObject.transform.localScale = outlineLocalScale;
+        outlineGameObject.transform.localPosition = outlineLocalPosition;
     }
 }

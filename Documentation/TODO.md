@@ -8,7 +8,6 @@ File paths are relative to `Unity/Assets/Scripts/` unless noted.
 ## In progress
 
 ## Up next
-- [ ] Orientation: tap a placed item to show a rotate button; upright ↔ lying flat, saved to the DB (snapping step 5a). **Step recipe ready:** [Recipes/Orientation.md](Recipes/Orientation.md)
 - [ ] Stacking items on shelves (snapping step 5b, after 5a). Decisions so far:
   - Change orientation by tapping (or tap-and-holding) a placed item, which shows a button above it; touch-friendly, and reusable for leaning later
   - A book auto-lies-flat when dropped on a lying-flat book, but the user can still change its orientation (e.g. an upright book on top of a stack)
@@ -94,6 +93,8 @@ Do these after the dead-code cleanup below, so we don't document code that's abo
 - [ ] Build settings point to a scene that no longer exists (`MainBookshelfViewScene`), and `testingScene` isn't in the build
 
 ### Structure / consistency
+- [ ] `Object3D` base class (after Orientation step 5a). **Step recipe ready:** [Recipes/Object3D.md](Recipes/Object3D.md). An abstract `MonoBehaviour` that implements `IShelfPlaceable`, which `BookObject3D` and a future `PlantObject3D` inherit. Move the shared parts up from `BookObject3D`: UID, mesh holder reference, orientation (`Orientation`, `SetOrientation`, `NextOrientation`, the original pose), selection (`SetSelected`, actions canvas, outline setup, the rotate button handler), `SetPlacementPosition`, `GetObjectGameObject`. Book-only parts stay: cover/atlas/UVs, page-count sizing, spine colour. Keep `IShelfPlaceable` too, since a stack (step 5b) will be placeable without being an `Object3D`.
+- [ ] Split `BookDragManager` (after step 5a): it now handles dragging, drop rules, the ghost, selection and rotating. Possible pieces: a selection manager (selected item, deselect rules, routing button presses), the ghost preview, and the drag/drop itself. Rename it too (e.g. `ObjectDragManager`), since it will drag plants and figurines.
 - [ ] Split UI-panel code out of `PersistanceManager` into a new `BookPanelController` (instantiating UI books, the book-ID dictionary, cover sprites, restore/remove from panel). **Step recipe ready:** [Recipes/BookPanelController.md](Recipes/BookPanelController.md)
 - [ ] Rename `PersistanceManager` → `PersistenceManager`; the code currently uses both spellings
 - [ ] One singleton pattern (there are 3 slightly different ones), maybe as a shared base class
@@ -169,3 +170,4 @@ Do these near the end of development, before shipping.
 - [x] Removed the unused `HttpClient` from `APIDataFetcherService`
 - [x] `SelectLiteBookInfo` returns `null` on a miss or a failed query, so new books get imported again and `RestoreBookToPanel`'s null check works
 - [x] Parser no longer re-fetches known books that have no cover (`results.Add(known); continue;` moved out of the cover check)
+- [x] Orientation (snapping step 5a): tap a shelved item to select it (outline + its own action buttons); rotate upright <-> lying flat with a fit check; saved to the DB. Recipe: [Recipes/Orientation.md](Recipes/Orientation.md)

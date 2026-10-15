@@ -1,10 +1,14 @@
-﻿using Assets.Scripts.Models;
+﻿using Assets.Scripts.Helpers;
+using Assets.Scripts.Models;
 using Assets.Scripts.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using static Assets.Scripts.Models.Enums;
 /// <summary>
 /// Owns book-drag state and logic for the whole scene. Intended to be
 /// attached as a sibling component on the same GameObject as
@@ -32,12 +36,14 @@ namespace Assets.Scripts.Services
         [SerializeField] private Camera worldCamera;
         [SerializeField] private float dragPlaneDepthOffset;
 
+        private ShelfLayoutService layoutService;
         private DragPlaneProjector projector;
         private BookshelfModel bookshelfInFocus;
         private Plane dragPlane;
         private bool hasDragPlane;
         private UIBookDragSource bookUIObject;
         private GameObject draggedObject;
+        private IShelfPlaceable currentlySelectedShelfPlaceable;
         private bool isOffPanel;
         private bool insidePanel;
         private List<BookshelfModel> BookshelvesInScene => PersistanceManager.Instance.shelvesInScene;
@@ -69,6 +75,28 @@ namespace Assets.Scripts.Services
             ghostVisual = ghostRoot.transform.GetChild(0);
             ghostFilter = ghostVisual.GetComponent<MeshFilter>();
             ghostRoot.SetActive(false);
+            layoutService = PersistanceManager.Instance.shelfLayoutService;
+        }
+
+        private void Update()
+        {
+            // if the pointer was pressed this frame and something is selected, ask the EventSystem what's under the pointer
+            if (Pointer.current != null)
+            {
+                if (Pointer.current.press.wasPressedThisFrame && currentlySelectedShelfPlaceable != null)
+                {
+                    PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+                    pointerEventData.position = Pointer.current.position.ReadValue();
+                    List<RaycastResult> hits = new List<RaycastResult>();
+                    EventSystem.current.RaycastAll(pointerEventData, hits);
+                    if (hits.Count < 1 || hits.FirstOrDefault().gameObject.GetComponentInParent<IShelfPlaceable>() == null)
+                    {
+                        ClearSelection();
+                    }
+                }
+            }
+
+            // if the top hit isn't part of the selected book (so the book or its canvas) clear the selection
         }
         public void BeginDragUIObject(UIBookDragSource source, Vector2 screenPoint)
         {
@@ -78,6 +106,7 @@ namespace Assets.Scripts.Services
             currentlyDraggedObjectUID = locUIBookData.bookId;
             Debug.Log($"Currently dragged object: {currentlyDraggedObjectUID}");
             draggedObject = SpawningService.Instance.SpawnBook(currentlyDraggedObjectUID);
+            ClearSelection();
             PrepareGhost();
             startingPos = draggedObject.transform.position;
             TryBuildDragPlane();
@@ -91,6 +120,7 @@ namespace Assets.Scripts.Services
         {
             bookUIObject = null;
             draggedObject = source.gameObject;
+            ClearSelection();
             PrepareGhost();
             startingPos = draggedObject.transform.position;
             isOffPanel = false;
@@ -167,7 +197,6 @@ namespace Assets.Scripts.Services
         {
             if (draggedObject == null) { return; }
             bool canPlace = TryFindDropTarget(out ShelfModel targetShelf, out float snapOffset);
-            ShelfLayoutService layoutService = PersistanceManager.Instance.shelfLayoutService;
             bool cameFromPanel = bookUIObject != null;
             draggedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeable);
             string draggedBookID = placeable?.GetObjectUID();
@@ -184,6 +213,7 @@ namespace Assets.Scripts.Services
             else if (cameFromPanel) // 1a PANEL → PANEL | 1c PANEL → INVALID | panel → full shelf
             {
                 SetActiveSourceVisible(true);
+                ClearSelection(); // just in case
                 Destroy(draggedObject); // TODO: will change when you move to pooling objects
             }
             else if (targetShelf != null) // SHELF → FULL SHELF; PUT BACK
@@ -193,6 +223,7 @@ namespace Assets.Scripts.Services
             else // 2b SHELF → PANEL | 2c SHELF → INVALID
             {
                 ReturnBookFromShelfToPanel(draggedBookID);
+                ClearSelection();
                 Destroy(draggedObject); // TODO: will change when you move to pooling objects
             }
             ResetDragState();
@@ -246,6 +277,7 @@ namespace Assets.Scripts.Services
         {
             if (draggedObject != null) { return; } // prevents clearing the bookshelf if we're trying to drag it onto this bookshelf
             BookshelfModel bookshelf = bookshelfInFocus ?? FindShelfNearestScreenCenter();
+            ClearSelection();
             PersistanceManager.Instance.ClearBookshelf(bookshelf);
         }
 
@@ -326,6 +358,50 @@ namespace Assets.Scripts.Services
             offset = snapOffset.Value;
             return true;
         }
+
+        internal void RotateSelected(IShelfPlaceable placeableObject)
+        {
+            if (placeableObject != currentlySelectedShelfPlaceable) { return; }
+            if (!layoutService.TryGetPlacement(placeableObject.GetObjectUID(), out string shelfID, out float? offset))
+            {
+                ClearSelection();
+                return;
+            }
+            eOrientation oldOrientation = currentlySelectedShelfPlaceable.Orientation;
+            // see if it actually can fit when we change the orientation
+            if (offset == null) { return; }
+            float? oldCenter = offset + currentlySelectedShelfPlaceable.GetPlacementWidth() / 2;
+            currentlySelectedShelfPlaceable.SetOrientation(HelperFunctions.NextOrientation(placeableObject.Orientation));
+            float desiredLeft = oldCenter.Value - currentlySelectedShelfPlaceable.GetPlacementWidth() / 2;
+            float? snapOffset = layoutService.FindSnapOffset(shelfID, placeableObject, desiredLeft);
+            if (snapOffset.HasValue) // did snapping succeed?
+            {
+                layoutService.PlaceItem(shelfID, currentlySelectedShelfPlaceable, snapOffset.Value);
+            }
+            else
+            {
+                currentlySelectedShelfPlaceable.SetOrientation(oldOrientation);
+                // TODO: add a red flash and object shake if it wouldn't fit
+            }
+        }
+
+        #region SELECTING
+        public void SelectItem(GameObject gameObject)
+        {
+            if (draggedObject != null) { return; }
+            if (!gameObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable shelfPlaceable)) { return; }
+            if (!layoutService.TryGetPlacement(shelfPlaceable.GetObjectUID(), out string shelfID, out float? offset)) { return; }
+            if (shelfPlaceable == currentlySelectedShelfPlaceable) { return; }
+            ClearSelection();
+            currentlySelectedShelfPlaceable = shelfPlaceable;
+            shelfPlaceable.SetSelected(true);
+        }
+        private void ClearSelection()
+        {
+            if (currentlySelectedShelfPlaceable != null) { currentlySelectedShelfPlaceable.SetSelected(false); }
+            currentlySelectedShelfPlaceable = null;
+        }
+        #endregion
 
         #region Ghost
         public void PrepareGhost()

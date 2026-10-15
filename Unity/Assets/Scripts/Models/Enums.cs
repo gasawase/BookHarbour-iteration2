@@ -30,7 +30,6 @@ namespace Assets.Scripts.Models
             Note,
             Bookmark
         }
-
         public enum eSearchMode
         {
             None,
@@ -38,6 +37,11 @@ namespace Assets.Scripts.Models
             TitleAndAuthor,
             TitleOnly,
             AuthorOnly
+        }
+        public enum eOrientation
+        {
+            Upright,
+            LyingFlat,
         }
     }
 }

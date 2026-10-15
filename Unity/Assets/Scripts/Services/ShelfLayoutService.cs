@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Assets.Scripts.Models.Enums;
 
 namespace Assets.Scripts.Services
 {
@@ -39,11 +40,12 @@ namespace Assets.Scripts.Services
             List<PlacedItem> newList = new List<PlacedItem>();
             objectsOnShelvesByShelfID[shelfID] = newList;
 
-            foreach ((string bookID, float offset) in sqliteService.SelectBookIdsFromShelf(shelfID))
+            foreach ((string bookID, float offset, eOrientation orientation) in sqliteService.SelectBookIdsFromShelf(shelfID))
             {
                 GameObject spawnedObject = bookSpawnerService.SpawnBook(bookID);
                 if (spawnedObject != null && spawnedObject.TryGetComponent<IShelfPlaceable>(out IShelfPlaceable placeableObject))
                 {
+                    placeableObject.SetOrientation(orientation);
                     newList.Add(new PlacedItem { item = placeableObject, offsetAlongAxis = offset });
                     var center = offset + placeableObject.GetPlacementWidth() / 2;
                     placeableObject.SetPlacementPosition(layoutInfo.ToWorldPosition(center));
@@ -112,13 +114,13 @@ namespace Assets.Scripts.Services
 
         public float? FindSnapOffset(string shelfID, IShelfPlaceable placeableItem, float desiredLeft) // null = doesn't fit anywhere and should go back to list
         {
-            // where does this actually land
-            // Takes wherever the user dropped it, checks whether that spot would overlap any existing item, and
-            // only nudges the position if it does — sliding it to the nearest free edge rather than forcing it into any predetermined slot
-            // If there's no collision, the item lands exactly where you released it
-
+            float itemHeight = placeableItem.GetPlacementHeight();
             float itemWidth = placeableItem.GetPlacementWidth();
             float? bestLoc = null;
+
+            if (!TryGetShelfLayoutInfo(shelfID, out ShelfLayoutInfo layoutInfo)) { return null; }
+
+            if (itemHeight > layoutInfo.shelfHeight) { return null; }
 
             foreach ((float start, float end) in FindFreeSpans(shelfID, placeableItem.GetObjectUID()))
             {
@@ -161,7 +163,7 @@ namespace Assets.Scripts.Services
 
             float itemCenter = leftOffset + placeableItem.GetPlacementWidth() / 2;
             placeableItem.SetPlacementPosition(shelfLayoutInfo.ToWorldPosition(itemCenter));
-            sqliteService.UpdateBookLocation(placeableItem.GetObjectUID(), shelfID, leftOffset, DateTime.Now);
+            sqliteService.UpdateBookLocation(placeableItem.GetObjectUID(), shelfID, leftOffset, placeableItem.Orientation, DateTime.Now);
         }
 
         /// <summary>
@@ -384,6 +386,23 @@ namespace Assets.Scripts.Services
             bool foundInfo = TryGetShelfLayoutInfo(shelfID, out layoutInfo);
 
             return foundObjects && foundInfo;
+        }
+
+        public bool TryGetPlacement(string objectID, out string shelfID, out float? offset)
+        {
+            foreach (KeyValuePair<string, List<PlacedItem>> kvp in objectsOnShelvesByShelfID)
+            {
+                if (kvp.Value.Where(i => i.item.GetObjectUID() == objectID).Any())
+                {
+                    PlacedItem item = kvp.Value.Where(i => i.item.GetObjectUID() == objectID).FirstOrDefault();
+                    shelfID = kvp.Key;
+                    offset = item.offsetAlongAxis;
+                    return true;
+                }
+            }
+            shelfID = string.Empty;
+            offset = null;
+            return false;
         }
     }
 }

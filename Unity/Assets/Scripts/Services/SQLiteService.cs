@@ -16,6 +16,8 @@ namespace Assets.Scripts.Services
         {
             public string BookID { get; set; }
             public float OffsetAlongAxis { get; set; }
+            public string Orientation { get; set; }
+            public string ShelfID { get; set; }
         }
 
         private class ShelfIDRow
@@ -40,7 +42,7 @@ namespace Assets.Scripts.Services
                     "DateFinished DATE, TotalMinutesRead int, CurrentCFI TEXT, " +
                     "CONSTRAINT fk_UserBookData_Books FOREIGN KEY (BookID) REFERENCES books(BookID));";
                 string shelvesSql = "CREATE TABLE IF NOT EXISTS shelves (ShelfID TEXT PRIMARY KEY, Name TEXT, ShelfType TEXT, DateCreated DATE, SortOrder int);"; // shelf_type: distinguishes user-curated shelves from system-generated ones so you don't let the user manually reorder a genre shelf
-                string shelfPositionsSql = "CREATE TABLE IF NOT EXISTS shelf_positions (ShelfID TEXT, BookID TEXT UNIQUE, OffsetAlongAxis REAL, DatePlaced DATE, " +
+                string shelfPositionsSql = "CREATE TABLE IF NOT EXISTS shelf_positions (ShelfID TEXT, BookID TEXT UNIQUE, OffsetAlongAxis REAL, Orientation TEXT, DatePlaced DATE, " +
                     "PRIMARY KEY (BookID, ShelfID), CONSTRAINT fk_ShelfPositions_Shelves FOREIGN KEY (ShelfID) REFERENCES shelves(ShelfID), CONSTRAINT fk_ShelfPositions_Books FOREIGN KEY (BookID) REFERENCES books(BookID));";
                 string tagsSql = "CREATE TABLE IF NOT EXISTS tags (TagID TEXT PRIMARY KEY, Name TEXT UNIQUE, Color TEXT);";
                 string bookTagsSql = "CREATE TABLE IF NOT EXISTS book_tags (BookID TEXT, TagID TEXT, " +
@@ -95,10 +97,44 @@ namespace Assets.Scripts.Services
             }
             return shelfID;
         }
-        public List<(string bookID, float offset)> SelectBookIdsFromShelf(string shelfId)
+
+        public (float? offset, eOrientation? orientation, string shelfID) SelectObjectPositionByObjectID(string objectID)
         {
-            List<(string bookID, float offset)> booksAndOffset = new List<(string bookID, float offset)>();
-            string sql = "SELECT `ShelfID`, `BookID`, `OffsetAlongAxis` FROM `shelf_positions` WHERE `ShelfID` = ? ORDER BY `OffsetAlongAxis`";
+            float? offset = null;
+            eOrientation? orientation = null;
+            string shelfID = string.Empty;
+
+            string sql = "SELECT `ShelfID`, `BookID`, `OffsetAlongAxis`, `Orientation` FROM `shelf_positions` WHERE `BookID` = ?";
+            try
+            {
+                using (var connection = new SQLiteConnection(PersistanceManager.Instance._dbPath))
+                {
+                    List<BookIdRow> bookRows = connection.Query<BookIdRow>(sql, objectID);
+                    if (bookRows.Count == 0)
+                    {
+                        Debug.Log(string.Format(ERRORSELECTSTATEMENTRETURNEDNORESULTS, "shelves", objectID, "shelf"));
+                        return (offset, orientation, shelfID);
+                    }
+                    BookIdRow bookRow = bookRows.FirstOrDefault();
+                    if (!Enum.TryParse<eOrientation>(bookRow.Orientation, out eOrientation outOrientation))
+                    {
+                        outOrientation = eOrientation.Upright;
+                    }
+                    offset = bookRow.OffsetAlongAxis;
+                    orientation = outOrientation;
+                    shelfID = bookRow.ShelfID;
+                }
+            }
+            catch (SQLiteException ex)
+            {
+                Debug.LogException(ex);
+            }
+            return (offset, orientation, shelfID);
+        }
+        public List<(string bookID, float offset, eOrientation orientation)> SelectBookIdsFromShelf(string shelfId)
+        {
+            List<(string bookID, float offset, eOrientation orientation)> booksAndOffset = new List<(string bookID, float offset, eOrientation orientation)>();
+            string sql = "SELECT `ShelfID`, `BookID`, `OffsetAlongAxis`, `Orientation` FROM `shelf_positions` WHERE `ShelfID` = ? ORDER BY `OffsetAlongAxis`";
 
             try
             {
@@ -113,7 +149,11 @@ namespace Assets.Scripts.Services
                     }
                     foreach (BookIdRow bookRow in bookRows)
                     {
-                        booksAndOffset.Add((bookRow.BookID, bookRow.OffsetAlongAxis));
+                        if (!Enum.TryParse<eOrientation>(bookRow.Orientation, out eOrientation orientation))
+                        {
+                            orientation = eOrientation.Upright;
+                        }
+                        booksAndOffset.Add((bookRow.BookID, bookRow.OffsetAlongAxis, orientation));
                     }
                 }
             }
@@ -225,17 +265,17 @@ namespace Assets.Scripts.Services
             }
         }
 
-        public void UpdateBookLocation(string bookId, string shelfId, float offsetAlongAxis, DateTime datePlaced)
+        public void UpdateBookLocation(string bookId, string shelfId, float offsetAlongAxis, eOrientation orientation, DateTime datePlaced)
         {
-            Debug.Log($"bookId = {bookId}, shelfId = {shelfId}, offsetAlongAxis = {offsetAlongAxis}, datePlaced = {FormatDates(datePlaced.ToString())}");
-            string sql = "INSERT INTO shelf_positions (BookID, ShelfID, OffsetAlongAxis, DatePlaced)" +
-                "VALUES (?, ?, ?, ?) " +
+            Debug.Log($"bookId = {bookId}, shelfId = {shelfId}, offsetAlongAxis = {offsetAlongAxis}, orientation = {orientation.ToString()}, datePlaced = {FormatDates(datePlaced.ToString())}");
+            string sql = "INSERT INTO shelf_positions (BookID, ShelfID, OffsetAlongAxis, Orientation, DatePlaced)" +
+                "VALUES (?, ?, ?, ?, ?) " +
                 "ON CONFLICT(BookID) DO UPDATE SET " +
-                    "ShelfID = excluded.ShelfID, OffsetAlongAxis = excluded.OffsetAlongAxis, DatePlaced = excluded.DatePlaced;";
+                    "ShelfID = excluded.ShelfID, OffsetAlongAxis = excluded.OffsetAlongAxis, Orientation = excluded.Orientation, DatePlaced = excluded.DatePlaced;";
             Debug.Log(sql);
             using (var connection = new SQLiteConnection(_filePath))
             {
-                connection.Execute(sql, bookId, shelfId, offsetAlongAxis, FormatDates(datePlaced.ToString()));
+                connection.Execute(sql, bookId, shelfId, offsetAlongAxis, orientation.ToString(), FormatDates(datePlaced.ToString()));
             }
         }
 

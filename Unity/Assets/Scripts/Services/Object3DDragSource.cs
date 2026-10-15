@@ -2,7 +2,7 @@ using Assets.Scripts.Services;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Object3DDragSource : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class Object3DDragSource : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
 {
     public string bookId { get; set; }
 
@@ -21,5 +21,10 @@ public class Object3DDragSource : MonoBehaviour, IBeginDragHandler, IDragHandler
     public void OnEndDrag(PointerEventData eventData)
     {
         BookDragManager.Instance.EndDrag(eventData.position);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        BookDragManager.Instance.SelectItem(this.gameObject);
     }
 }

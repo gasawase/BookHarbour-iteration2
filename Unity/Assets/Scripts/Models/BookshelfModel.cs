@@ -24,12 +24,13 @@ namespace Assets.Scripts.Models
             ShelfModel bestModel = null;
             foreach (ShelfModel shelf in shelves)
             {
-                ShelfLayoutInfo layoutInfo = shelf.layoutInfo;
                 if (shelf == null || shelf.layoutInfo == null) { continue; }
+                ShelfLayoutInfo layoutInfo = shelf.layoutInfo;
 
                 float u = layoutInfo.ToU(point);
                 if (u < 0f || u > layoutInfo.shelfWidth) { continue; }
                 if (layoutInfo.shelfBottom > point.y) { continue; }
+                if (point.y > layoutInfo.shelfBottom + layoutInfo.shelfHeight) { continue; }
 
                 if (bestModel == null || layoutInfo.shelfBottom > bestModel.layoutInfo.shelfBottom)
                 {
